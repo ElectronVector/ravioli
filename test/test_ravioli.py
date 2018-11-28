@@ -86,3 +86,7 @@ def test_a_switch_statement_with_a_nested_if(results):
 
 def test_nested_switch_statements(results):
     assert (5 == results["complexity"]["nested_switches"])
+
+
+def test_a_more_complicated_example(results):
+    assert (14 == results["complexity"]["a_more_complicated_example"])

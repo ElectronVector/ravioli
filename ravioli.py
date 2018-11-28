@@ -1,6 +1,4 @@
-from pprint import pprint
-
-from pycparser import c_parser, c_ast, parse_file
+from pycparser import c_ast, parse_file
 
 
 def run(filename):
@@ -50,7 +48,6 @@ class CustomVisitor(c_ast.NodeVisitor):
         return complexity
 
     def visit_FuncDef(self, node):
-        print('%s at %s' % (node.decl.name, node.decl.coord))
         self.results["complexity"][node.decl.name] = self.calculate_complexity(node.body) + 1
         # if node.decl.name == "switch_statement_with_nested_if":
         #     pprint(node)

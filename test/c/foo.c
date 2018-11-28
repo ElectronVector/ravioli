@@ -232,3 +232,37 @@ void nested_switches(int x, int y) {
             global_variable += x;
     }
 }
+
+int a_more_complicated_example(int x, int y, int z) {
+    int answer = 0;
+    if (x > 15) {
+        answer += 3;
+    } else if ((x > 10) && (y > 5)) {
+        answer += 4;
+    } else if ((x > 5) && (y > 3) && (z > 1)) {
+        answer += 1;
+        result = 0;
+        for (int i = 0, j = 0; (i < 10) && (result == 0); i++) {
+            if ((global_variable == 15) || (another_global == 12)) {
+                result = 1;
+            }
+        }
+    } else {
+        answer += 1;
+        switch (z) {
+            case 1:
+                answer += 4;
+                if (y == 2) {
+                    answer += 2;
+                }
+                break;
+            case 2:
+                answer += 5;
+                break;
+            default:
+                answer += 1;
+        }
+        answer += 10;
+    }
+    return answer;
+}
