@@ -185,3 +185,14 @@ int a_complicated_example(int x, int y, int z) {
     }
     return answer;
 }
+
+void switch_statement(int x) {
+    switch (x) {
+        case 1:
+            global_variable += 2;
+        case 2:
+            global_variable += 3;
+        default:
+            global_variable += x;
+    }
+}

@@ -74,3 +74,7 @@ def test_nested_loops_with_compound_conditional(results):
 
 def test_a_complicated_example(results):
     assert (11 == results["complexity"]["a_complicated_example"])
+
+
+def test_a_switch_statement(results):
+    assert (3 == results["complexity"]["switch_statement"])
