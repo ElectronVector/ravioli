@@ -212,3 +212,23 @@ void switch_statement_with_nested_if(int x, int y) {
             global_variable += x;
     }
 }
+
+void nested_switches(int x, int y) {
+    switch (x) {
+        case 1:
+            switch(y) {
+                case 1:
+                    global_variable += 5;
+                    break;
+                case 2:
+                    global_variable += 10;
+                    break;
+                default:
+                    global_variable += y;
+            }
+        case 2:
+            global_variable += 3;
+        default:
+            global_variable += x;
+    }
+}
