@@ -36,6 +36,8 @@ class CustomVisitor(c_ast.NodeVisitor):
             complexity += self.calculate_complexity(item.stmt)
         elif type(item) is c_ast.Case:
             complexity += 1
+            for stmt in item.stmts:
+                complexity += self.calculate_complexity(stmt)
         return complexity
 
     def calculate_complexity(self, node):
@@ -50,8 +52,8 @@ class CustomVisitor(c_ast.NodeVisitor):
     def visit_FuncDef(self, node):
         print('%s at %s' % (node.decl.name, node.decl.coord))
         self.results["complexity"][node.decl.name] = self.calculate_complexity(node.body) + 1
-        if node.decl.name == "switch_statement":
-            pprint(node)
+        # if node.decl.name == "switch_statement_with_nested_if":
+        #     pprint(node)
 
     def visit_Decl(self, node):
         if type(node.type) is c_ast.TypeDecl:

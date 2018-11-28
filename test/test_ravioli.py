@@ -2,7 +2,7 @@ import pytest
 import ravioli
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def results():
     return ravioli.run("c/foo.c")
 
@@ -78,3 +78,7 @@ def test_a_complicated_example(results):
 
 def test_a_switch_statement(results):
     assert (3 == results["complexity"]["switch_statement"])
+
+
+def test_a_switch_statement_with_a_nested_if(results):
+    assert (4 == results["complexity"]["switch_statement_with_nested_if"])

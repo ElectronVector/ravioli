@@ -196,3 +196,19 @@ void switch_statement(int x) {
             global_variable += x;
     }
 }
+
+void switch_statement_with_nested_if(int x, int y) {
+    switch (x) {
+        case 1:
+            if (y > 1) {
+                global_variable += 1;
+            }
+            else {
+                global_variable += 2;
+            }
+        case 2:
+            global_variable += 3;
+        default:
+            global_variable += x;
+    }
+}
