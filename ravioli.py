@@ -15,27 +15,32 @@ class CustomVisitor(c_ast.NodeVisitor):
                         "complexity": {}
                         }
 
+    def calculate_complexity_if_exists(self, item, attribute):
+        complexity = 0
+        if hasattr(item, attribute):
+            complexity = self.calculate_complexity(getattr(item, attribute, None))
+        return complexity
+
     def calculate_single_item_complexity(self, item):
         complexity = 0
-        if type(item) is c_ast.If:
+
+        if type(item) in [c_ast.If, c_ast.While, c_ast.For, c_ast.DoWhile, c_ast.Case]:
             complexity += 1
-            complexity += self.calculate_complexity(item.iftrue)
-            complexity += self.calculate_complexity(item.iffalse)
-            complexity += self.calculate_complexity(item.cond)
-        elif type(item) is c_ast.BinaryOp and (item.op == "&&" or item.op == "||"):
-            complexity += 1
-            complexity += self.calculate_complexity(item.left)
-            complexity += self.calculate_complexity(item.right)
-        elif type(item) in [c_ast.While, c_ast.For, c_ast.DoWhile]:
-            complexity += 1
-            complexity += self.calculate_complexity(item.cond)
-            complexity += self.calculate_complexity(item.stmt)
-        elif type(item) is c_ast.Switch:
-            complexity += self.calculate_complexity(item.stmt)
-        elif type(item) is c_ast.Case:
-            complexity += 1
+
+        complexity += self.calculate_complexity_if_exists(item, 'cond')
+        complexity += self.calculate_complexity_if_exists(item, 'stmt')
+        complexity += self.calculate_complexity_if_exists(item, 'iftrue')
+        complexity += self.calculate_complexity_if_exists(item, 'iffalse')
+        complexity += self.calculate_complexity_if_exists(item, 'left')
+        complexity += self.calculate_complexity_if_exists(item, 'right')
+
+        if hasattr(item, 'stmts'):
             for stmt in item.stmts:
                 complexity += self.calculate_complexity(stmt)
+
+        if type(item) is c_ast.BinaryOp and (item.op == "&&" or item.op == "||"):
+            complexity += 1
+
         return complexity
 
     def calculate_complexity(self, node):
