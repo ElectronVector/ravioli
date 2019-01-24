@@ -1,8 +1,40 @@
+from pprint import pprint
+
+import pycparser
 from pycparser import c_ast, parse_file
+
+from subprocess import check_output
+
+
+def preprocess(filename):
+    """ Preprocess a file using gcc as the preprocessor.
+
+        filename:
+            The name of the file (path to the file) to preprocess.
+
+        When successful, returns the contents of the preprocessed file.
+        Errors from the processor are printed.
+    """
+    cpp_path = 'gcc'
+    cpp_args = [r'-E', r'-Imotobox/pycparser/utils/fake_libc_include', r'-Imotobox', r'-Imotobox/Sources', r'-Imotobox/Sources/FreeRTOS/include', r'-Imotobox/Sources/FreeRTOS/portable/CodeWarrior/HCS12']
+
+    command = [cpp_path] + cpp_args + [filename]
+
+    try:
+        # Note the use of universal_newlines to treat all newlines
+        # as \n for Python's purpose
+        text = check_output(command, universal_newlines=True)
+    except OSError as e:
+        raise RuntimeError("Unable to invoke 'cpp'.  " +
+                           'Make sure its path was passed correctly\n' +
+                           ('Original error: %s' % e))
+
+    return text
 
 
 def run(filename):
-    ast = parse_file(filename, use_cpp=True)
+    text = preprocess(filename)
+    ast = pycparser.c_parser.CParser().parse(text, filename)
     v = CustomVisitor()
     v.visit(ast)
     return v.results
@@ -65,7 +97,5 @@ class CustomVisitor(c_ast.NodeVisitor):
 
 
 if __name__ == "__main__":
-    ast = parse_file("test/c/foo.c", use_cpp=True)
-    v = CustomVisitor()
-    v.visit(ast)
-    ast.show()
+    pprint(run("motobox/Sources/command_processor.c"))
+    pprint(run("motobox/Sources/iso15765.c"))
