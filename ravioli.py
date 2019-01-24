@@ -17,7 +17,7 @@ def preprocess(filename):
         Errors from the processor are printed.
     """
     cpp_path = 'gcc'
-    cpp_args = [r'-E', r'-Imotobox/pycparser/utils/fake_libc_include', r'-Imotobox', r'-Imotobox/Sources', r'-Imotobox/Sources/FreeRTOS/include', r'-Imotobox/Sources/FreeRTOS/portable/CodeWarrior/HCS12']
+    cpp_args = [r'-E', r'-Ifake_libc_include', r'-Imotobox', r'-Imotobox/Sources', r'-Imotobox/Sources/FreeRTOS/include', r'-Imotobox/Sources/FreeRTOS/portable/CodeWarrior/HCS12']
 
     command = [cpp_path] + cpp_args + [filename]
 
@@ -42,7 +42,7 @@ def sanitize(text):
     """
     text = text.replace('interrupt', '')
     text = text.replace('*far', '*')
-    matcher = '@(___)' # An example of what you might use.
+    matcher = '@(___)'  # An example of what you might use.
     matcher = re.escape(matcher)
     matcher = matcher.replace('___', '.*')
     text = re.sub(matcher, '', text)
