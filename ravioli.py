@@ -1,3 +1,4 @@
+import re
 from pprint import pprint
 
 import pycparser
@@ -32,8 +33,25 @@ def preprocess(filename):
     return text
 
 
+def sanitize(text):
+    """ Sanitize some C code be removing non-standard compiler extensions.
+
+        text:
+            The C code to sanitize.
+
+    """
+    text = text.replace('interrupt', '')
+    text = text.replace('*far', '*')
+    matcher = '@(___)' # An example of what you might use.
+    matcher = re.escape(matcher)
+    matcher = matcher.replace('___', '.*')
+    text = re.sub(matcher, '', text)
+    return text
+
+
 def run(filename):
     text = preprocess(filename)
+    text = sanitize(text)
     ast = pycparser.c_parser.CParser().parse(text, filename)
     v = CustomVisitor()
     v.visit(ast)
