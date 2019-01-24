@@ -1,3 +1,4 @@
+import glob
 import re
 from pprint import pprint
 
@@ -17,7 +18,8 @@ def preprocess(filename):
         Errors from the processor are printed.
     """
     cpp_path = 'gcc'
-    cpp_args = [r'-E', r'-Ifake_libc_include', r'-Imotobox', r'-Imotobox/Sources', r'-Imotobox/Sources/FreeRTOS/include', r'-Imotobox/Sources/FreeRTOS/portable/CodeWarrior/HCS12']
+    cpp_args = [r'-E', r'-Ifake_libc_include', r'-Imotobox', r'-Imotobox/Sources',
+                r'-Imotobox/Sources/FreeRTOS/include', r'-Imotobox/Sources/FreeRTOS/portable/CodeWarrior/HCS12']
 
     command = [cpp_path] + cpp_args + [filename]
 
@@ -40,6 +42,7 @@ def sanitize(text):
             The C code to sanitize.
 
     """
+    text = text.replace('__interrupt', '')
     text = text.replace('interrupt', '')
     text = text.replace('*far', '*')
     matcher = '@(___)'  # An example of what you might use.
@@ -95,7 +98,7 @@ class CustomVisitor(c_ast.NodeVisitor):
 
     def calculate_complexity(self, node):
         complexity = 0
-        if type(node) is c_ast.Compound:
+        if type(node) is c_ast.Compound and node.block_items is not None:
             for item in node.block_items:
                 complexity += self.calculate_single_item_complexity(item)
         else:
@@ -114,6 +117,20 @@ class CustomVisitor(c_ast.NodeVisitor):
                 self.results['global_count'] += 1
 
 
+from pathlib import Path
+
 if __name__ == "__main__":
-    pprint(run("motobox/Sources/command_processor.c"))
-    pprint(run("motobox/Sources/iso15765.c"))
+    folder = Path('./motobox')
+
+    source_files = list(folder.glob('**/*.c'))
+
+    print(f"Found {len(source_files)} source files...")
+
+    for f in source_files:
+        print(f"   {str(f)}")
+        try:
+            pprint(run(str(f)))
+        except:
+            print("   Unable to parse")
+
+    # pprint(run("motobox\Sources\can.c"))
