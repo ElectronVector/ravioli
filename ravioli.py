@@ -8,18 +8,22 @@ from pycparser import c_ast, parse_file
 from subprocess import check_output
 
 
-def preprocess(filename):
+def preprocess(filename, include_paths):
     """ Preprocess a file using gcc as the preprocessor.
 
         filename:
             The name of the file (path to the file) to preprocess.
 
+        include_paths:
+            All the paths that files may be included from.
+
         When successful, returns the contents of the preprocessed file.
         Errors from the processor are printed.
     """
     cpp_path = 'gcc'
-    cpp_args = [r'-E', r'-Ifake_libc_include', r'-Imotobox', r'-Imotobox/Sources',
-                r'-Imotobox/Sources/FreeRTOS/include', r'-Imotobox/Sources/FreeRTOS/portable/CodeWarrior/HCS12']
+    cpp_args = [r'-E', r'-Ifake_libc_include']
+    for path in include_paths:
+        cpp_args.append(f'-I{path}')
 
     command = [cpp_path] + cpp_args + [filename]
 
@@ -52,8 +56,8 @@ def sanitize(text):
     return text
 
 
-def run(filename):
-    text = preprocess(filename)
+def run(filename, include_paths):
+    text = preprocess(filename, include_paths)
     text = sanitize(text)
     ast = pycparser.c_parser.CParser().parse(text, filename)
     v = CustomVisitor()
@@ -122,14 +126,20 @@ from pathlib import Path
 if __name__ == "__main__":
     folder = Path('./motobox')
 
+    # Find all the source files.
     source_files = list(folder.glob('**/*.c'))
+
+    # Find all the subfolder paths within this directory. We'll pass all of them to preprocessor, so that we
+    # most likely can find all of our include files.
+    paths = list(folder.glob('**/'))
+    paths = [str(path) for path in paths if path.is_dir()]
 
     print(f"Found {len(source_files)} source files...")
 
     for f in source_files:
         print(f"   {str(f)}")
         try:
-            pprint(run(str(f)))
+            pprint(run(str(f), paths))
         except:
             print("   Unable to parse")
 
