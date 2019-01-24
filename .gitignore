@@ -1,3 +1,5 @@
 /venv/
 /.pytest_cache/
 /.idea/
+/motobox/cmake-build-debug/
+/motobox/.idea/
