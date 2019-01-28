@@ -1,4 +1,5 @@
 import re
+import sys
 from pprint import pprint
 
 import pycparser
@@ -137,6 +138,9 @@ from pathlib import Path
 
 if __name__ == "__main__":
     folder = Path('./motobox')
+
+    if len(sys.argv) > 1:
+        folder = Path(sys.argv[1])
 
     # Find all the source files.
     source_files = list(folder.glob('**/*.c'))
