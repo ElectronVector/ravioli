@@ -1,6 +1,5 @@
 ## To do
 
-- Globals are way overcounted when there are real include files and structs and variable declarations inside functions.
 - Make it easier to santize custom stuff.
 - Sanitization is pretty simple, it should really only match on whole words (not inside words).
 - Try it on some other code.
