@@ -57,9 +57,12 @@ def sanitize(text):
 
 def count_globals(ast):
     global_count = 0
-    for e in ast.ext:
-        if type(e) is c_ast.Decl:
-            if "static" not in e.storage and "extern" not in e.storage and type(e.type) is not c_ast.FuncDecl:
+    for external_declaration in ast.ext:
+        # The top level ast has a list of external declarations in ext. Iterate over these and figure out which ones
+        # are the global variable declarations.
+        if type(external_declaration) is c_ast.Decl:
+            if ("static" not in external_declaration.storage and "extern" not in external_declaration.storage and
+                    type(external_declaration.type) is not c_ast.FuncDecl):
                 global_count += 1
 
     return global_count
