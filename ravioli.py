@@ -55,6 +55,16 @@ def sanitize(text):
     return text
 
 
+def count_globals(ast):
+    global_count = 0
+    for e in ast.ext:
+        if type(e) is c_ast.Decl:
+            if "static" not in e.storage and "extern" not in e.storage and type(e.type) is not c_ast.FuncDecl:
+                global_count += 1
+
+    return global_count
+
+
 def run(filename, include_paths):
     text = preprocess(filename, include_paths)
     text = sanitize(text)
@@ -63,10 +73,7 @@ def run(filename, include_paths):
     v = CustomVisitor()
     v.visit(ast)
 
-    for e in ast.ext:
-        if type(e) is c_ast.Decl:
-            if "static" not in e.storage and "extern" not in e.storage and type(e.type) is not c_ast.FuncDecl:
-                v.results['global_count'] += 1
+    v.results['global_count'] = count_globals(ast)
 
     return v.results
 
