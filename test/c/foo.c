@@ -9,6 +9,12 @@ int global_variable;
 int another_global;
 static int another_local;
 
+typedef struct {
+    int a;
+    int b;
+    int c;
+} my_struct_t;
+
 int if_else(int i) {
     if (i >= 0) {
         return i + 1;

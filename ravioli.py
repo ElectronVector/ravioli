@@ -1,9 +1,8 @@
-import glob
 import re
 from pprint import pprint
 
 import pycparser
-from pycparser import c_ast, parse_file
+from pycparser import c_ast
 
 from subprocess import check_output
 
@@ -60,8 +59,15 @@ def run(filename, include_paths):
     text = preprocess(filename, include_paths)
     text = sanitize(text)
     ast = pycparser.c_parser.CParser().parse(text, filename)
+
     v = CustomVisitor()
     v.visit(ast)
+
+    for e in ast.ext:
+        if type(e) is c_ast.Decl:
+            if "static" not in e.storage and "extern" not in e.storage and type(e.type) is not c_ast.FuncDecl:
+                v.results['global_count'] += 1
+
     return v.results
 
 
@@ -114,11 +120,11 @@ class CustomVisitor(c_ast.NodeVisitor):
         # if node.decl.name == "switch_statement_with_nested_if":
         #     pprint(node)
 
-    def visit_Decl(self, node):
-        if type(node.type) is c_ast.TypeDecl:
-            # A declaration that is not static and not an extern is a global variable.
-            if "static" not in node.storage and "extern" not in node.storage:
-                self.results['global_count'] += 1
+    # def visit_Decl(self, node):
+    #     if type(node.type) is c_ast.TypeDecl:
+    #         # A declaration that is not static and not an extern is a global variable.
+    #         if "static" not in node.storage and "extern" not in node.storage:
+    #             self.results['global_count'] += 1
 
 
 from pathlib import Path
