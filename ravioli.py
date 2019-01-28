@@ -120,12 +120,6 @@ class CustomVisitor(c_ast.NodeVisitor):
         # if node.decl.name == "switch_statement_with_nested_if":
         #     pprint(node)
 
-    # def visit_Decl(self, node):
-    #     if type(node.type) is c_ast.TypeDecl:
-    #         # A declaration that is not static and not an extern is a global variable.
-    #         if "static" not in node.storage and "extern" not in node.storage:
-    #             self.results['global_count'] += 1
-
 
 from pathlib import Path
 
