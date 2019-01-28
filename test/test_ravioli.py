@@ -4,7 +4,7 @@ import ravioli
 
 @pytest.fixture(scope="session")
 def results():
-    return ravioli.run("c/foo.c")
+    return ravioli.run("c/foo.c", [])
 
 
 def test_globals_are_counted(results):
