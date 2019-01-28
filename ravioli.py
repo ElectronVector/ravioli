@@ -62,7 +62,7 @@ def count_globals(ast):
         # are the global variable declarations.
         if type(external_declaration) is c_ast.Decl:
             if ("static" not in external_declaration.storage and "extern" not in external_declaration.storage and
-                    type(external_declaration.type) is not c_ast.FuncDecl):
+                    type(external_declaration.type) is c_ast.TypeDecl):
                 global_count += 1
 
     return global_count
