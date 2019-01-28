@@ -55,17 +55,17 @@ def sanitize(text):
     return text
 
 
-def count_globals(ast):
-    global_count = 0
+def find_globals(ast):
+    global_variables = []
     for external_declaration in ast.ext:
         # The top level ast has a list of external declarations in ext. Iterate over these and figure out which ones
         # are the global variable declarations.
         if type(external_declaration) is c_ast.Decl:
             if ("static" not in external_declaration.storage and "extern" not in external_declaration.storage and
                     type(external_declaration.type) is c_ast.TypeDecl):
-                global_count += 1
+                global_variables.append(external_declaration.name)
 
-    return global_count
+    return global_variables
 
 
 def run(filename, include_paths):
@@ -76,7 +76,9 @@ def run(filename, include_paths):
     v = CustomVisitor()
     v.visit(ast)
 
-    v.results['global_count'] = count_globals(ast)
+    global_variables = find_globals(ast)
+    v.results['global_count'] = len(global_variables)
+    v.results['globals'] = global_variables
 
     return v.results
 
