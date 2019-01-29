@@ -7,6 +7,8 @@ from pycparser import c_ast
 
 from subprocess import check_output
 
+from line_counter import LineCounter
+
 
 def preprocess(filename, include_paths):
     """ Preprocess a file using gcc as the preprocessor.
@@ -155,7 +157,12 @@ if __name__ == "__main__":
     for f in source_files:
         print(f"   {str(f)}")
         try:
-            pprint(run(str(f), paths))
+            results = run(str(f), paths)
+            #pprint(results)
+            loc = LineCounter.count_file(f)
+            max_scc = max(results['complexity'].values())
+            sf = max_scc + (5*results['global_count']) + (loc/20)
+            print(f"SLOC: {loc}, SCC: {max_scc}, Globals: {results['global_count']}, SF: {sf}")
         except:
             print("   Unable to parse")
 
