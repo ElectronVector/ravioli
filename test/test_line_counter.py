@@ -1,19 +1,4 @@
-import re
-
-import pytest
-
-
-class LineCounter:
-    @staticmethod
-    def count(string):
-        # Remove all block comments.
-        string = re.sub(r'/\*.*\*/', '', string, flags=re.DOTALL)
-        lines = string.splitlines()
-        # Remove blank lines.
-        lines = [l for l in lines if not l.isspace()]
-        # Remove comment lines.
-        lines = [l for l in lines if not l.lstrip().startswith("//")]
-        return len(lines)
+from line_counter import LineCounter
 
 
 def test_single_line():
@@ -78,3 +63,8 @@ def test_dont_count_block_comments_spanning_multiple_lines():
               int j = 1;"""
     line_count = LineCounter.count(code)
     assert(line_count == 2)
+
+
+def test_count_lines_in_a_file():
+    line_count = LineCounter.count_file('c/main.c')
+    assert(line_count == 7)
