@@ -7,7 +7,7 @@ class LineCounter:
         # Remove all block comments.
         string = re.sub(r'/\*.*\*/', '', string, flags=re.DOTALL)
         lines = string.splitlines()
-        # Remove blank lines.
+        # Remove lines containing only whitespace.
         lines = [l for l in lines if not l.isspace()]
         # Remove comment lines.
         lines = [l for l in lines if not l.lstrip().startswith("//")]
