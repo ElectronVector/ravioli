@@ -4,7 +4,12 @@ import pytest
 class LineCounter:
     @staticmethod
     def count(string):
-        return len([l for l in string.splitlines() if not l.isspace() and not l.lstrip().startswith("//")])
+        lines = string.splitlines()
+        # Remove blank lines.
+        lines = [l for l in lines if not l.isspace()]
+        # Remove comment lines.
+        lines = [l for l in lines if not l.lstrip().startswith("//")]
+        return len(lines)
 
 
 def test_single_line():
