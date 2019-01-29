@@ -6,16 +6,13 @@ import pytest
 class LineCounter:
     @staticmethod
     def count(string):
+        # Remove all block comments.
         string = re.sub(r'/\*.*\*/', '', string, flags=re.DOTALL)
         lines = string.splitlines()
         # Remove blank lines.
         lines = [l for l in lines if not l.isspace()]
         # Remove comment lines.
         lines = [l for l in lines if not l.lstrip().startswith("//")]
-        # Remove block comment lines.
-        lines = [l for l in lines if not l.lstrip().startswith("/*")]
-        # Remove ending comment lines.
-        lines = [l for l in lines if not l.rstrip().endswith("*/")]
         return len(lines)
 
 
