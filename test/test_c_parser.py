@@ -1,10 +1,11 @@
 import pytest
-import ravioli
+
+import c_parser
 
 
 @pytest.fixture(scope="session")
 def results():
-    return ravioli.run("c/foo.c", [])
+    return c_parser.parse("c/foo.c", [])
 
 
 def test_globals_are_counted(results):
