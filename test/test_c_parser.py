@@ -1,6 +1,6 @@
 import pytest
 
-import c_parser
+from ravioli import c_parser
 
 
 @pytest.fixture(scope="session")

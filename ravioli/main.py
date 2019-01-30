@@ -1,11 +1,11 @@
 import sys
 from pathlib import Path
 
-import c_parser
-from line_counter import LineCounter
+from ravioli import c_parser
+from ravioli.line_counter import LineCounter
 
 if __name__ == "__main__":
-    folder = Path('./motobox')
+    folder = Path('../motobox')
 
     if len(sys.argv) > 1:
         folder = Path(sys.argv[1])
@@ -26,7 +26,7 @@ if __name__ == "__main__":
             results = c_parser.parse(str(f), paths)
             loc = LineCounter.count_file(f)
             max_scc = max(results['complexity'].values())
-            sf = max_scc + (5*results['global_count']) + (loc/20)
+            sf = max_scc + (5*results['global_count']) + (loc // 20)
             print(f"SLOC: {loc}, SCC: {max_scc}, Globals: {results['global_count']}, SF: {sf}")
         except:
             print("   Unable to parse")

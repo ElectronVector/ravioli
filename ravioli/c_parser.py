@@ -96,7 +96,7 @@ def preprocess(filename, include_paths):
         Errors from the processor are printed.
     """
     cpp_path = 'gcc'
-    cpp_args = [r'-E', r'-Ifake_libc_include']
+    cpp_args = [r'-E', r'-I../fake_libc_include']
     for path in include_paths:
         cpp_args.append(f'-I{path}')
 

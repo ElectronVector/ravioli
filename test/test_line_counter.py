@@ -1,4 +1,4 @@
-from line_counter import LineCounter
+from ravioli.line_counter import LineCounter
 
 
 def test_single_line():
