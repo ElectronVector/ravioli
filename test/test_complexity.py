@@ -45,3 +45,17 @@ def test_a_function_with_some_whitespace_can_be_parsed():
             """
     results = calculate_complexity(code)
     assert ('a_function' in results)
+
+
+def test_a_function_with_an_if_can_be_parsed():
+    code = """
+            int a_function (int a){
+                if (a > 5) {
+                    return 0;
+                }
+                return 1;
+            }
+            """
+    results = calculate_complexity(code)
+    assert ('a_function' in results)
+    assert (len(results) == 1)
