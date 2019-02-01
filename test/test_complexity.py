@@ -2,7 +2,7 @@ import re
 
 
 def calculate_complexity(code):
-    keywords = ['if', 'while', 'for']
+    keywords = ['if', 'while', 'for', 'switch']
     results = {}
     function_matcher = re.compile(r'\s+(\w+)\s*\(.*\)\s*{', re.MULTILINE)
     for m in function_matcher.finditer(code):
@@ -80,6 +80,44 @@ def test_a_function_with_a_for_loop():
             int a_function (int a){
                 for (int x = 0; x < 5; x++) {
                     a++;
+                }
+                return 1;
+            }
+            """
+    results = calculate_complexity(code)
+    assert ('a_function' in results)
+    assert (len(results) == 1)
+
+
+def test_a_function_with_a_do_while():
+    code = """
+            int a_function (int a){
+                int x = 0;
+                do {
+                    x++;
+                } while (x < 5);
+                return 1;
+            }
+            """
+    results = calculate_complexity(code)
+    assert ('a_function' in results)
+    assert (len(results) == 1)
+
+
+def test_a_function_with_a_switch():
+    code = """
+            int a_function (int a){
+                switch (a)
+                {
+                case 0:
+                    return 0;
+                    break;
+                case 1:
+                    return 1;
+                    break;
+                default
+                    return a;
+                    break;
                 }
                 return 1;
             }
