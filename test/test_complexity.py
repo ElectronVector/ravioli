@@ -2,11 +2,12 @@ import re
 
 
 def calculate_complexity(code):
+    keywords = ['if', 'while']
     results = {}
     function_matcher = re.compile(r'\s+(\w+)\s*\(.*\)\s*{', re.MULTILINE)
     for m in function_matcher.finditer(code):
         name = m.group(1)
-        if name != 'if':
+        if name not in keywords:
             results[name] = 1
     return results
 
@@ -29,7 +30,7 @@ def test_two_functions_can_be_parsed():
     assert ('another_function' in results)
 
 
-def test_a_function_with_arguments_can_be_parsed():
+def test_a_function_with_arguments():
     code = """
             int a_function(int a){}
             """
@@ -37,7 +38,7 @@ def test_a_function_with_arguments_can_be_parsed():
     assert ('a_function' in results)
 
 
-def test_a_function_with_some_whitespace_can_be_parsed():
+def test_a_function_with_some_whitespace():
     code = """
             int a_function (int a){}
             """
@@ -45,7 +46,7 @@ def test_a_function_with_some_whitespace_can_be_parsed():
     assert ('a_function' in results)
 
 
-def test_a_function_with_an_if_can_be_parsed():
+def test_a_function_with_an_if():
     code = """
             int a_function (int a){
                 if (a > 5) {
@@ -59,7 +60,22 @@ def test_a_function_with_an_if_can_be_parsed():
     assert (len(results) == 1)
 
 
-def test_a_function_which_calls_another_function_can_be_parsed():
+def test_a_function_with_a_while():
+    code = """
+            int a_function (int a){
+                int x = 0;
+                while (x < 5) {
+                    x++;
+                }
+                return 1;
+            }
+            """
+    results = calculate_complexity(code)
+    assert ('a_function' in results)
+    assert (len(results) == 1)
+
+
+def test_a_function_which_calls_another_function():
     code = """
             int a_function (int a){
                 if (a > 5) {
