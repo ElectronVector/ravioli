@@ -126,6 +126,7 @@ def test_a_function_with_a_switch():
     assert ('a_function' in results)
     assert (len(results) == 1)
 
+
 def test_a_function_which_calls_another_function():
     code = """
             int a_function (int a){
@@ -153,4 +154,5 @@ def test_a_function_with_different_brace_placement():
     results = calculate_complexity(code)
     assert ('a_function' in results)
     assert (len(results) == 1)
+
 
