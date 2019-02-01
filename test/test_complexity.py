@@ -1,4 +1,4 @@
-from complexity import find_functions
+from ravioli.complexity import find_functions
 
 
 def test_a_function_can_be_parsed():

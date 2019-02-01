@@ -1,8 +1,6 @@
 import sys
 from pathlib import Path
-from pprint import pprint
 
-from complexity import find_functions
 from ravioli import c_parser
 from ravioli.line_counter import LineCounter
 
