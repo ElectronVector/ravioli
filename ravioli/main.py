@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
+from pprint import pprint
 
+from complexity import find_functions
 from ravioli import c_parser
 from ravioli.line_counter import LineCounter
 
@@ -31,4 +33,5 @@ if __name__ == "__main__":
         except:
             print("   Unable to parse")
 
-    # pprint(run("motobox\Sources\can.c"))
+    # with open("../motobox/Sources/can.c", 'r') as f:
+    #     pprint(find_functions(f.read()))
