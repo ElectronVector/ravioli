@@ -47,7 +47,7 @@ def extract_next_function_body(code):
 # Calculate the complexity of a function.
 def calculate_complexity_for_a_function(body):
     complexity = 1
-    for m in re.finditer(r'\s+(\w+)\s*\(.*\)', body, re.MULTILINE):
+    for m in re.finditer(r'[\s}]+(\w+)\s*\(.*\)', body, re.MULTILINE):
         name = m.group(1)
         if is_a_decision(name):
             complexity += 1
