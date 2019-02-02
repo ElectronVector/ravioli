@@ -172,3 +172,21 @@ def test_a_function_with_1_decision_has_complexity_2():
     assert (results["if_else"] == 2)
 
 
+def test_a_function_with_2_decisions_has_complexity_3():
+    code = """
+            int else_if(int i) {
+                if (i >= 5) {
+                    return i + 1;
+                }
+                else if (i >= 0) {
+                    return i + 2;
+                }
+                else {
+                    return i - 1;
+                }
+            }
+            """
+    results = calculate_complexity(code)
+    assert (results["else_if"] == 3)
+
+
