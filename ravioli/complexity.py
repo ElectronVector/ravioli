@@ -20,8 +20,6 @@ def calculate_complexity(code):
     for m in function_matcher.finditer(code):
         name = m.group(1)
         if is_a_function(name):
-            # We found a new function. Add it to the results.
-            results[name] = 1
             # Find the contents of this function by matching braces.
             start_index = m.end()
             i = start_index
@@ -34,6 +32,7 @@ def calculate_complexity(code):
                 i += 1
             end_index = i
 
+            # Compute the complexity of this function.
             results[name] = process_function_body(code[start_index:end_index])
 
     return results
