@@ -259,3 +259,17 @@ def test_a_function_with_a_nested_else_if_and_extra_statements():
     results = calculate_complexity(code)
     assert (results["nested_else_if_with_extra_statements"] == 4)
 
+
+def test_a_function_with_a_while_loop():
+    code = """
+            int while_loop() {
+                i = 0;
+                while (i < 10){
+                    global_variable += 1;
+                    i++;
+                }
+            }
+            """
+    results = calculate_complexity(code)
+    assert (results["while_loop"] == 2)
+
