@@ -232,3 +232,30 @@ def test_a_function_with_a_nested_else_if():
     results = calculate_complexity(code)
     assert (results["nested_else_if"] == 4)
 
+
+def test_a_function_with_a_nested_else_if_and_extra_statements():
+    code = """
+            int nested_else_if_with_extra_statements(int i) {
+                i = i + 1;
+                if (i >= 0) {
+                    i = i + 1;
+                    if (i >= 5) {
+                        i = i + 1;
+                        return i + 2;
+                    }
+                    else if (i >= 3) {
+                        i = i + 1;
+                        return i + 4;
+                    }
+                    else {
+                        return i + 1;
+                    }
+                }
+                else {
+                    return i - 1;
+                }
+            }
+            """
+    results = calculate_complexity(code)
+    assert (results["nested_else_if_with_extra_statements"] == 4)
+
