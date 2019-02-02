@@ -12,6 +12,6 @@ def calculate_complexity(code):
             results[name] = 1
             # Save the current function.
             current_function = name
-        elif name == 'if' or name == 'while':
+        elif name == 'if' or name == 'while' or name == 'for':
             results[current_function] += 1
     return results

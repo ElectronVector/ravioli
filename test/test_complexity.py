@@ -273,3 +273,28 @@ def test_a_function_with_a_while_loop():
     results = calculate_complexity(code)
     assert (results["while_loop"] == 2)
 
+
+def test_complexity_of_a_for_loop():
+    code = """
+            int for_loop() {
+                for (i = 0; i < 10; i++){
+                    global_variable += 1;
+                }
+            }
+            """
+    results = calculate_complexity(code)
+    assert (results["for_loop"] == 2)
+
+
+# def test_a_function_with_a_do_while_loop():
+#     code = """
+#             int do_while_loop() {
+#                 i = 0;
+#                 do {
+#                     global_variable += 1;
+#                     i++;
+#                 }while (i < 10);
+#             }
+#             """
+#     results = calculate_complexity(code)
+#     assert (results["do_while_loop"] == 2)
