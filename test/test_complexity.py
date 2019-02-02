@@ -148,11 +148,27 @@ def test_a_function_with_different_brace_placement():
 # Test that complexity is calculated correctly.
 def test_a_function_with_no_decisions_has_complexity_1():
     code = """
-            int no_decisions () {
-                int a_local_variable = 0;
-                return 0;
-            }"""
+        int no_decisions () {
+            int a_local_variable = 0;
+            return 0;
+        }
+        """
     results = calculate_complexity(code)
     assert (results["no_decisions"] == 1)
+
+
+def test_a_function_with_1_decision_has_complexity_2():
+    code = """
+            int if_else(int i) {
+                if (i >= 0) {
+                    return i + 1;
+                }
+                else {
+                    return i - 1;
+                }
+            }
+            """
+    results = calculate_complexity(code)
+    assert (results["if_else"] == 2)
 
 
