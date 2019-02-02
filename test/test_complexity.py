@@ -330,5 +330,4 @@ def test_complexity_of_a_switch():
     results = calculate_complexity(code)
     assert (results["switch_statement"] == 3)
 
-# switch statement
 # compound conditional
