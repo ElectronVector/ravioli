@@ -1,16 +1,9 @@
 ## To do
 
-- Make it easier to santize custom stuff.
-- Sanitization is pretty simple, it should really only match on whole words (not inside words).
+- Implementing a simpler parsing that doesn't require complete preprocessing.
+ - Add counting of compound conditional.
+ - Add a tests not yet moved over from test_c_parser.py.
+ - Rename foo to sample and add a test that parses this complete file.
 - Try it on some other code.
 - Run it on a single file or on a folder?
 - Make the output cleaner.
-- Make it easier to identify things that need to be sanitized.
-- Make it possible to santize by removing a whole line.
-
-## Things to sanitize
-These are non-standard C things used by the target compiler.
-
-- Remove `interrupt` keywords.
-- Remove @(blah) statements.
-- Remove `*far`.
