@@ -190,3 +190,23 @@ def test_a_function_with_2_decisions_has_complexity_3():
     assert (results["else_if"] == 3)
 
 
+def test_a_function_with_a_nested_if():
+    code = """
+            int nested_if(int i) {
+                if (i >= 0) {
+                    if (i >= 5) {
+                        return i + 2;
+                    }
+                    else {
+                        return i + 1;
+                    }
+                }
+                else {
+                    return i - 1;
+                }
+            }
+            """
+    results = calculate_complexity(code)
+    assert (results["nested_if"] == 3)
+
+
