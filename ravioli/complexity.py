@@ -47,6 +47,8 @@ def extract_next_function_body(code):
 # Calculate the complexity of a function.
 def calculate_complexity_for_a_function(body):
     complexity = 1
+
+    # Find if, while and for statements.
     keyword_matcher = re.compile(r'[\s}]+(\w+)\s*\(.*\)', re.MULTILINE)
     for m in keyword_matcher.finditer(body):
         name = m.group(1)
@@ -55,6 +57,5 @@ def calculate_complexity_for_a_function(body):
 
     # Find case statements.
     case_matcher = re.compile(r'\s+case\s+')
-    for m in case_matcher.finditer(body):
-        complexity += 1
+    complexity += len(case_matcher.findall(body))
     return complexity
