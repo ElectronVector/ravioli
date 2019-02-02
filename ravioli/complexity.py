@@ -1,5 +1,6 @@
 import re
 
+decision_keywords = ['if', 'while', 'for']
 
 def calculate_complexity(code):
     keywords = ['if', 'while', 'for', 'switch']
@@ -12,6 +13,7 @@ def calculate_complexity(code):
             results[name] = 1
             # Save the current function.
             current_function = name
-        elif name == 'if' or name == 'while' or name == 'for':
+        elif name in decision_keywords:
+            # This is a decision, increment the complexity.
             results[current_function] += 1
     return results
