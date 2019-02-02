@@ -210,3 +210,25 @@ def test_a_function_with_a_nested_if():
     assert (results["nested_if"] == 3)
 
 
+def test_a_function_with_a_nested_else_if():
+    code = """
+            int nested_else_if(int i) {
+                if (i >= 0) {
+                    if (i >= 5) {
+                        return i + 2;
+                    }
+                    else if (i >= 3) {
+                        return i + 4;
+                    }
+                    else {
+                        return i + 1;
+                    }
+                }
+                else {
+                    return i - 1;
+                }
+            }
+            """
+    results = calculate_complexity(code)
+    assert (results["nested_else_if"] == 4)
+
