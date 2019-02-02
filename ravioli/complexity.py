@@ -34,9 +34,15 @@ def calculate_complexity(code):
                 i += 1
             end_index = i
 
-            # We found the start and the end of the functions in the string. Iterate over these
-            for x in re.finditer(r'\s+(\w+)\s*\(.*\)', code[start_index:end_index], re.MULTILINE):
-                y = x.group(1)
-                if is_a_decision(y):
-                    results[name] += 1
+            results[name] = process_function_body(code[start_index:end_index])
+
     return results
+
+
+def process_function_body(body):
+    complexity = 1
+    for m in re.finditer(r'\s+(\w+)\s*\(.*\)', body, re.MULTILINE):
+        name = m.group(1)
+        if is_a_decision(name):
+            complexity += 1
+    return complexity
