@@ -314,5 +314,21 @@ def test_a_function_with_a_do_while_loop_and_no_whitespace():
     assert (results["do_while_loop"] == 2)
 
 
+def test_complexity_of_a_switch():
+    code = """
+            void switch_statement(int x) {
+                switch (x) {
+                    case 1:
+                        global_variable += 2;
+                    case 2:
+                        global_variable += 3;
+                    default:
+                        global_variable += x;
+                }
+            }
+            """
+    results = calculate_complexity(code)
+    assert (results["switch_statement"] == 3)
+
 # switch statement
 # compound conditional

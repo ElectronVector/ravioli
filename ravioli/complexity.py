@@ -52,4 +52,9 @@ def calculate_complexity_for_a_function(body):
         name = m.group(1)
         if is_a_decision(name):
             complexity += 1
+
+    # Find case statements.
+    case_matcher = re.compile(r'\s+case\s+')
+    for m in case_matcher.finditer(body):
+        complexity += 1
     return complexity
