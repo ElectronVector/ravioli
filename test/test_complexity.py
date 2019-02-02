@@ -298,3 +298,7 @@ def test_complexity_of_a_for_loop():
 #             """
 #     results = calculate_complexity(code)
 #     assert (results["do_while_loop"] == 2)
+
+
+# switch statement
+# compound conditional
