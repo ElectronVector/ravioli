@@ -1,11 +1,11 @@
-from ravioli.complexity import find_functions
+from ravioli.complexity import calculate_complexity
 
-
+# Test that functions names are extracted correctly.
 def test_a_function_can_be_parsed():
     code = """
             int a_function(){}
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
 
 
@@ -14,7 +14,7 @@ def test_two_functions_can_be_parsed():
             int a_function(){}
             int another_function(){}
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
     assert ('another_function' in results)
 
@@ -23,7 +23,7 @@ def test_a_function_with_arguments():
     code = """
             int a_function(int a){}
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
 
 
@@ -31,7 +31,7 @@ def test_a_function_with_some_whitespace():
     code = """
             int a_function (int a){}
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
 
 
@@ -44,7 +44,7 @@ def test_a_function_with_an_if():
                 return 1;
             }
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
     assert (len(results) == 1)
 
@@ -59,7 +59,7 @@ def test_a_function_with_a_while():
                 return 1;
             }
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
     assert (len(results) == 1)
 
@@ -73,7 +73,7 @@ def test_a_function_with_a_for_loop():
                 return 1;
             }
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
     assert (len(results) == 1)
 
@@ -88,7 +88,7 @@ def test_a_function_with_a_do_while():
                 return 1;
             }
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
     assert (len(results) == 1)
 
@@ -111,7 +111,7 @@ def test_a_function_with_a_switch():
                 return 1;
             }
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
     assert (len(results) == 1)
 
@@ -125,7 +125,7 @@ def test_a_function_which_calls_another_function():
                 return 1;
             }
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
     assert (len(results) == 1)
 
@@ -140,8 +140,19 @@ def test_a_function_with_different_brace_placement():
                 return 1;
             }
             """
-    results = find_functions(code)
+    results = calculate_complexity(code)
     assert ('a_function' in results)
     assert (len(results) == 1)
+
+
+# Test that complexity is calculated correctly.
+def test_a_function_with_no_decisions_has_complexity_1():
+    code = """
+            int no_decisions () {
+                int a_local_variable = 0;
+                return 0;
+            }"""
+    results = calculate_complexity(code)
+    assert (results["no_decisions"] == 1)
 
 

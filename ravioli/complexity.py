@@ -1,7 +1,7 @@
 import re
 
 
-def find_functions(code):
+def calculate_complexity(code):
     keywords = ['if', 'while', 'for', 'switch']
     results = {}
     function_matcher = re.compile(r'\s+(\w+)\s*\(.*\)\s*{', re.MULTILINE)
