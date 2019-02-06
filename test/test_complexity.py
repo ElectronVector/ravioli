@@ -372,3 +372,17 @@ def test_compound_conditional_with_or_in_if():
             }"""
     results = calculate_complexity(code)
     assert (results["compound_if"] == 3)
+
+
+def test_a_while_loop_with_a_compound_conditional():
+    code = """
+            int compound_while_loop(int j, int i) {
+                i = 0;
+                while ((j == 1) && (i < 10)) {
+                    global_variable += 1;
+                    i++;
+                    j++;
+                }
+            }"""
+    results = calculate_complexity(code)
+    assert (results["compound_while_loop"] == 3)
