@@ -397,3 +397,16 @@ def test_a_for_loop_with_a_compound_conditional():
             }"""
     results = calculate_complexity(code)
     assert (results["compound_for_loop"] == 3)
+
+
+def test_nested_for_loops():
+    code = """
+            int nested_for_loops() {
+                for (i = 0; i < 10; i++){
+                    for (j = 0; j < 10; j++) {
+                        global_variable += 1;
+                    }
+                }
+            }"""
+    results = calculate_complexity(code)
+    assert (results["nested_for_loops"] == 3)
