@@ -44,6 +44,14 @@ def __extract_next_function_body(code):
     return code[:end_index]
 
 
+# For strict cyclomatic complexity (SCC) count all boolean operators.
+def __calculate_complexity_for_a_conditional(conditional):
+    complexity = 0
+    complexity += conditional.count("&&")
+    complexity += conditional.count("||")
+    return complexity
+
+
 # Calculate the complexity of a function.
 def __calculate_complexity_for_a_function(body):
     complexity = 1
@@ -54,9 +62,9 @@ def __calculate_complexity_for_a_function(body):
         name = m.group(1)
         conditional = m.group(2)
         if __is_a_decision(name):
+            # Each decision increases the complexity.
             complexity += 1
-            complexity += conditional.count("&&")
-            complexity += conditional.count("||")
+            complexity += __calculate_complexity_for_a_conditional(conditional)
 
     # Find case statements.
     case_matcher = re.compile(r'\s+case\s+')
