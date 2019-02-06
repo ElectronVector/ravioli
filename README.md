@@ -8,7 +8,6 @@ It works without a compiler or any preprocessing required.
 ## To do
 
 - Implementing a simpler parsing that doesn't require complete preprocessing.
- - Add counting of compound conditional.
  - Add a tests not yet moved over from test_c_parser.py.
  - Rename foo to sample and add a test that parses this complete file.
  - Add global variable counting.

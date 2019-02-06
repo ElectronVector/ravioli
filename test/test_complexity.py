@@ -331,7 +331,53 @@ def test_complexity_of_a_switch():
     assert (results["switch_statement"] == 3)
 
 
-# This tests for "strict cyclomatic complexity" (SCC), also called CC2.
+def test_switch_statement_with_a_nested_if():
+    code = """
+            void switch_statement_with_nested_if(int x, int y) {
+                switch (x) {
+                    case 1:
+                        if (y > 1) {
+                            global_variable += 1;
+                        }
+                        else {
+                            global_variable += 2;
+                        }
+                    case 2:
+                        global_variable += 3;
+                    default:
+                        global_variable += x;
+                }
+            }"""
+    results = calculate_complexity(code)
+    assert (results["switch_statement_with_nested_if"] == 4)
+
+
+def test_nested_switch_statements():
+    code = """
+            void nested_switches(int x, int y) {
+                switch (x) {
+                    case 1:
+                        switch(y) {
+                            case 1:
+                                global_variable += 5;
+                                break;
+                            case 2:
+                                global_variable += 10;
+                                break;
+                            default:
+                                global_variable += y;
+                        }
+                    case 2:
+                        global_variable += 3;
+                    default:
+                        global_variable += x;
+                }
+            }"""
+    results = calculate_complexity(code)
+    assert (results["nested_switches"] == 5)
+
+
+# These test for "strict cyclomatic complexity" (SCC), also called CC2.
 def test_compound_conditional_in_if():
     code = """
             int compound_if(int i) {
