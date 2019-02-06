@@ -7,10 +7,10 @@ It works without a compiler or any preprocessing required.
 
 ## To do
 
-- Implementing a simpler parsing that doesn't require complete preprocessing.
- - Add a tests not yet moved over from test_c_parser.py.
- - Rename foo to sample and add a test that parses this complete file.
- - Add global variable counting.
+- Rename foo to sample and add a test that parses this complete file.
+- Strip comments from the code before passing to the complexity calculator.
+- Add global variable counting.
+- Add better error handling. If the parser has an error, make it easy to find the code that broke it.
 - Try it on some other code.
 - Run it on a single file or on a folder?
 - Make the output cleaner.

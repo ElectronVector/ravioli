@@ -1,9 +1,3 @@
-//
-// Created by Matt on 11/10/2018.
-//
-
-#include "foo.h"
-
 static int local_variable;
 int global_variable;
 int another_global;

@@ -67,9 +67,9 @@ def test_dont_count_block_comments_spanning_multiple_lines():
 
 def test_count_lines_in_a_file():
     line_count = LineCounter.count_file('c/main.c')
-    assert(line_count == 7)
+    assert(line_count == 6)
 
 
 def test_count_lines_in_another_file():
-    line_count = LineCounter.count_file('c/foo.c')
-    assert(line_count == 248)
+    line_count = LineCounter.count_file('c/sample.c')
+    assert(line_count == 247)
