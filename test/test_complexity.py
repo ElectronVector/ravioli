@@ -1,5 +1,6 @@
 from ravioli.complexity import calculate_complexity
 
+
 # Test that functions names are extracted correctly.
 def test_a_function_can_be_parsed():
     code = """
