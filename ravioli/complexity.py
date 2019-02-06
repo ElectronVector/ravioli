@@ -49,11 +49,13 @@ def __calculate_complexity_for_a_function(body):
     complexity = 1
 
     # Find if, while and for statements.
-    keyword_matcher = re.compile(r'[\s}]+(\w+)\s*\(.*\)', re.MULTILINE)
+    keyword_matcher = re.compile(r'[\s}]+(\w+)\s*\((.*)\)', re.MULTILINE)
     for m in keyword_matcher.finditer(body):
         name = m.group(1)
+        conditional = m.group(2)
         if __is_a_decision(name):
             complexity += 1
+            complexity += conditional.count("&&")
 
     # Find case statements.
     case_matcher = re.compile(r'\s+case\s+')

@@ -330,4 +330,46 @@ def test_complexity_of_a_switch():
     results = calculate_complexity(code)
     assert (results["switch_statement"] == 3)
 
-# compound conditional
+
+# This tests for "strict cyclomatic complexity" (SCC), also called CC2.
+def test_compound_conditional_in_if():
+    code = """
+            int compound_if(int i) {
+                if ((i >= 0) && (i < 10)){
+                    return i + 2;
+                }
+                else {
+                    return i + 1;
+                }
+            }"""
+    results = calculate_complexity(code)
+    assert (results["compound_if"] == 3)
+
+
+def test_compound_conditional_in_if_no_whitespace():
+    code = """
+            int compound_if(int i) {
+                if ((i >= 0)&&(i < 10)){
+                    return i + 2;
+                }
+                else {
+                    return i + 1;
+                }
+            }"""
+    results = calculate_complexity(code)
+    assert (results["compound_if"] == 3)
+
+
+def test_three_ands_in_an_if_conditional():
+    code = """
+            int compound_if(int i) {
+                bool x = false;
+                if ((i >= 0) && (i < 10) && x){
+                    return i + 2;
+                }
+                else {
+                    return i + 1;
+                }
+            }"""
+    results = calculate_complexity(code)
+    assert (results["compound_if"] == 4)
