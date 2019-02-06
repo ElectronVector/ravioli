@@ -145,6 +145,12 @@ def test_a_function_with_different_brace_placement():
     assert (len(results) == 1)
 
 
+def test_an_entire_file_finds_all_functions():
+    with open('c/sample.c') as f:
+        results = calculate_complexity(f.read())
+    assert(len(results) == 20)
+
+
 # Test that complexity is calculated correctly.
 def test_a_function_with_no_decisions_has_complexity_1():
     code = """
