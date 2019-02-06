@@ -1,4 +1,8 @@
 import sys
+import traceback
+from pprint import pprint
+
+from ravioli.complexity import calculate_complexity
 from pathlib import Path
 
 if __name__ == "__main__":
@@ -16,6 +20,16 @@ if __name__ == "__main__":
     paths = [str(path) for path in paths if path.is_dir()]
 
     print(f"Found {len(source_files)} source files...")
+
+    for filename in source_files:
+        print(f"   {str(filename)}")
+        try:
+            with open(filename, 'r') as f:
+                functions = calculate_complexity(f.read())
+                pprint(functions)
+        except:
+            print(f'*** unable to parse')
+            traceback.print_exc(file=sys.stdout)
 
     # for f in source_files:
     #     print(f"   {str(f)}")
