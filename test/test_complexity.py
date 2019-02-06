@@ -386,3 +386,14 @@ def test_a_while_loop_with_a_compound_conditional():
             }"""
     results = calculate_complexity(code)
     assert (results["compound_while_loop"] == 3)
+
+
+def test_a_for_loop_with_a_compound_conditional():
+    code = """
+            int compound_for_loop() {
+                for (int i = 0, j = 0; (i < 10) && (result == 0); i++) {
+                    global_variable++;
+                }
+            }"""
+    results = calculate_complexity(code)
+    assert (results["compound_for_loop"] == 3)
