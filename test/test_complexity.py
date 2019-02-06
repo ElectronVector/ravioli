@@ -360,11 +360,10 @@ def test_compound_conditional_in_if_no_whitespace():
     assert (results["compound_if"] == 3)
 
 
-def test_three_ands_in_an_if_conditional():
+def test_compound_conditional_with_or_in_if():
     code = """
             int compound_if(int i) {
-                bool x = false;
-                if ((i >= 0) && (i < 10) && x){
+                if ((i >= 0) || (i < 10)){
                     return i + 2;
                 }
                 else {
@@ -372,4 +371,4 @@ def test_three_ands_in_an_if_conditional():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["compound_if"] == 4)
+    assert (results["compound_if"] == 3)

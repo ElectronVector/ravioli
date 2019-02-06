@@ -56,6 +56,7 @@ def __calculate_complexity_for_a_function(body):
         if __is_a_decision(name):
             complexity += 1
             complexity += conditional.count("&&")
+            complexity += conditional.count("||")
 
     # Find case statements.
     case_matcher = re.compile(r'\s+case\s+')
