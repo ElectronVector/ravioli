@@ -34,7 +34,7 @@ def __is_a_function(name):
 def __extract_next_function_body(code):
     i = 0
     brace_nesting = 1
-    while brace_nesting > 0:
+    while i < len(code) and brace_nesting > 0:
         if code[i] == '{':
             brace_nesting += 1
         elif code[i] == '}':
