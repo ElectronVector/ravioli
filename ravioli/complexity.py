@@ -3,6 +3,10 @@ import re
 
 # Calculate the complexity of all the the functions in a string.
 def calculate_complexity(code):
+    code_lines = code.splitlines(True)
+    non_comment_lines = [line for line in code_lines if not line.lstrip().startswith("//")]
+    code = "".join(non_comment_lines)
+
     results = {}
     function_matcher = re.compile(r'\s+(\w+)\s*\(.*\)\s*{', re.MULTILINE)
 

@@ -20,6 +20,14 @@ def test_two_functions_can_be_parsed():
     assert ('another_function' in results)
 
 
+def test_a_commented_function_is_not_extracted():
+    code = """
+            //int a_function(){}
+            """
+    results = calculate_complexity(code)
+    assert ('a_function' not in results)
+
+
 def test_a_function_with_arguments():
     code = """
             int a_function(int a){}
