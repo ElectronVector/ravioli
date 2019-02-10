@@ -35,6 +35,16 @@ def test_with_assignment_and_whitespace():
     assert ('a_global' in results)
 
 
+def test_a_function_variable_is_not_found():
+    code = """
+            void a_function() {
+                int not_a_global;
+            }
+            """
+    results = find_globals(code)
+    assert ('not_a_global' not in results)
+
+
 def find_globals(code):
     results = []
     # Remove whitespace around any equals.
