@@ -3,10 +3,7 @@ import re
 
 # Calculate the complexity of all the the functions in a string.
 def calculate_complexity(code):
-    code_lines = code.splitlines(True)
-    non_comment_lines = [line for line in code_lines if not line.lstrip().startswith("//")]
-    code = "".join(non_comment_lines)
-
+    code = __strip_comments(code)
     results = {}
     function_matcher = re.compile(r'\s+(\w+)\s*\(.*\)\s*{', re.MULTILINE)
 
@@ -20,6 +17,15 @@ def calculate_complexity(code):
             results[name] = __calculate_complexity_for_a_function(function_body)
 
     return results
+
+
+def __strip_comments(code):
+    # Remove block comments
+    code = re.sub(r'/\*.*\*/', '', code, flags=re.DOTALL)
+    # Remove single line comments.
+    code_lines = code.splitlines(True)
+    non_comment_lines = [line for line in code_lines if not line.lstrip().startswith("//")]
+    return "".join(non_comment_lines)
 
 
 # Determine if this name is keyword that makes a decision/
