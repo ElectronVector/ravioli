@@ -8,7 +8,6 @@ It works without a compiler or any preprocessing required.
 ## To do
 
 - Add global variable counting.
-- Strip comments from the code before passing to the complexity calculator.
 - Add better error handling. If the parser has an error, make it easy to find the code that broke it.
 - Try it on some other code.
 - Run it on a single file or on a folder?
