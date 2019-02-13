@@ -69,6 +69,16 @@ def test_a_static_is_not_global():
     assert ('not_a_global' not in results)
 
 
+def test_typedefs_not_counted():
+    code = """
+            typedef int my_new_type;
+            my_new_type a_global;
+            """
+    results = find_globals(code)
+    assert(len(results) == 1)
+    assert('a_global' in results)
+
+
 def find_globals(code):
     results = []
     # Remove anything between brackets.
@@ -80,6 +90,6 @@ def find_globals(code):
     for m in global_matcher.finditer(code):
         qualifiers = m.group(1)
         name = m.group(2)
-        if 'static' not in qualifiers:
+        if 'static' not in qualifiers and 'typedef' not in qualifiers:
             results.append(name)
     return results
