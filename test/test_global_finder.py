@@ -120,3 +120,12 @@ def test_commented_global_is_not_global():
             """
     results = find_globals(code)
     assert ('not_a_global' not in results)
+
+
+def test_global_in_single_line_comment_not_counted():
+    code = """
+            int a_global;
+            //int not_a_global;
+            """
+    results = find_globals(code)
+    assert ('not_a_global' not in results)
