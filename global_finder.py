@@ -1,14 +1,12 @@
 import re
 
+from ravioli.strip_comments import strip_comments
+
 
 def find_globals(code):
     results = []
-    # Remove all block comments.
-    code = re.sub(r'/\*.*\*/', '', code, flags=re.DOTALL)
-    # Remove single line comments.
-    code_lines = code.splitlines(True)
-    non_comment_lines = [line for line in code_lines if not line.lstrip().startswith("//")]
-    code = "".join(non_comment_lines)
+    # Remove all comments.
+    code = strip_comments(code)
     # Remove anything between brackets.
     code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
     # Remove whitespace around any equals.
