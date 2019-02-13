@@ -85,7 +85,7 @@ def test_structs():
                 int x;
                 int y;
             };
-            struct point_t~ a_global;
+            struct point_t a_global;
             """
     results = find_globals(code)
     assert(len(results) == 1)
