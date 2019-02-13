@@ -129,3 +129,13 @@ def test_global_in_single_line_comment_not_counted():
             """
     results = find_globals(code)
     assert ('not_a_global' not in results)
+
+
+# Don't count:
+# #if configUSE_PREEMPTION == 0
+# {
+#     taskYIELD();
+# }
+# #endif
+
+# Don't count 'break' (see:queue.c)
