@@ -7,7 +7,7 @@ It works without a compiler or any preprocessing required.
 
 ## To do
 
-- Provide coordinates for functions and globalsK.
+- Provide coordinates for functions and globals.
 - Add better error handling. If the parser has an error, make it easy to find the code that broke it.
 - Try it on some other code.
 - Run it on a single file or on a folder?
