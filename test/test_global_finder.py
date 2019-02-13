@@ -1,4 +1,4 @@
-from global_finder import find_globals
+from ravioli.global_finder import find_globals
 
 
 def test_a_single_global():

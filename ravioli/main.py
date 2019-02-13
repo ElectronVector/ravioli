@@ -2,10 +2,9 @@ import sys
 import traceback
 from pprint import pprint
 
-from ravioli.complexity import calculate_complexity
 from pathlib import Path
 
-from global_finder import find_globals
+from ravioli.global_finder import find_globals
 
 if __name__ == "__main__":
     folder = Path('../motobox')
