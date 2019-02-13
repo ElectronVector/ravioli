@@ -60,14 +60,26 @@ def test_a_deeper_function_variable_is_not_found():
     assert ('not_a_global' not in results)
 
 
+def test_a_static_is_not_global():
+    code = """
+            int a_global;
+            static int not_a_global;
+            """
+    results = find_globals(code)
+    assert ('not_a_global' not in results)
+
+
 def find_globals(code):
     results = []
     # Remove anything between brackets.
     code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
     # Remove whitespace around any equals.
     code = re.sub(r'\s*=\s*', '=', code)
-    global_matcher = re.compile(r'\s+(\w+)[;|=]')
+    # Find all the globals.
+    global_matcher = re.compile(r'(.*)\s+(\w+)[;|=]')
     for m in global_matcher.finditer(code):
-        name = m.group(1)
-        results.append(name)
+        qualifiers = m.group(1)
+        name = m.group(2)
+        if 'static' not in qualifiers:
+            results.append(name)
     return results
