@@ -3,6 +3,8 @@ import re
 
 def find_globals(code):
     results = []
+    # Remove all block comments.
+    code = re.sub(r'/\*.*\*/', '', code, flags=re.DOTALL)
     # Remove anything between brackets.
     code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
     # Remove whitespace around any equals.

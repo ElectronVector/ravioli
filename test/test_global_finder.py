@@ -113,5 +113,10 @@ def test_an_extern_is_not_global():
     assert ('not_a_global' not in results)
 
 
-# Don't count externs.
-# Don't count comments.
+def test_commented_global_is_not_global():
+    code = """
+            int a_global;
+            /*int not_a_global;*/
+            """
+    results = find_globals(code)
+    assert ('not_a_global' not in results)
