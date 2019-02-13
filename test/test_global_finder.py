@@ -92,6 +92,18 @@ def test_structs():
     assert('a_global' in results)
 
 
+def test_struct_globals_declared_with_definition():
+    code = """
+            struct point_t {
+                int x;
+                int y;
+            } a_global;
+            """
+    results = find_globals(code)
+    assert(len(results) == 1)
+    assert('a_global' in results)
+
+
 def find_globals(code):
     results = []
     # Remove anything between brackets.
