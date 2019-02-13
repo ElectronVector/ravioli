@@ -45,8 +45,25 @@ def test_a_function_variable_is_not_found():
     assert ('not_a_global' not in results)
 
 
+def test_a_deeper_function_variable_is_not_found():
+    code = """
+            void a_function(int x) {
+                if (x > 0) {
+                    // do something
+                }
+                else {
+                    int not_a_global;
+                }
+            }
+            """
+    results = find_globals(code)
+    assert ('not_a_global' not in results)
+
+
 def find_globals(code):
     results = []
+    # Remove anything between brackets.
+    code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
     # Remove whitespace around any equals.
     code = re.sub(r'\s*=\s*', '=', code)
     global_matcher = re.compile(r'\s+(\w+)[;|=]')
