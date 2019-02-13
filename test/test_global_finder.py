@@ -69,10 +69,23 @@ def test_a_static_is_not_global():
     assert ('not_a_global' not in results)
 
 
-def test_typedefs_not_counted():
+def test_typedefs():
     code = """
             typedef int my_new_type;
             my_new_type a_global;
+            """
+    results = find_globals(code)
+    assert(len(results) == 1)
+    assert('a_global' in results)
+
+
+def test_structs():
+    code = """
+            struct point_t {
+                int x;
+                int y;
+            };
+            struct point_t~ a_global;
             """
     results = find_globals(code)
     assert(len(results) == 1)
