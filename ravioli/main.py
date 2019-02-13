@@ -5,6 +5,8 @@ from pprint import pprint
 from ravioli.complexity import calculate_complexity
 from pathlib import Path
 
+from global_finder import find_globals
+
 if __name__ == "__main__":
     folder = Path('../motobox')
 
@@ -25,8 +27,9 @@ if __name__ == "__main__":
         print(f"   {str(filename)}")
         try:
             with open(filename, 'r') as f:
-                functions = calculate_complexity(f.read())
-                pprint(functions)
+                #functions = calculate_complexity(f.read())
+                globals_vars = find_globals(f.read())
+                pprint(globals_vars)
         except:
             print(f'*** unable to parse')
             traceback.print_exc(file=sys.stdout)

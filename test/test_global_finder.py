@@ -1,4 +1,4 @@
-import re
+from global_finder import find_globals
 
 
 def test_a_single_global():
@@ -104,17 +104,14 @@ def test_struct_globals_declared_with_definition():
     assert('a_global' in results)
 
 
-def find_globals(code):
-    results = []
-    # Remove anything between brackets.
-    code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
-    # Remove whitespace around any equals.
-    code = re.sub(r'\s*=\s*', '=', code)
-    # Find all the globals.
-    global_matcher = re.compile(r'(.*)\s+(\w+)[;|=]')
-    for m in global_matcher.finditer(code):
-        qualifiers = m.group(1)
-        name = m.group(2)
-        if 'static' not in qualifiers and 'typedef' not in qualifiers:
-            results.append(name)
-    return results
+def test_an_extern_is_not_global():
+    code = """
+            int a_global;
+            extern int not_a_global;
+            """
+    results = find_globals(code)
+    assert ('not_a_global' not in results)
+
+
+# Don't count externs.
+# Don't count comments.
