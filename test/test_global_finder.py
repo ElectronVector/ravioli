@@ -139,3 +139,4 @@ def test_global_in_single_line_comment_not_counted():
 # #endif
 
 # Don't count 'break' (see:queue.c)
+# Don't count words with static or extern in them.
