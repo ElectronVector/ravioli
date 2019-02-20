@@ -154,12 +154,6 @@ def test_dont_count_preprocessor_elifs():
     results = find_globals(code)
     assert ('configUSE_PREEMPTION' not in results)
 
-# Don't count:
-# #if configUSE_PREEMPTION == 0
-# {
-#     taskYIELD();
-# }
-# #endif
 
 # Don't count 'break' (see:queue.c)
 # Don't count words with static or extern in them.

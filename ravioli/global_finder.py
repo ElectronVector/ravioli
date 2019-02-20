@@ -2,15 +2,12 @@ import re
 
 from ravioli.strip_comments import strip_comments
 
-
 def find_globals(code):
     results = []
     # Remove all comments.
     code = strip_comments(code)
-    # Remove #ifs
-    code_lines = code.splitlines(True)
-    non_pound_defines = [line for line in code_lines if not line.lstrip().startswith("#")]
-    code = "".join(non_pound_defines)
+    # Remove #ifs, #elifs, #ifdefs
+    code = __strip_preprocessor_directives(code)
     # Remove anything between brackets.
     code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
     # Remove whitespace around any equals.
@@ -25,3 +22,10 @@ def find_globals(code):
                 and 'extern' not in qualifiers):
             results.append(name)
     return results
+
+
+def __strip_preprocessor_directives(code):
+    code_lines = code.splitlines(True)
+    non_pound_defines = [line for line in code_lines if not line.lstrip().startswith("#")]
+    code = "".join(non_pound_defines)
+    return code
