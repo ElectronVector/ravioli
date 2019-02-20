@@ -145,7 +145,7 @@ def test_dont_count_preprocessor_ifs():
 
 def test_dont_count_preprocessor_elifs():
     code = """
-            #elSif configUSE_PREEMPTION == 0
+            #elif configUSE_PREEMPTION == 0
             {
                 taskYIELD();
             }

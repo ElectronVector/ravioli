@@ -2,6 +2,7 @@ import re
 
 from ravioli.strip_comments import strip_comments
 
+
 def find_globals(code):
     results = []
     # Remove all comments.
