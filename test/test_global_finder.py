@@ -131,6 +131,17 @@ def test_global_in_single_line_comment_not_counted():
     assert ('not_a_global' not in results)
 
 
+def test_dont_count_preprocessor_ifs():
+    code = """
+            #if configUSE_PREEMPTION == 0
+            {
+                taskYIELD();
+            }
+            #endif
+            """
+    results = find_globals(code)
+    assert ('configUSE_PREEMPTION' not in results)
+
 # Don't count:
 # #if configUSE_PREEMPTION == 0
 # {

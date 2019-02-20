@@ -7,6 +7,10 @@ def find_globals(code):
     results = []
     # Remove all comments.
     code = strip_comments(code)
+    # Remove #ifs
+    code_lines = code.splitlines(True)
+    non_pound_defines = [line for line in code_lines if not line.lstrip().startswith("#if")]
+    code = "".join(non_pound_defines)
     # Remove anything between brackets.
     code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
     # Remove whitespace around any equals.
