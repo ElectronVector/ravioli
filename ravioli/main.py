@@ -22,16 +22,17 @@ if __name__ == "__main__":
 
     print(f"Found {len(source_files)} source files...")
 
-    for filename in source_files:
-        print(f"{str(filename)}")
-        try:
-            with open(filename, 'r') as f:
-                #functions = calculate_complexity(f.read())
-                globals_vars = find_globals(f.read())
-                pprint(globals_vars)
-        except:
-            print(f'*** unable to parse')
-            traceback.print_exc(file=sys.stdout)
+    #for filename in source_files:
+    filename = "../motobox/Sources/FreeRTOS/queue.c"
+    print(f"{str(filename)}")
+    try:
+        with open(filename, 'r') as f:
+            #functions = calculate_complexity(f.read())
+            globals_vars = find_globals(f.read())
+            pprint(globals_vars)
+    except:
+        print(f'*** unable to parse')
+        traceback.print_exc(file=sys.stdout)
 
     # for f in source_files:
     #     print(f"   {str(f)}")
