@@ -155,5 +155,4 @@ def test_dont_count_preprocessor_elifs():
     assert ('configUSE_PREEMPTION' not in results)
 
 
-# Don't count 'break' (see:queue.c)
 # Don't count words with static or extern in them.

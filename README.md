@@ -7,6 +7,7 @@ It works without a compiler or any preprocessing required.
 
 ## To do
 
+- Count variables names with static or extern in them as globals if appropriate.
 - Provide coordinates for functions and globals.
 - Add better error handling. If the parser has an error, make it easy to find the code that broke it.
 - Try it on some other code.
