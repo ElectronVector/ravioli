@@ -155,4 +155,17 @@ def test_dont_count_preprocessor_elifs():
     assert ('configUSE_PREEMPTION' not in results)
 
 
-# Don't count words with static or extern in them.
+def test_a_name_containing_extern_is_global():
+    code = """
+            int external_global;
+            """
+    results = find_globals(code)
+    assert ('external_global' in results)
+
+
+def test_a_name_containing_static_is_global():
+    code = """
+            int static_constant;
+            """
+    results = find_globals(code)
+    assert ('static_constant' in results)
