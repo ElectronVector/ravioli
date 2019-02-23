@@ -8,7 +8,5 @@ setup(name='ravioli',
       author_email='matt@electronvector.com',
       license='MIT',
       packages=['ravioli'],
-      install_requires=[
-          'pycparser==2.19',
-      ],
+      scripts=['bin/run.py'],
       zip_safe=False)
