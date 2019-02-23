@@ -22,7 +22,7 @@ def run(filename):
             print('loc: ' + str(loc))
             print('globals: ' + str(len(globals_vars)))
             print('max scc: ' + str(max_scc))
-            ksf = max_scc + (5*len(globals_vars)) + (loc // 10)
+            ksf = max_scc + (5*len(globals_vars)) + (loc // 20)
             print('ksf: ' + str(ksf))
     except:
         print('*** unable to parse')
