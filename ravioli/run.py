@@ -11,19 +11,21 @@ from ravioli.line_counter import count
 
 
 def run(filename):
-    print(str(filename))
+    print("-------------------------------------------------------------------------------")
+    print("File                                         complexity   globals   lines   ksf")
+    print("-------------------------------------------------------------------------------")
     try:
         with open(filename, 'r') as f:
             contents = f.read()
             functions = calculate_complexity(contents)
             globals_vars = find_globals(contents)
             loc = count(contents)
+            # Find the maximum complexity (scc) of all functions.
             max_scc = max(functions.values())
-            print('loc: ' + str(loc))
-            print('globals: ' + str(len(globals_vars)))
-            print('max scc: ' + str(max_scc))
-            ksf = max_scc + (5*len(globals_vars)) + (loc // 20)
-            print('ksf: ' + str(ksf))
+            # Calculate the spaghetti factor.
+            ksf = max_scc + (5 * len(globals_vars)) + (loc // 20)
+            print("{file:50}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
+                file=filename, complexity=max_scc, globals=len(globals_vars), loc=loc, ksf=ksf))
     except:
         print('*** unable to parse')
         traceback.print_exc(file=sys.stdout)
