@@ -1,5 +1,7 @@
 # Ravioli
 
+![Ravioli](ravioli.png "Ravioli")
+
 A tool for calculating simple, useful complexity metrics for C.
 
 This tool is designed to work especially on embedded software written for compilers with non-standard extensions.
