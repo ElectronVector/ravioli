@@ -1,5 +1,3 @@
-# Ravioli
-
 ![Ravioli](ravioli.png "Ravioli")
 
 A tool for calculating simple, useful complexity metrics for C.
