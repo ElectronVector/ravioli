@@ -1,9 +1,11 @@
 import argparse
+import os
 import sys
 import traceback
-from pprint import pprint
+from operator import itemgetter
 
 from pathlib import Path
+from pprint import pprint
 
 from ravioli.complexity import calculate_complexity
 from ravioli.global_finder import find_globals
@@ -14,6 +16,31 @@ def run(filename):
     print("-------------------------------------------------------------------------------")
     print("File                                         complexity   globals   lines   ksf")
     print("-------------------------------------------------------------------------------")
+    results = []
+    if not os.path.isdir(filename):
+        # This is a single file.
+        results.append(run_single_file(filename))
+    else:
+        # This is a directory. Run on all the files we can find.
+        source_files = list(Path(filename).glob('**/*.c'))
+
+        for f in source_files:
+            results.append(run_single_file(str(f)))
+
+    # Sort by spaghetti factor.
+    results = sorted(results, key=itemgetter('ksf'), reverse=True)
+
+    for result in results:
+        if len(result['filename']) <= 50:
+            print("{file:50}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
+                file=result['filename'], complexity=result['max_scc'], globals=len(result['globals_vars']), loc=result['loc'], ksf=result['ksf']))
+        else:
+            print(result['filename'])
+            print("{placeholder:50}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
+                placeholder="", complexity=result['max_scc'], globals=len(result['globals_vars']), loc=result['loc'], ksf=result['ksf']))
+
+
+def run_single_file(filename):
     try:
         with open(filename, 'r') as f:
             contents = f.read()
@@ -21,14 +48,21 @@ def run(filename):
             globals_vars = find_globals(contents)
             loc = count(contents)
             # Find the maximum complexity (scc) of all functions.
-            max_scc = max(functions.values())
+            max_scc = find_max_complexity(functions)
             # Calculate the spaghetti factor.
             ksf = max_scc + (5 * len(globals_vars)) + (loc // 20)
-            print("{file:50}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
-                file=filename, complexity=max_scc, globals=len(globals_vars), loc=loc, ksf=ksf))
+            return {'filename': filename, 'max_scc': max_scc, 'globals_vars': globals_vars, 'loc': loc, 'ksf': ksf}
     except:
-        print('*** unable to parse')
+        print('*** unable to parse ({file})'.format(file=filename))
         traceback.print_exc(file=sys.stdout)
+
+
+def find_max_complexity(functions):
+    if len(functions) > 0:
+        max_scc = max(functions.values())
+    else:
+        max_scc = 0
+    return max_scc
 
 
 parser = argparse.ArgumentParser(description='Calculate complexity metrics for C code, specifically the Koopman '
@@ -36,42 +70,4 @@ parser = argparse.ArgumentParser(description='Calculate complexity metrics for C
 parser.add_argument('source', help='the source file or folder for which to calculate metrics')
 args = parser.parse_args()
 run(args.source)
-
-# if __name__ == "__main__":
-#     folder = Path('../motobox')
-#
-#     if len(sys.argv) > 1:
-#         folder = Path(sys.argv[1])
-#
-#     # Find all the source files.
-#     source_files = list(folder.glob('**/*.c'))
-#
-#     # Find all the subfolder paths within this directory. We'll pass all of them to preprocessor, so that we
-#     # most likely can find all of our include files.
-#     paths = list(folder.glob('**/'))
-#     paths = [str(path) for path in paths if path.is_dir()]
-#
-#     print(f"Found {len(source_files)} source files...")
-#
-#     for filename in source_files:
-#         print(f"{str(filename)}")
-#         try:
-#             with open(filename, 'r') as f:
-#                 #functions = calculate_complexity(f.read())
-#                 globals_vars = find_globals(f.read())
-#                 pprint(globals_vars)
-#         except:
-#             print(f'*** unable to parse')
-#             traceback.print_exc(file=sys.stdout)
-#
-#     # for f in source_files:
-#     #     print(f"   {str(f)}")
-#     #     try:
-#     #         results = c_parser.parse(str(f), paths)
-#     #         loc = LineCounter.count_file(f)
-#     #         max_scc = max(results['complexity'].values())
-#     #         sf = max_scc + (5*results['global_count']) + (loc // 20)
-#     #         print(f"SLOC: {loc}, SCC: {max_scc}, Globals: {results['global_count']}, SF: {sf}")
-#     #     except:
-#     #         print("   Unable to parse")
 
