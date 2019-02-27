@@ -13,10 +13,8 @@ def find_globals(code):
     code = __strip_preprocessor_directives(code)
     # Remove anything between brackets.
     code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
-    # Remove whitespace around any equals.
-    code = re.sub(r'\s*=\s*', '=', code)
     # Find all the globals.
-    global_matcher = re.compile(r'(.*)\s+(\w+)[;|=]')
+    global_matcher = re.compile(r'([\w\t\f\v {}]+)\s+(\w+)(?:;|\s*=)')
     for m in global_matcher.finditer(code):
         qualifiers = m.group(1)
         name = m.group(2)
