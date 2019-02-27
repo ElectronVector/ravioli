@@ -4,13 +4,6 @@ from ravioli.code_item import CodeItem
 from ravioli.strip_comments import strip_comments
 
 
-def __get_line_number(match, code):
-    for line_number, line in enumerate(code.splitlines(True), 1):
-        if match in line:
-            return line_number
-    return 0
-
-
 def find_globals(code):
     original_code = code
     results = []
@@ -33,6 +26,13 @@ def find_globals(code):
                 and 'extern' not in qualifiers):
             results.append(CodeItem(name, line_number))
     return results
+
+
+def __get_line_number(match, code):
+    for line_number, line in enumerate(code.splitlines(True), 1):
+        if match in line:
+            return line_number
+    return 0
 
 
 def __strip_preprocessor_directives(code):
