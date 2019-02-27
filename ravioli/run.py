@@ -46,12 +46,12 @@ def report_all_functions(filename):
     # Sort the functions by complexity.
     functions = sorted(functions, key=itemgetter('complexity'), reverse=True)
 
-    # # Print functions.
-    # print("-------------------------------------------------------------------------------")
-    # print("Functions                                                                      ")
-    # print("-------------------------------------------------------------------------------")
-    # for f in functions:
-    #     print(str(f['complexity']) + " " + f['name'] + " " + f['filename'])
+    # Print functions.
+    print("-------------------------------------------------------------------------------")
+    print("Functions                                                                      ")
+    print("-------------------------------------------------------------------------------")
+    for f in functions:
+        print(str(f['complexity']) + " " + f['name'] + " " + f['filename'])
 
 
 def report_ksf_for_all_modules(filename):
