@@ -5,6 +5,7 @@ from ravioli.strip_comments import strip_comments
 
 
 def find_globals(code):
+    original_code = code
     results = []
     # Remove all comments.
     code = strip_comments(code)
@@ -19,10 +20,15 @@ def find_globals(code):
     for m in global_matcher.finditer(code):
         qualifiers = m.group(1)
         name = m.group(2)
+        match = m.group()
+        found_line_number = 0
+        for line_number, line in enumerate(original_code.splitlines(True), 1):
+            if match in line:
+                found_line_number = line_number
         if ('static' not in qualifiers
                 and 'typedef' not in qualifiers
                 and 'extern' not in qualifiers):
-            results.append(CodeItem(name))
+            results.append(CodeItem(name, found_line_number))
     return results
 
 

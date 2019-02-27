@@ -1,4 +1,4 @@
 class CodeItem:
-    def __init__(self, name):
+    def __init__(self, name, line_number):
         self.name = name
-        self.line_number = 0
+        self.line_number = line_number

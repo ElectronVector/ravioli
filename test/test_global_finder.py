@@ -174,3 +174,21 @@ def test_a_name_containing_static_is_global():
             """
     results = find_globals(code)
     assert ('static_constant' in extract_names(results))
+
+
+# Find line numbers of globals.
+def test_a_line_number_is_found():
+    code = """int a_global;
+            """
+    results = find_globals(code)
+    assert ('a_global' in extract_names(results))
+    assert (1 == results[0].line_number)
+
+
+def test_another_line_number_is_found():
+    code = """int a_global;
+            int another_global;
+            """
+    results = find_globals(code)
+    assert (1 == results[0].line_number)
+    assert (2 == results[1].line_number)
