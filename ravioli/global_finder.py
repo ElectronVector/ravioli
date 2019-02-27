@@ -29,6 +29,11 @@ def find_globals(code):
 
 
 def __get_line_number(match, code):
+    if '{}' in match:
+        # Handle the special case where we've matched a global struct declared as part of its
+        # definition. We strip the contents out of the brackets to help with parsing, so we
+        # won't be able to find this match in the original code.
+        match = match.split('}')[1]
     for line_number, line in enumerate(code.splitlines(True), 1):
         if match in line:
             return line_number

@@ -202,3 +202,23 @@ def test_a_line_number_with_a_comment():
     results = find_globals(code)
     assert (2 == results[0].line_number)
     assert (3 == results[1].line_number)
+
+
+def test_a_line_number_with_a_blank_line():
+    code = """
+            int a_global;
+            int another_global;
+            """
+    results = find_globals(code)
+    assert (2 == results[0].line_number)
+    assert (3 == results[1].line_number)
+
+
+def test_line_number_with_a_declaration_as_part_of_a_definition():
+    code = """struct point_t {
+                int x;
+                int y;
+            } a_global;
+            """
+    results = find_globals(code)
+    assert (4 == results[0].line_number)
