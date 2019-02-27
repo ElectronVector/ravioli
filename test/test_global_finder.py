@@ -192,3 +192,13 @@ def test_another_line_number_is_found():
     results = find_globals(code)
     assert (1 == results[0].line_number)
     assert (2 == results[1].line_number)
+
+
+def test_a_line_number_with_a_comment():
+    code = """// This is a comment.
+            int a_global;
+            int another_global;
+            """
+    results = find_globals(code)
+    assert (2 == results[0].line_number)
+    assert (3 == results[1].line_number)
