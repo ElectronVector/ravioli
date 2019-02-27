@@ -1,12 +1,17 @@
 from ravioli.global_finder import find_globals
 
 
+# Extract a list of names from the list of result objects.
+def extract_names(results):
+    return [result.name for result in results]
+
+
 def test_a_single_global():
     code = """
             int a_global;
             """
     results = find_globals(code)
-    assert ('a_global' in results)
+    assert ('a_global' in extract_names(results))
 
 
 def test_multiple_globals():
@@ -15,8 +20,8 @@ def test_multiple_globals():
             uint8_t another_global;
             """
     results = find_globals(code)
-    assert ('a_global' in results)
-    assert ('another_global' in results)
+    assert ('a_global' in extract_names(results))
+    assert ('another_global' in extract_names(results))
 
 
 def test_a_global_with_assignment():
@@ -24,7 +29,7 @@ def test_a_global_with_assignment():
             int a_global=0;
             """
     results = find_globals(code)
-    assert ('a_global' in results)
+    assert ('a_global' in extract_names(results))
 
 
 def test_with_assignment_and_whitespace():
@@ -32,7 +37,7 @@ def test_with_assignment_and_whitespace():
             int a_global = 0;
             """
     results = find_globals(code)
-    assert ('a_global' in results)
+    assert ('a_global' in extract_names(results))
 
 
 def test_a_function_variable_is_not_found():
@@ -42,7 +47,7 @@ def test_a_function_variable_is_not_found():
             }
             """
     results = find_globals(code)
-    assert ('not_a_global' not in results)
+    assert ('not_a_global' not in extract_names(results))
 
 
 def test_a_deeper_function_variable_is_not_found():
@@ -57,7 +62,7 @@ def test_a_deeper_function_variable_is_not_found():
             }
             """
     results = find_globals(code)
-    assert ('not_a_global' not in results)
+    assert ('not_a_global' not in extract_names(results))
 
 
 def test_a_static_is_not_global():
@@ -66,7 +71,7 @@ def test_a_static_is_not_global():
             static int not_a_global;
             """
     results = find_globals(code)
-    assert ('not_a_global' not in results)
+    assert ('not_a_global' not in extract_names(results))
 
 
 def test_typedefs():
@@ -76,7 +81,7 @@ def test_typedefs():
             """
     results = find_globals(code)
     assert(len(results) == 1)
-    assert('a_global' in results)
+    assert('a_global' in extract_names(results))
 
 
 def test_structs():
@@ -89,7 +94,7 @@ def test_structs():
             """
     results = find_globals(code)
     assert(len(results) == 1)
-    assert('a_global' in results)
+    assert('a_global' in extract_names(results))
 
 
 def test_struct_globals_declared_with_definition():
@@ -101,7 +106,7 @@ def test_struct_globals_declared_with_definition():
             """
     results = find_globals(code)
     assert(len(results) == 1)
-    assert('a_global' in results)
+    assert('a_global' in extract_names(results))
 
 
 def test_an_extern_is_not_global():
@@ -110,7 +115,7 @@ def test_an_extern_is_not_global():
             extern int not_a_global;
             """
     results = find_globals(code)
-    assert ('not_a_global' not in results)
+    assert ('not_a_global' not in extract_names(results))
 
 
 def test_commented_global_is_not_global():
@@ -119,7 +124,7 @@ def test_commented_global_is_not_global():
             /*int not_a_global;*/
             """
     results = find_globals(code)
-    assert ('not_a_global' not in results)
+    assert ('not_a_global' not in extract_names(results))
 
 
 def test_global_in_single_line_comment_not_counted():
@@ -128,7 +133,7 @@ def test_global_in_single_line_comment_not_counted():
             //int not_a_global;
             """
     results = find_globals(code)
-    assert ('not_a_global' not in results)
+    assert ('not_a_global' not in extract_names(results))
 
 
 def test_dont_count_preprocessor_ifs():
@@ -140,7 +145,7 @@ def test_dont_count_preprocessor_ifs():
             #endif
             """
     results = find_globals(code)
-    assert ('configUSE_PREEMPTION' not in results)
+    assert ('configUSE_PREEMPTION' not in extract_names(results))
 
 
 def test_dont_count_preprocessor_elifs():
@@ -152,7 +157,7 @@ def test_dont_count_preprocessor_elifs():
             #endif
             """
     results = find_globals(code)
-    assert ('configUSE_PREEMPTION' not in results)
+    assert ('configUSE_PREEMPTION' not in extract_names(results))
 
 
 def test_a_name_containing_extern_is_global():
@@ -160,7 +165,7 @@ def test_a_name_containing_extern_is_global():
             int external_global;
             """
     results = find_globals(code)
-    assert ('external_global' in results)
+    assert ('external_global' in extract_names(results))
 
 
 def test_a_name_containing_static_is_global():
@@ -168,4 +173,4 @@ def test_a_name_containing_static_is_global():
             int static_constant;
             """
     results = find_globals(code)
-    assert ('static_constant' in results)
+    assert ('static_constant' in extract_names(results))

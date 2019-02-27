@@ -35,7 +35,7 @@ def report_all_functions(filename):
     print("-------------------------------------------------------------------------------")
     for result in results:
         for g in result['globals_vars']:
-            print(result['filename'] + ": " + g)
+            print(result['filename'] + ": " + g.name)
 
     # Assemble all the functions into one list.
     functions = []

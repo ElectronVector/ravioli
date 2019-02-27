@@ -1,5 +1,6 @@
 import re
 
+from ravioli.code_item import CodeItem
 from ravioli.strip_comments import strip_comments
 
 
@@ -21,7 +22,7 @@ def find_globals(code):
         if ('static' not in qualifiers
                 and 'typedef' not in qualifiers
                 and 'extern' not in qualifiers):
-            results.append(name)
+            results.append(CodeItem(name))
     return results
 
 
