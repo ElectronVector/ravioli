@@ -223,6 +223,3 @@ def test_line_number_with_a_declaration_as_part_of_a_definition():
     results = find_globals(code)
     assert (4 == results[0].line_number)
 
-
-# Todo: Test globals that are arrays. Like this one:
-# const char zCPPrompt[] = "> ";

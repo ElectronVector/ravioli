@@ -48,6 +48,7 @@ $ ravioli -f .
 ## To do
 
 - Clean up output format on -f option. Only provide filename, not full path?
-- Provide coordinates for functions and globals when using the -f option.
+- Provide coordinates for functions when using the -f option.
 - Add better error handling. If the parser has an error, make it easy to find the code that broke it.
 - Try it on some other code.
+- Find globals that are arrays. Like this one: `const char zCPPrompt[] = "> ";`
