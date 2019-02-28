@@ -176,6 +176,14 @@ def test_a_name_containing_static_is_global():
     assert ('static_constant' in extract_names(results))
 
 
+def test_a_global_array():
+    code = """
+            char global_str[] = "abc";
+            """
+    results = find_globals(code)
+    assert ('global_str' in extract_names(results))
+
+
 # Find line numbers of globals.
 def test_a_line_number_is_found():
     code = """int a_global;
