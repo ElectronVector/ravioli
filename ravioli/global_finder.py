@@ -14,7 +14,7 @@ def find_globals(code):
     # Remove anything between brackets.
     code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
     # Find all the globals.
-    global_matcher = re.compile(r'([\w\t\f\v {}]+)\s+(\w+)[\[\]]*(?:;|\s*=)')
+    global_matcher = re.compile(r'([\w\t\f\v {}]+)\s+(\w+)[\d\[\]]*(?:;|\s*=)')
     for m in global_matcher.finditer(code):
         qualifiers = m.group(1)
         name = m.group(2)

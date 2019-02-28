@@ -184,6 +184,14 @@ def test_a_global_array():
     assert ('global_str' in extract_names(results))
 
 
+def test_a_global_sized_array():
+    code = """
+            char global_array[10];
+            """
+    results = find_globals(code)
+    assert ('global_array' in extract_names(results))
+
+
 # Find line numbers of globals.
 def test_a_line_number_is_found():
     code = """int a_global;
