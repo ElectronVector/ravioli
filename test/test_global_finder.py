@@ -200,6 +200,15 @@ def test_a_global_sized_array_with_assignment():
     assert ('global_array' in extract_names(results))
 
 
+def test_dont_count_const_globals():
+    # They really don't add to the complexity.
+    code = """
+            const char global_str[] = "abc";
+            """
+    results = find_globals(code)
+    assert ('global_str' not in extract_names(results))
+
+
 # Find line numbers of globals.
 def test_a_line_number_is_found():
     code = """int a_global;

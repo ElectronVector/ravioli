@@ -21,7 +21,8 @@ def find_globals(code):
         line_number = __get_line_number(m.group(), original_code)
         if ('static' not in qualifiers
                 and 'typedef' not in qualifiers
-                and 'extern' not in qualifiers):
+                and 'extern' not in qualifiers
+                and 'const' not in qualifiers):
             results.append(CodeItem(name, line_number))
     return results
 
