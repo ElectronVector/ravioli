@@ -40,8 +40,8 @@ def report_all_functions(filename):
     # Assemble all the functions into one list.
     functions = []
     for result in results:
-        for name, complexity in result['functions'].items():
-            functions.append({'filename': result['filename'], 'name': name, 'complexity': complexity})
+        for f in result['functions']:
+            functions.append({'filename': result['filename'], 'name': f.name, 'complexity': f.complexity})
 
     # Sort the functions by complexity.
     functions = sorted(functions, key=itemgetter('complexity'), reverse=True)
@@ -104,7 +104,7 @@ def run_single_file(filename):
 
 def find_max_complexity(functions):
     if len(functions) > 0:
-        max_scc = max(functions.values())
+        max_scc = max([f.complexity for f in functions])
     else:
         max_scc = 0
     return max_scc
