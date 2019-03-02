@@ -7,6 +7,7 @@ from ravioli.strip_comments import strip_comments
 
 
 def calculate_complexity(code):
+    original_code = code
     code = strip_comments(code)
     results = []
     function_matcher = re.compile(r'\s+(\w+)\s*\(.*\)\s*{', re.MULTILINE)
@@ -17,8 +18,13 @@ def calculate_complexity(code):
             start_of_function = m.end()
             # We just found the next function. Extract the body of the function.
             function_body = __extract_next_function_body(code[start_of_function:])
+            # Find the line number.
+            ln = 0
+            for line_number, line in enumerate(original_code.splitlines(True), 1):
+                if m.group() in line:
+                    ln = line_number
             # Compute the complexity of this function.
-            results.append(Function(name, __calculate_complexity_for_a_function(function_body)))
+            results.append(Function(name, __calculate_complexity_for_a_function(function_body), ln))
 
     return results
 

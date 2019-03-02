@@ -563,3 +563,13 @@ def test_line_number():
     """
     results = calculate_complexity(code)
     assert (results[0].line_number == 1)
+
+
+def test_a_different_line_number():
+    code = """void a_function(){
+            }
+            void another_function(){
+            }
+    """
+    results = calculate_complexity(code)
+    assert (results[1].line_number == 3)
