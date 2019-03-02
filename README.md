@@ -1,6 +1,8 @@
 ![Ravioli](ravioli.png "Ravioli")
 
-A tool for calculating simple, useful complexity metrics for C.
+A tool for calculating simple, useful complexity metrics -- notably the [Koopman Spaghetti Factor (KSF)](https://betterembsw.blogspot.com/2017/08/the-spaghetti-factor-software.html) -- for C.
+
+> I've had to review code that has spaghetti-level complexity in control flow (too high cyclomatic complexity).  And I've had to review code that has spaghetti-level complexity its data flow (too many global variables mixed together into a single computation).  And I've had to review procedures that just go on for page after page with no end in sight. But the stuff that will really make your brain hurt is code that has all of these problems. -- Phil Koopman
 
 This tool is designed to work especially on embedded software written for compilers with non-standard extensions.
 It works without a compiler or any preprocessing required.
