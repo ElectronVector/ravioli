@@ -1,6 +1,6 @@
 import re
 
-from ravioli.code_item import CodeItem
+from ravioli.global_variable import GlobalVariable
 from ravioli.strip_comments import strip_comments
 
 
@@ -23,7 +23,7 @@ def find_globals(code):
                 and 'typedef' not in qualifiers
                 and 'extern' not in qualifiers
                 and 'const' not in qualifiers):
-            results.append(CodeItem(name, line_number))
+            results.append(GlobalVariable(name, line_number))
     return results
 
 
