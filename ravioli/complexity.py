@@ -2,12 +2,13 @@ import re
 
 
 # Calculate the complexity of all the the functions in a string.
+from ravioli.function import Function
 from ravioli.strip_comments import strip_comments
 
 
 def calculate_complexity(code):
     code = strip_comments(code)
-    results = {}
+    results = []
     function_matcher = re.compile(r'\s+(\w+)\s*\(.*\)\s*{', re.MULTILINE)
 
     for m in function_matcher.finditer(code):
@@ -17,7 +18,7 @@ def calculate_complexity(code):
             # We just found the next function. Extract the body of the function.
             function_body = __extract_next_function_body(code[start_of_function:])
             # Compute the complexity of this function.
-            results[name] = __calculate_complexity_for_a_function(function_body)
+            results.append(Function(name, __calculate_complexity_for_a_function(function_body)))
 
     return results
 

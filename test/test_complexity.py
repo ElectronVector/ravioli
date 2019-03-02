@@ -1,13 +1,17 @@
 from ravioli.complexity import calculate_complexity
 
 
+def names_of(results):
+    return [result.name for result in results]
+
+
 # Test that functions names are extracted correctly.
 def test_a_function_can_be_parsed():
     code = """
             int a_function(){}
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
 
 
 def test_two_functions_can_be_parsed():
@@ -16,8 +20,8 @@ def test_two_functions_can_be_parsed():
             int another_function(){}
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
-    assert ('another_function' in results)
+    assert ('a_function' in names_of(results))
+    assert ('another_function' in names_of(results))
 
 
 def test_a_commented_function_is_not_extracted():
@@ -25,7 +29,7 @@ def test_a_commented_function_is_not_extracted():
             //int a_function(){}
             """
     results = calculate_complexity(code)
-    assert ('a_function' not in results)
+    assert ('a_function' not in names_of(results))
 
 
 def test_a_function_in_a_block_is_not_extracted():
@@ -37,7 +41,7 @@ def test_a_function_in_a_block_is_not_extracted():
             */
             """
     results = calculate_complexity(code)
-    assert ('a_function' not in results)
+    assert ('a_function' not in names_of(results))
 
 
 def test_a_function_with_arguments():
@@ -45,7 +49,7 @@ def test_a_function_with_arguments():
             int a_function(int a){}
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
 
 
 def test_a_function_with_some_whitespace():
@@ -53,7 +57,7 @@ def test_a_function_with_some_whitespace():
             int a_function (int a){}
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
 
 
 def test_a_function_with_an_if():
@@ -66,7 +70,7 @@ def test_a_function_with_an_if():
             }
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
     assert (len(results) == 1)
 
 
@@ -81,7 +85,7 @@ def test_a_function_with_a_while():
             }
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
     assert (len(results) == 1)
 
 
@@ -95,7 +99,7 @@ def test_a_function_with_a_for_loop():
             }
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
     assert (len(results) == 1)
 
 
@@ -110,7 +114,7 @@ def test_a_function_with_a_do_while():
             }
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
     assert (len(results) == 1)
 
 
@@ -133,7 +137,7 @@ def test_a_function_with_a_switch():
             }
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
     assert (len(results) == 1)
 
 
@@ -147,7 +151,7 @@ def test_a_function_which_calls_another_function():
             }
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
     assert (len(results) == 1)
 
 
@@ -162,7 +166,7 @@ def test_a_function_with_different_brace_placement():
             }
             """
     results = calculate_complexity(code)
-    assert ('a_function' in results)
+    assert ('a_function' in names_of(results))
     assert (len(results) == 1)
 
 
@@ -181,7 +185,7 @@ def test_a_function_with_no_decisions_has_complexity_1():
         }
         """
     results = calculate_complexity(code)
-    assert (results["no_decisions"] == 1)
+    assert (results[0].complexity == 1)
 
 
 def test_a_function_with_1_decision_has_complexity_2():
@@ -196,7 +200,7 @@ def test_a_function_with_1_decision_has_complexity_2():
             }
             """
     results = calculate_complexity(code)
-    assert (results["if_else"] == 2)
+    assert (results[0].complexity == 2)
 
 
 def test_a_function_with_2_decisions_has_complexity_3():
@@ -214,7 +218,7 @@ def test_a_function_with_2_decisions_has_complexity_3():
             }
             """
     results = calculate_complexity(code)
-    assert (results["else_if"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_a_function_with_a_nested_if():
@@ -234,7 +238,7 @@ def test_a_function_with_a_nested_if():
             }
             """
     results = calculate_complexity(code)
-    assert (results["nested_if"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_a_function_with_a_nested_else_if():
@@ -257,7 +261,7 @@ def test_a_function_with_a_nested_else_if():
             }
             """
     results = calculate_complexity(code)
-    assert (results["nested_else_if"] == 4)
+    assert (results[0].complexity == 4)
 
 
 def test_a_function_with_a_nested_else_if_and_extra_statements():
@@ -284,7 +288,7 @@ def test_a_function_with_a_nested_else_if_and_extra_statements():
             }
             """
     results = calculate_complexity(code)
-    assert (results["nested_else_if_with_extra_statements"] == 4)
+    assert (results[0].complexity == 4)
 
 
 def test_a_function_with_a_while_loop():
@@ -298,7 +302,7 @@ def test_a_function_with_a_while_loop():
             }
             """
     results = calculate_complexity(code)
-    assert (results["while_loop"] == 2)
+    assert (results[0].complexity == 2)
 
 
 def test_complexity_of_a_for_loop():
@@ -310,7 +314,7 @@ def test_complexity_of_a_for_loop():
             }
             """
     results = calculate_complexity(code)
-    assert (results["for_loop"] == 2)
+    assert (results[0].complexity == 2)
 
 
 def test_a_function_with_a_do_while_loop():
@@ -324,7 +328,7 @@ def test_a_function_with_a_do_while_loop():
             }
             """
     results = calculate_complexity(code)
-    assert (results["do_while_loop"] == 2)
+    assert (results[0].complexity == 2)
 
 
 def test_a_function_with_a_do_while_loop_and_no_whitespace():
@@ -338,7 +342,7 @@ def test_a_function_with_a_do_while_loop_and_no_whitespace():
             }
             """
     results = calculate_complexity(code)
-    assert (results["do_while_loop"] == 2)
+    assert (results[0].complexity == 2)
 
 
 def test_complexity_of_a_switch():
@@ -355,7 +359,7 @@ def test_complexity_of_a_switch():
             }
             """
     results = calculate_complexity(code)
-    assert (results["switch_statement"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_switch_statement_with_a_nested_if():
@@ -376,7 +380,7 @@ def test_switch_statement_with_a_nested_if():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["switch_statement_with_nested_if"] == 4)
+    assert (results[0].complexity == 4)
 
 
 def test_nested_switch_statements():
@@ -401,7 +405,7 @@ def test_nested_switch_statements():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["nested_switches"] == 5)
+    assert (results[0].complexity == 5)
 
 
 # These test for "strict cyclomatic complexity" (SCC), also called CC2.
@@ -416,7 +420,7 @@ def test_compound_conditional_in_if():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["compound_if"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_compound_conditional_in_if_no_whitespace():
@@ -430,7 +434,7 @@ def test_compound_conditional_in_if_no_whitespace():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["compound_if"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_compound_conditional_with_or_in_if():
@@ -444,7 +448,7 @@ def test_compound_conditional_with_or_in_if():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["compound_if"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_a_while_loop_with_a_compound_conditional():
@@ -458,7 +462,7 @@ def test_a_while_loop_with_a_compound_conditional():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["compound_while_loop"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_a_for_loop_with_a_compound_conditional():
@@ -469,7 +473,7 @@ def test_a_for_loop_with_a_compound_conditional():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["compound_for_loop"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_nested_for_loops():
@@ -482,7 +486,7 @@ def test_nested_for_loops():
                 }
             }"""
     results = calculate_complexity(code)
-    assert (results["nested_for_loops"] == 3)
+    assert (results[0].complexity == 3)
 
 
 def test_a_complicated_example():
@@ -510,7 +514,7 @@ def test_a_complicated_example():
                 return answer;
             }"""
     results = calculate_complexity(code)
-    assert (results["a_complicated_example"] == 11)
+    assert (results[0].complexity == 11)
 
 
 def test_a_more_complicated_example():
@@ -549,4 +553,4 @@ def test_a_more_complicated_example():
                 return answer;
             }"""
     results = calculate_complexity(code)
-    assert (results["a_more_complicated_example"] == 14)
+    assert (results[0].complexity == 14)
