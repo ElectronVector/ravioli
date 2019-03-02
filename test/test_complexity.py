@@ -554,3 +554,12 @@ def test_a_more_complicated_example():
             }"""
     results = calculate_complexity(code)
     assert (results[0].complexity == 14)
+
+
+# Get the line numbers of functions.
+def test_line_number():
+    code = """void a_function(){
+            }
+    """
+    results = calculate_complexity(code)
+    assert (results[0].line_number == 1)
