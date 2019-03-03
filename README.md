@@ -45,11 +45,37 @@ There is also a `-f` flag that you can select, that will list all global variabl
 
 ```
 $ ravioli -f .
+
+-------------------------------------------------------------------------------
+Globals
+-------------------------------------------------------------------------------
+..\motobox\Sources\Cpu.C:58 CCR_reg
+..\motobox\Sources\Cpu.C:59 CpuMode
+..\motobox\Sources\leds.c:11 zLEDDelay
+..\motobox\Sources\leds.c:11 zLEDDelay
+..\motobox\Sources\log.c:23 TestLog
+..\motobox\Sources\rti.c:13 RTIInterruptCount
+..\motobox\Sources\rti.c:14 TimeInSec
+-------------------------------------------------------------------------------
+Functions                                                            complexity
+-------------------------------------------------------------------------------
+..\motobox\Sources\command_processor.c:198
+     zRunCommand                                                             19
+..\motobox\Sources\FreeRTOS\queue.c:824
+     xQueueGenericReceive                                                    15
+..\motobox\Sources\FreeRTOS\queue.c:647
+     xQueueAltGenericReceive                                                 14
+..\motobox\Sources\iso15765.c:232
+     zParseCANMessage                                                        12
+..\motobox\Sources\FreeRTOS\tasks.c:386
+     xTaskGenericCreate                                                      12
+..\motobox\Sources\vehicle_comm_sim.c:112
+     VehicleSimControlCommand                                                11
+..\motobox\Sources\j1979.c:153
+     J1979SendTestMessageCommand                                             10
 ```
 
 ## To do
 
-- Clean up output format on -f option. Only provide filename, not full path?
-- Provide coordinates for functions when using the -f option.
 - Add better error handling. If the parser has an error, make it easy to find the code that broke it.
 - Try it on some other code.

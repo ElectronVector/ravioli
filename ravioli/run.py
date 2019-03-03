@@ -48,10 +48,11 @@ def report_all_functions(filename):
 
     # Print functions.
     print("-------------------------------------------------------------------------------")
-    print("Functions                                                                      ")
+    print("Functions                                                            complexity")
     print("-------------------------------------------------------------------------------")
     for f in functions:
-        print(f['filename'] + ":" + str(f['line_number']) + " " + str(f['complexity']) + " " + f['name'])
+        print(f['filename'] + ':' + str(f['line_number']))
+        print('     {name:70} {complexity:3}'.format(name=f['name'], complexity=f['complexity']))
 
 
 def report_ksf_for_all_modules(filename):
