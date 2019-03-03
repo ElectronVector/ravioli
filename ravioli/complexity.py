@@ -19,17 +19,22 @@ def calculate_complexity(code):
             # We just found the next function. Extract the body of the function.
             function_body = __extract_next_function_body(code[start_of_function:])
             # Find the line number.
-            ln = 0
-            match = m.group()
-            match = match.replace("{", "")
-            match = match.strip()
-            for line_number, line in enumerate(original_code.splitlines(True), 1):
-                if match in line:
-                    ln = line_number
+            line_number = __find_line_number(m.group(), original_code)
+
             # Compute the complexity of this function.
-            results.append(Function(name, __calculate_complexity_for_a_function(function_body), ln))
+            results.append(Function(name, __calculate_complexity_for_a_function(function_body), line_number))
 
     return results
+
+
+# Find the line number of this function in the code.
+def __find_line_number(match, code):
+    match = match.replace("{", "")
+    match = match.strip()
+    for line_number, line in enumerate(code.splitlines(True), 1):
+        if match in line:
+            return line_number
+    return 0
 
 
 # Determine if this name is keyword that makes a decision/
