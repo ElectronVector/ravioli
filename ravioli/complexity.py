@@ -33,14 +33,14 @@ def __find_line_number(match, code):
     match = match.strip()
     match = match.splitlines(True)
     code_lines = code.splitlines(True)
-    for line_number, line in enumerate(code_lines):
-        if match[0] in line:
+    for line_number in range(len(code_lines)):
+        if match[0] in code_lines[line_number]:
             if len(match) > 1:
                 if match[1] in code_lines[line_number + 1]:
                     if not code_lines[line_number + 1].rstrip().endswith(';'):
                         return line_number + 1
             else:
-                if not line.rstrip().endswith(';'):
+                if not code_lines[line_number].rstrip().endswith(';'):
                     return line_number + 1
     return 0
 
