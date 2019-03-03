@@ -10,7 +10,7 @@ def calculate_complexity(code):
     original_code = code
     code = strip_comments(code)
     results = []
-    function_matcher = re.compile(r'\s+(\w+)\s*\([\w\s,]*\)\s*{', re.MULTILINE)
+    function_matcher = re.compile(r'\s+(\w+)\s*\([\w\s,\*]*\)\s*{', re.MULTILINE)
 
     for m in function_matcher.finditer(code):
         name = m.group(1)
