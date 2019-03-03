@@ -41,7 +41,7 @@ def report_all_functions(filename):
     functions = []
     for result in results:
         for f in result['functions']:
-            functions.append({'filename': result['filename'], 'name': f.name, 'complexity': f.complexity})
+            functions.append({'filename': result['filename'], 'line_number': f.line_number, 'name': f.name, 'complexity': f.complexity})
 
     # Sort the functions by complexity.
     functions = sorted(functions, key=itemgetter('complexity'), reverse=True)
@@ -51,7 +51,7 @@ def report_all_functions(filename):
     print("Functions                                                                      ")
     print("-------------------------------------------------------------------------------")
     for f in functions:
-        print(str(f['complexity']) + " " + f['name'] + " " + f['filename'])
+        print(f['filename'] + ":" + str(f['line_number']) + " " + str(f['complexity']) + " " + f['name'])
 
 
 def report_ksf_for_all_modules(filename):

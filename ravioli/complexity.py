@@ -20,8 +20,11 @@ def calculate_complexity(code):
             function_body = __extract_next_function_body(code[start_of_function:])
             # Find the line number.
             ln = 0
+            match = m.group()
+            match = match.replace("{", "")
+            match = match.strip()
             for line_number, line in enumerate(original_code.splitlines(True), 1):
-                if m.group() in line:
+                if match in line:
                     ln = line_number
             # Compute the complexity of this function.
             results.append(Function(name, __calculate_complexity_for_a_function(function_body), ln))

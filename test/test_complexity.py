@@ -573,3 +573,22 @@ def test_a_different_line_number():
     """
     results = calculate_complexity(code)
     assert (results[1].line_number == 3)
+
+
+def test_line_number_for_a_function_with_arguments():
+    code = """
+            void a_function(int a){
+            }
+    """
+    results = calculate_complexity(code)
+    assert (results[0].line_number == 2)
+
+
+def test_line_number_for_a_function_with_different_braces():
+    code = """
+            void a_function(int a)
+            {
+            }
+    """
+    results = calculate_complexity(code)
+    assert (results[0].line_number == 2)
