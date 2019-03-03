@@ -603,3 +603,14 @@ def test_line_number_is_found_for_function_not_prototype():
     """
     results = calculate_complexity(code)
     assert (results[0].line_number == 3)
+
+
+def test_a_function_with_signature_split_across_lines():
+    code = """
+            void a_function(int a, int b,
+                int c)
+            {
+            }
+    """
+    results = calculate_complexity(code)
+    assert (results[0].name == 'a_function')
