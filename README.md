@@ -49,29 +49,29 @@ $ ravioli -f .
 -------------------------------------------------------------------------------
 Globals
 -------------------------------------------------------------------------------
-..\motobox\Sources\Cpu.C:58 CCR_reg
-..\motobox\Sources\Cpu.C:59 CpuMode
-..\motobox\Sources\leds.c:11 zLEDDelay
-..\motobox\Sources\leds.c:11 zLEDDelay
-..\motobox\Sources\log.c:23 TestLog
-..\motobox\Sources\rti.c:13 RTIInterruptCount
-..\motobox\Sources\rti.c:14 TimeInSec
+motobox\Sources\Cpu.C:58 CCR_reg
+motobox\Sources\Cpu.C:59 CpuMode
+motobox\Sources\leds.c:11 zLEDDelay
+motobox\Sources\leds.c:11 zLEDDelay
+motobox\Sources\log.c:23 TestLog
+motobox\Sources\rti.c:13 RTIInterruptCount
+motobox\Sources\rti.c:14 TimeInSec
 -------------------------------------------------------------------------------
 Functions                                                            complexity
 -------------------------------------------------------------------------------
-..\motobox\Sources\command_processor.c:198
+motobox\Sources\command_processor.c:198
      zRunCommand                                                             19
-..\motobox\Sources\FreeRTOS\queue.c:824
+motobox\Sources\FreeRTOS\queue.c:824
      xQueueGenericReceive                                                    15
-..\motobox\Sources\FreeRTOS\queue.c:647
+motobox\Sources\FreeRTOS\queue.c:647
      xQueueAltGenericReceive                                                 14
-..\motobox\Sources\iso15765.c:232
+motobox\Sources\iso15765.c:232
      zParseCANMessage                                                        12
-..\motobox\Sources\FreeRTOS\tasks.c:386
+motobox\Sources\FreeRTOS\tasks.c:386
      xTaskGenericCreate                                                      12
-..\motobox\Sources\vehicle_comm_sim.c:112
+motobox\Sources\vehicle_comm_sim.c:112
      VehicleSimControlCommand                                                11
-..\motobox\Sources\j1979.c:153
+motobox\Sources\j1979.c:153
      J1979SendTestMessageCommand                                             10
 ```
 
