@@ -31,11 +31,17 @@ def calculate_complexity(code):
 def __find_line_number(match, code):
     match = match.replace("{", "")
     match = match.strip()
-    match = match.splitlines(True)[0]
-    for line_number, line in enumerate(code.splitlines(True), 1):
-        if match in line:
-            if not line.rstrip().endswith(';'):
-                return line_number
+    match = match.splitlines(True)
+    code_lines = code.splitlines(True)
+    for line_number, line in enumerate(code_lines):
+        if match[0] in line:
+            if len(match) > 1:
+                if match[1] in code_lines[line_number + 1]:
+                    if not code_lines[line_number + 1].rstrip().endswith(';'):
+                        return line_number + 1
+            else:
+                if not line.rstrip().endswith(';'):
+                    return line_number + 1
     return 0
 
 

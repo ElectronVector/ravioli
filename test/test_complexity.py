@@ -625,3 +625,16 @@ def test_line_number_of_a_function_with_signature_split_across_lines():
     """
     results = calculate_complexity(code)
     assert (results[0].line_number == 2)
+
+
+def test_a_function_and_prototype_with_signature_split_across_lines():
+    code = """
+            void a_function(int a, int b,
+                int c);
+            void a_function(int a, int b,
+                int c)
+            {
+            }
+    """
+    results = calculate_complexity(code)
+    assert (results[0].line_number == 4)
