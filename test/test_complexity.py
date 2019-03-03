@@ -592,3 +592,14 @@ def test_line_number_for_a_function_with_different_braces():
     """
     results = calculate_complexity(code)
     assert (results[0].line_number == 2)
+
+
+def test_line_number_is_found_for_function_not_prototype():
+    code = """
+            void a_function(int a);
+            void a_function(int a)
+            {
+            }
+    """
+    results = calculate_complexity(code)
+    assert (results[0].line_number == 3)

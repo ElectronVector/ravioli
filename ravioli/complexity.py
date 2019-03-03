@@ -33,7 +33,8 @@ def __find_line_number(match, code):
     match = match.strip()
     for line_number, line in enumerate(code.splitlines(True), 1):
         if match in line:
-            return line_number
+            if not line.rstrip().endswith(';'):
+                return line_number
     return 0
 
 
