@@ -8,5 +8,7 @@ setup(name='ravioli',
       author_email='matt@electronvector.com',
       license='MIT',
       packages=['ravioli'],
-      scripts=['bin/run.py'],
+      entry_points={
+            'console_scripts': ['ravioli=ravioli.ravioli:main'],
+      },
       zip_safe=False)

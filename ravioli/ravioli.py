@@ -35,7 +35,7 @@ def report_all_functions(filename):
     print("-------------------------------------------------------------------------------")
     for result in results:
         for g in result['globals_vars']:
-            print(result['filename'] + ":" + str(g.line_number) + " " + g.name)
+            print(result['filename'] + ':' + str(g.line_number) + ' ' + g.name)
 
     # Assemble all the functions into one list.
     functions = []
@@ -111,10 +111,11 @@ def find_max_complexity(functions):
     return max_scc
 
 
-parser = argparse.ArgumentParser(description='Calculate complexity metrics for C code, specifically the Koopman '
-                                             'Spaghetti Factor (KSF).')
-parser.add_argument('source', help='the source file or folder for which to calculate metrics')
-parser.add_argument('-f', action='store_true', help='output a complete list of all globals and functions sorted by complexity')
-args = parser.parse_args()
-run(args.source, args.f)
+def main():
+    parser = argparse.ArgumentParser(description='Calculate complexity metrics for C code, specifically the Koopman '
+                                                 'Spaghetti Factor (KSF).')
+    parser.add_argument('source', help='the source file or folder for which to calculate metrics')
+    parser.add_argument('-f', action='store_true', help='output a complete list of all globals and functions sorted by complexity')
+    args = parser.parse_args()
+    run(args.source, args.f)
 
