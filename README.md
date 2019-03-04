@@ -7,6 +7,14 @@ A tool for calculating simple, useful complexity metrics -- notably the [Koopman
 This tool is designed to work especially on embedded software written for compilers with non-standard extensions.
 It works without a compiler or any preprocessing required.
 
+## Installation
+
+Ravioli is built in Python, and the easiest way to install it is with the Python packaging tool `pip`. First install Python and then run `pip`:
+
+```
+$ pip install ravioli
+```
+
 ## Usage
 
 You can run this on a single file and it will compute metrics for it. Pass it a folder however and it will calculate metrics on all c files it finds in there.
