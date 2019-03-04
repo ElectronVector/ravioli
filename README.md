@@ -86,4 +86,5 @@ motobox\Sources\j1979.c:153
 ## To do
 
 - Add better error handling. If the parser has an error, make it easy to find the code that broke it.
+- If a file doesn't parse, don't let it prevent the other modules from being reported. Currently it looks like any parsing failure produces a error showing results.
 - Try it on some other code.
