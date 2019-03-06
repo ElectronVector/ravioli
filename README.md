@@ -83,7 +83,19 @@ motobox\Sources\j1979.c:153
      J1979SendTestMessageCommand                                             10
 ```
 
-## To do
+## Implementation Details
+
+The Koopman Spaghetti Factor is calculated on each module (source code file) like this:
+
+KSF = max(SCC) + (Globals*5) + (SLOC/20)
+
+- **KSF** = The Koopman Spaghetti Factor.
+- **max(SCC)**: The maximum SCC of all of the functions in the module. This is the _strict cyclomatic complexity_ or _extended cyclomatic complexity_. Basically it's a code complexity metric that includes all the booleans in any conditionals as additional complexity.
+- **Globals** = The number of global variables in the module.
+- **SLOC** = The number of lines of non-comment source code lines in the module.
+
+
+## To Do
 
 - Add better error handling. If the parser has an error, make it easy to find the code that broke it.
 - If a file doesn't parse, don't let it prevent the other modules from being reported. Currently it looks like any parsing failure produces a error showing results.
