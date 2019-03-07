@@ -4,6 +4,7 @@ import sys
 import traceback
 from operator import itemgetter
 from pathlib import Path
+from pprint import pprint
 
 from ravioli.complexity import calculate_complexity
 from ravioli.global_finder import find_globals
@@ -17,6 +18,10 @@ def run(filename, full_format):
         report_ksf_for_all_modules(filename)
 
 
+def __file_result_is_valid(result):
+    return result is not None
+
+
 def report_all_functions(filename):
     results = []
     if not os.path.isdir(filename):
@@ -27,7 +32,9 @@ def report_all_functions(filename):
         source_files = list(Path(filename).glob('**/*.c'))
 
         for f in source_files:
-            results.append(run_single_file(str(f)))
+            result = run_single_file(str(f))
+            if __file_result_is_valid(result):
+                results.append(result)
 
     # Print globals.
     print("-------------------------------------------------------------------------------")
@@ -65,7 +72,10 @@ def report_ksf_for_all_modules(filename):
         source_files = list(Path(filename).glob('**/*.c'))
 
         for f in source_files:
-            results.append(run_single_file(str(f)))
+            result = run_single_file(str(f))
+            if __file_result_is_valid(result):
+                # Only save results that are valid.
+                results.append(result)
 
     # Sort by spaghetti factor.
     results = sorted(results, key=itemgetter('ksf'), reverse=True)
@@ -118,4 +128,7 @@ def main():
     parser.add_argument('-f', action='store_true', help='output a complete list of all globals and functions sorted by complexity')
     args = parser.parse_args()
     run(args.source, args.f)
+
+if __name__ == "__main__":
+    main()
 
