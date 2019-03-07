@@ -7,8 +7,10 @@ def strip_comments(code):
     stripped = ""
     in_comment = False
     for i, c in enumerate(code):
-        if code[i] == '/' and code[i + 1] == '*':
-            in_comment = True
+        if i < (len(code) - 1):
+            # Only check if there are enough characters left.
+            if code[i] == '/' and code[i + 1] == '*':
+                in_comment = True
         if not in_comment:
             stripped += code[i]
         elif code[i - 1] == '*' and code[i] == '/':
