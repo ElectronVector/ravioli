@@ -58,7 +58,14 @@ def report_all_functions(filename):
     print("Functions                                                            complexity")
     print("-------------------------------------------------------------------------------")
     for f in functions:
-        print(f['filename'] + ':' + str(f['line_number']))
+        remaining_filename = __print_wrapped_and_indented_string(result['filename'], 78)
+        if remaining_filename == result['filename']:
+            # Nothing was wrapped around.
+            print(remaining_filename + ':' + str(f['line_number']))
+        else:
+            # The filename was wrapped around, so we need to add the indent.
+            print("    ", end='')
+            print(remaining_filename + ':' + str(f['line_number']))
         print('     {name:70} {complexity:3}'.format(name=f['name'], complexity=f['complexity']))
 
 
