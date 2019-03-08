@@ -18,10 +18,6 @@ def run(filename, args):
         report_ksf_for_all_modules(filename, args)
 
 
-def __file_result_is_valid(result):
-    return result is not None
-
-
 def report_all_functions(filename, args):
     results = []
     if not os.path.isdir(filename):
@@ -68,26 +64,6 @@ def report_all_functions(filename, args):
         print("    ", end='')
         remaining_function_name = __print_wrapped_and_indented_string(f['name'], 70)
         print('{name:70} {complexity:3}'.format(name=remaining_function_name, complexity=f['complexity']))
-
-
-def __print_wrapped_and_indented_string(str, width):
-    remaining_str = str
-    space_for_str = width
-    while len(remaining_str) > space_for_str:
-        if len(remaining_str) == len(str):
-            # This is the first line.
-            print(remaining_str[:space_for_str])
-            remaining_str = remaining_str[space_for_str:]
-            space_for_str = width - 4
-        else:
-            print("    ", end='')
-            print(remaining_str[:space_for_str])
-            remaining_str = remaining_str[space_for_str:]
-    if remaining_str != str:
-        # We wrapped some of the string. Print an indent so that the next
-        # print is indented.
-        print("    ", end='')
-    return remaining_str
 
 
 def report_ksf_for_all_modules(filename, args):
@@ -165,6 +141,31 @@ def main():
     run(args.source, args)
 
 
+def __file_result_is_valid(result):
+    return result is not None
+
+
+def __print_wrapped_and_indented_string(str, width):
+    remaining_str = str
+    space_for_str = width
+    while len(remaining_str) > space_for_str:
+        if len(remaining_str) == len(str):
+            # This is the first line.
+            print(remaining_str[:space_for_str])
+            remaining_str = remaining_str[space_for_str:]
+            space_for_str = width - 4
+        else:
+            print("    ", end='')
+            print(remaining_str[:space_for_str])
+            remaining_str = remaining_str[space_for_str:]
+    if remaining_str != str:
+        # We wrapped some of the string. Print an indent so that the next
+        # print is indented.
+        print("    ", end='')
+    return remaining_str
+
+
 if __name__ == "__main__":
     main()
+
 

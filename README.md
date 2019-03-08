@@ -83,6 +83,28 @@ motobox\Sources\j1979.c:153
      J1979SendTestMessageCommand                                             10
 ```
 
+There is also a -t option to only display result at or above a particular threshold. When using the default mode, this is a KSF threshold. When using the `-f` option, this a function complexity threshold.
+
+### Full usage info
+
+```
+> ravioli -h
+usage: ravioli [-h] [-f] [-t [T]] source
+
+Calculate complexity metrics for C code, specifically the Koopman Spaghetti
+Factor (KSF).
+
+positional arguments:
+  source      the source file or folder for which to calculate metrics
+
+optional arguments:
+  -h, --help  show this help message and exit
+  -f          output a complete list of all globals and functions sorted by
+              complexity
+  -t [T]      Only display results at or above this threshold (KSF or function
+              complexity)
+```
+
 ## Implementation Details
 
 The Koopman Spaghetti Factor is calculated on each module (source code file) like this:
