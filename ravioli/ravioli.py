@@ -11,18 +11,18 @@ from ravioli.global_finder import find_globals
 from ravioli.line_counter import count
 
 
-def run(filename, full_format):
-    if full_format:
-        report_all_functions(filename)
+def run(filename, args):
+    if args.f:
+        report_all_functions(filename, args)
     else:
-        report_ksf_for_all_modules(filename)
+        report_ksf_for_all_modules(filename, args)
 
 
 def __file_result_is_valid(result):
     return result is not None
 
 
-def report_all_functions(filename):
+def report_all_functions(filename, args):
     results = []
     if not os.path.isdir(filename):
         # This is a single file.
@@ -53,23 +53,20 @@ def report_all_functions(filename):
     # Sort the functions by complexity.
     functions = sorted(functions, key=itemgetter('complexity'), reverse=True)
 
+    # Only display results above a threshold.
+    functions = [f for f in functions if f['complexity'] >= args.t]
+
     # Print functions.
     print("-------------------------------------------------------------------------------")
     print("Functions                                                            complexity")
     print("-------------------------------------------------------------------------------")
     for f in functions:
         remaining_filename = __print_wrapped_and_indented_string(result['filename'], 78)
-        if remaining_filename != result['filename']:
-            # The filename was wrapped around, so we need to add the indent.
-            print("    ", end='')
         print(remaining_filename + ':' + str(f['line_number']))
 
         # Wrap long function names.
         print("    ", end='')
         remaining_function_name = __print_wrapped_and_indented_string(f['name'], 70)
-        if remaining_function_name != f['name']:
-            # The name was wrapped, so we need to add the indent.
-            print("    ", end='')
         print('{name:70} {complexity:3}'.format(name=remaining_function_name, complexity=f['complexity']))
 
 
@@ -86,10 +83,14 @@ def __print_wrapped_and_indented_string(str, width):
             print("    ", end='')
             print(remaining_str[:space_for_str])
             remaining_str = remaining_str[space_for_str:]
+    if remaining_str != str:
+        # We wrapped some of the string. Print an indent so that the next
+        # print is indented.
+        print("    ", end='')
     return remaining_str
 
 
-def report_ksf_for_all_modules(filename):
+def report_ksf_for_all_modules(filename, args):
     results = []
     if not os.path.isdir(filename):
         # This is a single file.
@@ -107,6 +108,9 @@ def report_ksf_for_all_modules(filename):
     # Sort by spaghetti factor.
     results = sorted(results, key=itemgetter('ksf'), reverse=True)
 
+    # Only display results above a threshold.
+    results = [r for r in results if r['ksf'] >= args.t]
+
     print("-------------------------------------------------------------------------------")
     print("File                                         complexity   globals   lines   ksf")
     print("-------------------------------------------------------------------------------")
@@ -114,7 +118,7 @@ def report_ksf_for_all_modules(filename):
         remaining_filename = __print_wrapped_and_indented_string(result['filename'], 50)
         if remaining_filename != result['filename']:
             # Some of the filename has already been printed.
-            print("    {file:46}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
+            print("{file:46}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
                 file=remaining_filename, complexity=result['max_scc'], globals=len(result['globals_vars']),
                 loc=result['loc'], ksf=result['ksf']))
         else:
@@ -153,9 +157,12 @@ def main():
     parser = argparse.ArgumentParser(description='Calculate complexity metrics for C code, specifically the Koopman '
                                                  'Spaghetti Factor (KSF).')
     parser.add_argument('source', help='the source file or folder for which to calculate metrics')
-    parser.add_argument('-f', action='store_true', help='output a complete list of all globals and functions sorted by complexity')
+    parser.add_argument('-f', action='store_true', help='output a complete list of all globals and functions sorted '
+                                                        'by complexity')
+    parser.add_argument('-t', nargs='?', default=0, type=int, help='Only display results at or above this threshold ('
+                                                                 'KSF or function complexity)')
     args = parser.parse_args()
-    run(args.source, args.f)
+    run(args.source, args)
 
 
 if __name__ == "__main__":
