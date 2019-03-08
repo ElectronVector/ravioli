@@ -119,6 +119,6 @@ KSF = max(SCC) + (Globals*5) + (SLOC/20)
 
 ## To Do
 
-- Add better error handling. If the parser has an error, make it easy to find the code that broke it.
+- Option to show parsing errors.
 - If a file doesn't parse, don't let it prevent the other modules from being reported. Currently it looks like any parsing failure produces a error showing results.
 - Try it on some other code.

@@ -117,8 +117,10 @@ def run_single_file(filename):
             return {'filename': filename, 'functions': functions, 'max_scc': max_scc, 'globals_vars': globals_vars,
                     'loc': loc, 'ksf': ksf}
     except:
-        print('*** unable to parse ({file})'.format(file=filename))
-        traceback.print_exc(file=sys.stdout)
+        # TODO: Capture errors for display with optional parameter.
+        pass
+        # print('*** unable to parse ({file})'.format(file=filename))
+        # traceback.print_exc(file=sys.stdout)
 
 
 def find_max_complexity(functions):
