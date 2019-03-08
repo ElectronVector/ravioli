@@ -62,6 +62,22 @@ def report_all_functions(filename):
         print('     {name:70} {complexity:3}'.format(name=f['name'], complexity=f['complexity']))
 
 
+def __print_wrapped_and_indented_string(str, width):
+    remaining_str = str
+    space_for_str = width
+    while len(remaining_str) > space_for_str:
+        if len(remaining_str) == len(str):
+            # This is the first line.
+            print(remaining_str[:space_for_str])
+            remaining_str = remaining_str[space_for_str:]
+            space_for_str = width - 4
+        else:
+            print("    ", end='')
+            print(remaining_str[:space_for_str])
+            remaining_str = remaining_str[space_for_str:]
+    return remaining_str
+
+
 def report_ksf_for_all_modules(filename):
     results = []
     if not os.path.isdir(filename):
@@ -84,15 +100,16 @@ def report_ksf_for_all_modules(filename):
     print("File                                         complexity   globals   lines   ksf")
     print("-------------------------------------------------------------------------------")
     for result in results:
-        if len(result['filename']) <= 50:
-            print("{file:50}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
-                file=result['filename'], complexity=result['max_scc'], globals=len(result['globals_vars']),
+        remaining_filename = __print_wrapped_and_indented_string(result['filename'], 50)
+        if remaining_filename != result['filename']:
+            # Some of the filename has already been printed.
+            print("    {file:46}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
+                file=remaining_filename, complexity=result['max_scc'], globals=len(result['globals_vars']),
                 loc=result['loc'], ksf=result['ksf']))
         else:
-            print(result['filename'])
-            print("{placeholder:50}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
-                placeholder="", complexity=result['max_scc'], globals=len(result['globals_vars']), loc=result['loc'],
-                ksf=result['ksf']))
+            print("{file:50}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
+                file=remaining_filename, complexity=result['max_scc'], globals=len(result['globals_vars']),
+                loc=result['loc'], ksf=result['ksf']))
 
 
 def run_single_file(filename):
