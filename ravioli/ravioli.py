@@ -57,14 +57,20 @@ def report_all_functions(filename):
     print("-------------------------------------------------------------------------------")
     print("Functions                                                            complexity")
     print("-------------------------------------------------------------------------------")
-    result['filename'] += "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
     for f in functions:
         remaining_filename = __print_wrapped_and_indented_string(result['filename'], 78)
         if remaining_filename != result['filename']:
             # The filename was wrapped around, so we need to add the indent.
             print("    ", end='')
         print(remaining_filename + ':' + str(f['line_number']))
-        print('    {name:70} {complexity:3}'.format(name=f['name'], complexity=f['complexity']))
+
+        # Wrap long function names.
+        print("    ", end='')
+        remaining_function_name = __print_wrapped_and_indented_string(f['name'], 70)
+        if remaining_function_name != f['name']:
+            # The name was wrapped, so we need to add the indent.
+            print("    ", end='')
+        print('{name:70} {complexity:3}'.format(name=remaining_function_name, complexity=f['complexity']))
 
 
 def __print_wrapped_and_indented_string(str, width):
