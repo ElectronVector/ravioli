@@ -58,7 +58,7 @@ def report_all_functions(filename, args):
     print("Functions                                                            complexity")
     print("-------------------------------------------------------------------------------")
     for f in functions:
-        remaining_filename = __print_wrapped_and_indented_string(result['filename'], 78)
+        remaining_filename = __print_wrapped_and_indented_string(f['filename'], 72)
         print(remaining_filename + ':' + str(f['line_number']))
 
         # Wrap long function names.
@@ -104,6 +104,12 @@ def report_ksf_for_all_modules(filename, args):
                 loc=result['loc'], ksf=result['ksf']))
 
 
+class ParsingError:
+    def __init__(self, filename, message):
+        self.filename = filename
+        self.message = message
+
+
 def run_single_file(filename):
     try:
         with open(filename, 'r') as f:
@@ -118,10 +124,7 @@ def run_single_file(filename):
             return {'filename': filename, 'functions': functions, 'max_scc': max_scc, 'globals_vars': globals_vars,
                     'loc': loc, 'ksf': ksf}
     except:
-        # TODO: Capture errors for display with optional parameter.
-        pass
-        # print('*** unable to parse ({file})'.format(file=filename))
-        # traceback.print_exc(file=sys.stdout)
+        return ParsingError(filename, traceback.format_exc())
 
 
 def find_max_complexity(functions):
@@ -138,6 +141,7 @@ def main():
     parser.add_argument('source', help='the source file or folder for which to calculate metrics')
     parser.add_argument('-f', action='store_true', help='output a complete list of all globals and functions sorted '
                                                         'by complexity')
+    parser.add_argument('-e', action='store_true', help='show any errors encountered processing source files')
     parser.add_argument('-t', default=0, type=int, metavar='threshold', help='Only display results at or above this '
                                                                              'threshold (KSF or function complexity)')
     args = parser.parse_args()
@@ -145,7 +149,7 @@ def main():
 
 
 def __file_result_is_valid(result):
-    return result is not None
+    return type(result) is not ParsingError
 
 
 def __print_wrapped_and_indented_string(str, width):

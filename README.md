@@ -123,5 +123,3 @@ KSF = max(SCC) + (Globals*5) + (SLOC/20)
 ## To Do
 
 - Option to show parsing errors.
-- If a file doesn't parse, don't let it prevent the other modules from being reported. Currently it looks like any parsing failure produces a error showing results.
-- Try it on some other code.
