@@ -44,7 +44,8 @@ def report_all_functions(filename, args):
     functions = []
     for result in results:
         for f in result['functions']:
-            functions.append({'filename': result['filename'], 'line_number': f.line_number, 'name': f.name, 'complexity': f.complexity})
+            functions.append({'filename': result['filename'], 'line_number': f.line_number, 'name': f.name,
+                              'complexity': f.complexity})
 
     # Sort the functions by complexity.
     functions = sorted(functions, key=itemgetter('complexity'), reverse=True)
@@ -137,8 +138,8 @@ def main():
     parser.add_argument('source', help='the source file or folder for which to calculate metrics')
     parser.add_argument('-f', action='store_true', help='output a complete list of all globals and functions sorted '
                                                         'by complexity')
-    parser.add_argument('-t', nargs='?', default=0, type=int, help='Only display results at or above this threshold ('
-                                                                 'KSF or function complexity)')
+    parser.add_argument('-t', default=0, type=int, metavar='threshold', help='Only display results at or above this '
+                                                                             'threshold (KSF or function complexity)')
     args = parser.parse_args()
     run(args.source, args)
 
@@ -169,5 +170,3 @@ def __print_wrapped_and_indented_string(str, width):
 
 if __name__ == "__main__":
     main()
-
-

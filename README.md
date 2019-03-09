@@ -89,27 +89,30 @@ There is also a -t option to only display result at or above a particular thresh
 
 ```
 > ravioli -h
-usage: ravioli [-h] [-f] [-t [T]] source
+usage: ravioli.py [-f] [-t threshold] source
 
 Calculate complexity metrics for C code, specifically the Koopman Spaghetti
 Factor (KSF).
 
 positional arguments:
-  source      the source file or folder for which to calculate metrics
+  source        the source file or folder for which to calculate metrics
 
 optional arguments:
-  -h, --help  show this help message and exit
-  -f          output a complete list of all globals and functions sorted by
-              complexity
-  -t [T]      Only display results at or above this threshold (KSF or function
-              complexity)
+  -h, --help    show this help message and exit
+  -f            output a complete list of all globals and functions sorted by
+                complexity
+  -t threshold  Only display results at or above this threshold (KSF or
+                function complexity)
+
 ```
 
 ## Implementation Details
 
 The Koopman Spaghetti Factor is calculated on each module (source code file) like this:
 
+```
 KSF = max(SCC) + (Globals*5) + (SLOC/20)
+```
 
 - **KSF** = The Koopman Spaghetti Factor.
 - **max(SCC)**: The maximum SCC of all of the functions in the module. This is the _strict cyclomatic complexity_ or _extended cyclomatic complexity_. Basically it's a code complexity metric that includes all the booleans in any conditionals as additional complexity.
