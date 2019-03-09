@@ -20,6 +20,7 @@ def run(filename, args):
 
 def report_all_functions(filename, args):
     results = []
+    errors = []
     if not os.path.isdir(filename):
         # This is a single file.
         results.append(run_single_file(filename))
@@ -31,6 +32,8 @@ def report_all_functions(filename, args):
             result = run_single_file(str(f))
             if __file_result_is_valid(result):
                 results.append(result)
+            if type(result) is ParsingError:
+                errors.append(result)
 
     # Print globals.
     print("-------------------------------------------------------------------------------")
@@ -66,9 +69,18 @@ def report_all_functions(filename, args):
         remaining_function_name = __print_wrapped_and_indented_string(f['name'], 70)
         print('{name:70} {complexity:3}'.format(name=remaining_function_name, complexity=f['complexity']))
 
+    if args.e:
+        print("-------------------------------------------------------------------------------")
+        print("Errors                                                                         ")
+        print("-------------------------------------------------------------------------------")
+        for e in errors:
+            print("*** ERROR PROCESSING: " + e.filename)
+            print(e.message)
+
 
 def report_ksf_for_all_modules(filename, args):
     results = []
+    errors = []
     if not os.path.isdir(filename):
         # This is a single file.
         results.append(run_single_file(filename))
@@ -81,6 +93,8 @@ def report_ksf_for_all_modules(filename, args):
             if __file_result_is_valid(result):
                 # Only save results that are valid.
                 results.append(result)
+            if type(result) is ParsingError:
+                errors.append(result)
 
     # Sort by spaghetti factor.
     results = sorted(results, key=itemgetter('ksf'), reverse=True)
@@ -102,6 +116,14 @@ def report_ksf_for_all_modules(filename, args):
             print("{file:50}  {complexity:3}       {globals:3}   {loc:5}   {ksf:3}".format(
                 file=remaining_filename, complexity=result['max_scc'], globals=len(result['globals_vars']),
                 loc=result['loc'], ksf=result['ksf']))
+
+    if args.e:
+        print("-------------------------------------------------------------------------------")
+        print("Errors                                                                         ")
+        print("-------------------------------------------------------------------------------")
+        for e in errors:
+            print("*** ERROR PROCESSING: " + e.filename)
+            print(e.message)
 
 
 class ParsingError:
