@@ -1,10 +1,8 @@
 import argparse
 import os
-import sys
 import traceback
 from operator import itemgetter
 from pathlib import Path
-from pprint import pprint
 
 from ravioli.complexity import calculate_complexity
 from ravioli.global_finder import find_globals
@@ -146,6 +144,7 @@ def run_single_file(filename):
             return {'filename': filename, 'functions': functions, 'max_scc': max_scc, 'globals_vars': globals_vars,
                     'loc': loc, 'ksf': ksf}
     except:
+        # There was an error parsing this file.
         return ParsingError(filename, traceback.format_exc())
 
 
@@ -163,9 +162,9 @@ def main():
     parser.add_argument('source', help='the source file or folder for which to calculate metrics')
     parser.add_argument('-f', action='store_true', help='output a complete list of all globals and functions sorted '
                                                         'by complexity')
-    parser.add_argument('-e', action='store_true', help='show any errors encountered processing source files')
     parser.add_argument('-t', default=0, type=int, metavar='threshold', help='Only display results at or above this '
                                                                              'threshold (KSF or function complexity)')
+    parser.add_argument('-e', action='store_true', help='show any errors encountered processing source files')
     args = parser.parse_args()
     run(args.source, args)
 

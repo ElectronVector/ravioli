@@ -85,11 +85,15 @@ motobox\Sources\j1979.c:153
 
 There is also a -t option to only display result at or above a particular threshold. When using the default mode, this is a KSF threshold. When using the `-f` option, this a function complexity threshold.
 
+### Errors
+
+If an error is encountered when parsing a source file, that file is ignored in the output. To see errors that occur, use the `-e` option.
+
 ### Full usage info
 
 ```
 > ravioli -h
-usage: ravioli.py [-f] [-t threshold] source
+usage: ravioli.py [-h] [-f] [-t threshold] [-e] source
 
 Calculate complexity metrics for C code, specifically the Koopman Spaghetti
 Factor (KSF).
@@ -103,7 +107,7 @@ optional arguments:
                 complexity
   -t threshold  Only display results at or above this threshold (KSF or
                 function complexity)
-
+  -e            show any errors encountered processing source files
 ```
 
 ## Implementation Details
