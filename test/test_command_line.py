@@ -21,6 +21,7 @@ def test_results_for_files():
     assert ("sample.c" in stdout)
     assert ("main.c" in stdout)
 
+
 def test_f_option_includes_globals():
     sys.argv = ["ravioli", ".", "-f"]
     stdout = run_ravioli()
