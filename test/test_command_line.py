@@ -56,6 +56,6 @@ def test_x_option_with_multiple_extensions():
 def test_find_globals_after_initialized_array_in_file():
     sys.argv = ["ravioli", "c/initialized_array.c", "-f"]
     stdout = run_ravioli()
-    assert ("initialized_array.c:1 factoryCode" in stdout)
-    assert ("initialized_array.c:2 test1" in stdout)
-    assert ("initialized_array.c:3 test2" in stdout)
+    assert ("initialized_array.c:5 factoryCode" in stdout)
+    assert ("initialized_array.c:6 test1" in stdout)
+    assert ("initialized_array.c:7 test2" in stdout)
