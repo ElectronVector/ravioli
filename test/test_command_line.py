@@ -35,3 +35,11 @@ def test_x_option_parses_only_c_files():
     assert ("sample.c" in stdout)
     assert ("main.c" in stdout)
     assert ("another_file.cpp" not in stdout)
+
+
+def test_x_option_parses_only_cpp_files():
+    sys.argv = ["ravioli", "-x", "cpp", "."]
+    stdout = run_ravioli()
+    assert ("sample.c" not in stdout)
+    assert ("main.c" not in stdout)
+    assert ("another_file.cpp" in stdout)
