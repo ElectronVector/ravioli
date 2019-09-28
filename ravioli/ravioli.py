@@ -10,6 +10,15 @@ from ravioli.line_counter import count
 
 
 def run(filename, args):
+    errors, results = process_files(args, filename)
+
+    if args.f:
+        report_all_functions(results, errors, args)
+    else:
+        report_ksf_for_all_modules(results, errors, args)
+
+
+def process_files(args, filename):
     results = []
     errors = []
     if not os.path.isdir(filename):
@@ -26,11 +35,7 @@ def run(filename, args):
                 results.append(result)
             if type(result) is ParsingError:
                 errors.append(result)
-
-    if args.f:
-        report_all_functions(results, errors, args)
-    else:
-        report_ksf_for_all_modules(results, errors, args)
+    return errors, results
 
 
 def report_all_functions(results, errors, args):
