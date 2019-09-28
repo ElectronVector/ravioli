@@ -2,3 +2,7 @@
 /.pytest_cache/
 /.idea/
 /motobox/
+build/
+dist/
+**egg-info/
+**/__pycache__/

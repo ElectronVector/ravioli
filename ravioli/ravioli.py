@@ -24,7 +24,7 @@ def report_all_functions(filename, args):
         results.append(run_single_file(filename))
     else:
         # This is a directory. Run on all the files we can find.
-        source_files = list(Path(filename).glob('**/*.c'))
+        source_files = get_source_files(args)
 
         for f in source_files:
             result = run_single_file(str(f))
@@ -84,7 +84,7 @@ def report_ksf_for_all_modules(filename, args):
         results.append(run_single_file(filename))
     else:
         # This is a directory. Run on all the files we can find.
-        source_files = list(Path(filename).glob('**/*.c'))
+        source_files = get_source_files(args)
 
         for f in source_files:
             result = run_single_file(str(f))
@@ -156,6 +156,15 @@ def find_max_complexity(functions):
     return max_scc
 
 
+def get_source_files(args):
+    source_files = list(Path(args.source).glob('**/*.c'))
+    if args.x is not None:
+        source_files = []
+        for ext in args.x:
+            source_files += list(Path(args.source).glob('**/*.' + str(ext)))
+    return source_files
+
+
 def main():
     parser = argparse.ArgumentParser(description='Calculate complexity metrics for C code, specifically the Koopman '
                                                  'Spaghetti Factor (KSF).')
@@ -165,6 +174,8 @@ def main():
     parser.add_argument('-t', default=0, type=int, metavar='threshold', help='Only display results at or above this '
                                                                              'threshold (KSF or function complexity)')
     parser.add_argument('-e', action='store_true', help='show any errors encountered processing source files')
+    parser.add_argument('-x', action='append', required=False, help='File extensions to include in the analysis (-x c -x cc -x h ...). If omitted, only .c files are analyzed')
+
     args = parser.parse_args()
     run(args.source, args)
 
