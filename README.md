@@ -110,6 +110,10 @@ optional arguments:
   -e            show any errors encountered processing source files
 ```
 
+### File extensions
+
+By default ravioli runs on c files, but you can use the `-x` option to select different extensions.
+
 ## Implementation Details
 
 The Koopman Spaghetti Factor is calculated on each module (source code file) like this:
