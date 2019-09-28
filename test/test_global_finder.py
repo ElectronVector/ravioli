@@ -268,3 +268,13 @@ def test_find_globals_after_initialized_array():
     assert ('factoryCode' in extract_names(results))
     assert ('test1' in extract_names(results))
     assert ('test2' in extract_names(results))
+
+
+def test_find_initialized_array_after_const_array():
+
+    code = """
+        const u8 some_const_array[4] = {1,2,3,4};
+        u8 factoryCode[4] = {0,1,1,2};
+        """
+    results = find_globals(code)
+    assert ('factoryCode' in extract_names(results))
