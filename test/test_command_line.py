@@ -27,3 +27,11 @@ def test_f_option_includes_globals():
     stdout = run_ravioli()
     assert ("sample.c:2 global_variable" in stdout)
     assert ("sample.c:3 another_global" in stdout)
+
+
+def test_x_option_parses_only_c_files():
+    sys.argv = ["ravioli", "-x", "c", "."]
+    stdout = run_ravioli()
+    assert ("sample.c" in stdout)
+    assert ("main.c" in stdout)
+    assert ("another_file.cpp" not in stdout)
