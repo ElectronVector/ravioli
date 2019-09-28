@@ -10,13 +10,15 @@ from ravioli.line_counter import count
 
 
 def run(filename, args):
+    errors, results = process_files(args, filename)
+
     if args.f:
-        report_all_functions(filename, args)
+        report_all_functions(results, errors, args)
     else:
-        report_ksf_for_all_modules(filename, args)
+        report_ksf_for_all_modules(results, errors, args)
 
 
-def report_all_functions(filename, args):
+def process_files(args, filename):
     results = []
     errors = []
     if not os.path.isdir(filename):
@@ -29,9 +31,14 @@ def report_all_functions(filename, args):
         for f in source_files:
             result = run_single_file(str(f))
             if __file_result_is_valid(result):
+                # Only save results that are valid.
                 results.append(result)
             if type(result) is ParsingError:
                 errors.append(result)
+    return errors, results
+
+
+def report_all_functions(results, errors, args):
 
     # Print globals.
     print("-------------------------------------------------------------------------------")
@@ -76,23 +83,7 @@ def report_all_functions(filename, args):
             print(e.message)
 
 
-def report_ksf_for_all_modules(filename, args):
-    results = []
-    errors = []
-    if not os.path.isdir(filename):
-        # This is a single file.
-        results.append(run_single_file(filename))
-    else:
-        # This is a directory. Run on all the files we can find.
-        source_files = get_source_files(args)
-
-        for f in source_files:
-            result = run_single_file(str(f))
-            if __file_result_is_valid(result):
-                # Only save results that are valid.
-                results.append(result)
-            if type(result) is ParsingError:
-                errors.append(result)
+def report_ksf_for_all_modules(results, errors, args):
 
     # Sort by spaghetti factor.
     results = sorted(results, key=itemgetter('ksf'), reverse=True)
