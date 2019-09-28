@@ -256,3 +256,15 @@ def test_line_number_with_a_declaration_as_part_of_a_definition():
     results = find_globals(code)
     assert (4 == results[0].line_number)
 
+
+def test_find_globals_after_initialized_array():
+    code = """
+        u8 factoryCode[4] = {0,1,1,2};
+        u64 test1;
+        u64 test2;
+        """
+    results = find_globals(code)
+
+    assert ('factoryCode' in extract_names(results))
+    assert ('test1' in extract_names(results))
+    assert ('test2' in extract_names(results))
