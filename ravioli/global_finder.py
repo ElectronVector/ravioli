@@ -11,6 +11,8 @@ def find_globals(code):
     code = strip_comments(code)
     # Remove #ifs, #elifs, #ifdefs
     code = __strip_preprocessor_directives(code)
+    if "some_const_array" in code:
+        print(code)
     # Remove anything between brackets.
     code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
     # Find all the globals.
