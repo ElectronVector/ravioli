@@ -14,7 +14,7 @@ def find_globals(code):
     if "some_const_array" in code:
         print(code)
     # Remove anything between brackets.
-    code = re.sub(r'{.*}', '{}', code, flags=re.DOTALL)
+    code = re.sub(r'{[^}]*}', '{}', code, flags=re.DOTALL)
     # Find all the globals.
     global_matcher = re.compile(r'([\w\t\f\v {}]+)\s+(\w+)[\d\[\]]*(?:;|\s*=)')
     for m in global_matcher.finditer(code):
@@ -46,3 +46,5 @@ def __strip_preprocessor_directives(code):
     non_pound_defines = [line for line in code_lines if not line.lstrip().startswith("#")]
     code = "".join(non_pound_defines)
     return code
+
+
