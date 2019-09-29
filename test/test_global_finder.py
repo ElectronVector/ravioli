@@ -279,3 +279,21 @@ def test_find_initialized_array_after_const_array():
     results = find_globals(code)
     assert ('array1' in extract_names(results))
     assert ('array2' in extract_names(results))
+
+
+def test_handle_array_of_structs_initialization():
+
+    code = """
+        u8 array1[4] = {1,2,3,4};
+        data_t array_of_structs[]={
+            { .name = "Peter" },
+            { .name = "James" },
+            { .name = "John" },
+            { .name = "Mike" }
+        };
+        u8 array2[4] = {5,6,7,8};
+        """
+    results = find_globals(code)
+    assert ('array1' in extract_names(results))
+    assert ('array2' in extract_names(results))
+    assert ('array_of_structs' in extract_names(results))
