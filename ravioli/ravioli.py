@@ -21,7 +21,7 @@ def run(filename, args):
 def process_files(args, filename):
     results = []
     errors = []
-    if not os.path.isdir(filename) and not args.i
+    if not os.path.isdir(filename) and not args.i:
         # This is a single file.
         results.append(run_single_file(filename))
     else:
