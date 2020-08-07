@@ -21,12 +21,15 @@ def run(filename, args):
 def process_files(args, filename):
     results = []
     errors = []
-    if not os.path.isdir(filename):
+    if not os.path.isdir(filename) and not args.i:
         # This is a single file.
         results.append(run_single_file(filename))
     else:
-        # This is a directory. Run on all the files we can find.
-        source_files = get_source_files(args)
+        if args.i:
+            source_files = read_source_files_from_file(args)
+        else:
+            # This is a directory. Run on all the files we can find.
+            source_files = get_source_files(args)
 
         for f in source_files:
             result = run_single_file(str(f))
@@ -146,6 +149,12 @@ def find_max_complexity(functions):
         max_scc = 0
     return max_scc
 
+def read_source_files_from_file(args):
+    with open(args.source,'r') as fh:
+        source_files = []
+        for line in fh:
+            source_files.append(line.strip('\n'))
+        return source_files
 
 def get_source_files(args):
     source_files = list(Path(args.source).glob('**/*.c'))
@@ -166,6 +175,8 @@ def main():
                                                                              'threshold (KSF or function complexity)')
     parser.add_argument('-e', action='store_true', help='show any errors encountered processing source files')
     parser.add_argument('-x', action='append', required=False, help='File extensions to include in the analysis (-x c -x cc -x h ...). If omitted, only .c files are analyzed')
+    parser.add_argument('-i', action='store_true', help='File with list of files that should be processed')
+
 
     args = parser.parse_args()
     run(args.source, args)
