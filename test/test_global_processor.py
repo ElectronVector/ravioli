@@ -17,6 +17,7 @@ def test_find_two_variable_declarations():
     variables = find_variables(code)
     assert ("a_variable" and "another_variable" in variables)
 
+
 def test_find_a_variable_declaration_with_assignment():
     code = """
             int a_variable = 0;
