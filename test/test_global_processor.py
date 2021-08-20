@@ -84,6 +84,22 @@ def test_do_not_find_nondeclaration_assignment_with_math():
     assert ("a" not in variables)
 
 
+def test_find_multiple_declaration_statements_on_same_line():
+    code = """
+            int a; int b;
+            """
+    variables = find_variables(code)
+    assert ("a" and "b" in variables)
+
+
+def test_find_multiple_declaration_statements_with_assignments_on_same_line():
+    code = """
+            int a = 0; int b = 0;
+            """
+    variables = find_variables(code)
+    assert ("a" and "b" in variables)
+
+
 def test_do_not_find_nondeclaration_assignment_from_function_call():
     code = """
             a = function_call(var);
