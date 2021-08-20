@@ -1,3 +1,4 @@
+
 from pyparsing import (
     Word,
     alphas,
@@ -7,14 +8,16 @@ from pyparsing import (
     Optional,
     delimitedList,
     Group,
-    Keyword, Char,
+    Keyword, Char, SkipTo,
 )
 
 
 def find_variables(code):
-    type = Word(alphanums + "_")
+    type_ = Word(alphanums + "_")
     name = Word(alphas, alphanums + "_")
-    variable_declaration = type("type") + delimitedList(name("name")) + oneOf("; =")
+    variable_declaration = type_("type")\
+        + delimitedList(name("name") + Optional(Char("=") + SkipTo(oneOf(", ;"))))\
+        + oneOf("; =")
     variables = []
     for var, start, end in variable_declaration.scanString(code):
         variables.append(var.name)

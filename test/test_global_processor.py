@@ -58,4 +58,11 @@ def test_find_multiple_variables_in_the_same_line():
     assert ("a" and "b" in variables)
 
 
+def test_find_multiple_variables_with_assignments_in_the_same_line():
+    code = """
+                int a = 0, b = 0;
+                """
+    variables = find_variables(code)
+    assert ("a" and "b" in variables)
+
 # pointers, arrays, structs, unions
