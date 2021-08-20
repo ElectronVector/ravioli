@@ -33,9 +33,18 @@ def test_find_a_const_variable():
     variables = find_variables(code)
     assert("const_variable" in variables)
 
+
 def test_find_a_static_variable():
     code = """
             static int static_variable = 0;
             """
     variables = find_variables(code)
     assert("static_variable" in variables)
+
+
+def test_find_a_variable_with_assignement_math():
+    code = """
+            int a_variable = another_variable + 1;
+            """
+    variables = find_variables(code)
+    assert("a_variable" in variables)
