@@ -110,6 +110,18 @@ def test_do_not_find_nondeclaration_assignment_from_function_call():
 
 def test_do_not_find_struct_members():
     code = """
+            struct my_struct {
+                int a;
+                int b;
+                int c;
+            };
+            """
+    variables = find_variables(code)
+    assert ("a" and "b" and "c" not in variables)
+
+
+def test_do_not_find_typedef_struct_members():
+    code = """
             typedef struct {
                 int a;
                 int b;
