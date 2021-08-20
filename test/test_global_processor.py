@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from ravioli.global_processor import find_variables
 
 
@@ -88,5 +90,11 @@ def test_do_not_find_nondeclaration_assignment_from_function_call():
             """
     variables = find_variables(code)
     assert ("a" not in variables)
+
+
+# def test_file():
+#     code = Path('c/sample.c').read_text()
+#     print(code)
+#     print(find_variables(code))
 
 # pointers, arrays, structs, unions
