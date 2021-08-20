@@ -15,8 +15,9 @@ from pyparsing import (
 def find_variables(code):
     type_ = Word(alphanums + "_")
     name = Word(alphas, alphanums + "_")
+    assignment = Optional(Char("=") + SkipTo(oneOf(", ;")))
     variable_declaration = type_("type")\
-        + delimitedList(name("name") + Optional(Char("=") + SkipTo(oneOf(", ;"))))\
+        + delimitedList(name("name") + assignment)\
         + oneOf("; =")
     variables = []
     for var, start, end in variable_declaration.scanString(code):
