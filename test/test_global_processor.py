@@ -65,4 +65,13 @@ def test_find_multiple_variables_with_assignments_in_the_same_line():
     variables = find_variables(code)
     assert ("a" and "b" in variables)
 
+
+def test_do_not_find_nondeclaration_assignment():
+    code = """
+            a = 0;
+            """
+    variables = find_variables(code)
+    assert ("a" not in variables)
+
+
 # pointers, arrays, structs, unions
