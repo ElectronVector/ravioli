@@ -18,7 +18,7 @@ def find_variables(code):
     assignment = Optional(Char("=") + SkipTo(oneOf(", ;")))
     variable_declaration = type_("type")\
         + delimitedList(name("name") + assignment)\
-        + oneOf("; =")
+        + ";"
     variables = []
     for var, start, end in variable_declaration.scanString(code):
         variables.append(var.name)
