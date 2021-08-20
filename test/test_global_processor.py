@@ -74,4 +74,19 @@ def test_do_not_find_nondeclaration_assignment():
     assert ("a" not in variables)
 
 
+def test_do_not_find_nondeclaration_assignment_with_math():
+    code = """
+            a = b + 6;
+            """
+    variables = find_variables(code)
+    assert ("a" not in variables)
+
+
+def test_do_not_find_nondeclaration_assignment_from_function_call():
+    code = """
+            a = function_call(var);
+            """
+    variables = find_variables(code)
+    assert ("a" not in variables)
+
 # pointers, arrays, structs, unions
