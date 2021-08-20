@@ -24,3 +24,18 @@ def test_find_a_variable_declaration_with_assignment():
             """
     variables = find_variables(code)
     assert ("a_variable" in variables)
+
+
+def test_find_a_const_variable():
+    code = """
+            const int const_variable = 0;
+            """
+    variables = find_variables(code)
+    assert("const_variable" in variables)
+
+def test_find_a_static_variable():
+    code = """
+            static int static_variable = 0;
+            """
+    variables = find_variables(code)
+    assert("static_variable" in variables)
