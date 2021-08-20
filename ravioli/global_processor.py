@@ -17,10 +17,13 @@ def find_variables(code):
     type_ = Word(alphanums + "_")
     name = Word(alphas, alphanums + "_")
     assignment = Optional(Char("=") + SkipTo(oneOf(", ;")))
+    block = nestedExpr("{", "}")
+
     variable_declaration = type_("type")\
         + delimitedList(name("name") + assignment)\
         + ";"
-    struct_definition = Keyword("struct") + Optional(name) + nestedExpr("{", "}") + Optional(type_) + ";"
+    struct_definition = Keyword("struct") + Optional(name) + block + Optional(type_) + ";"
+
     variables = []
     for var, start, end in (variable_declaration | struct_definition).scanString(code):
         variables.append(var.name)
