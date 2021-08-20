@@ -149,4 +149,5 @@ def test_do_not_find_struct_typedef_name():
 #     print(code)
 #     print(find_variables(code))
 
+# Todo: struct declarations with definitions
 # pointers, arrays, structs, unions
