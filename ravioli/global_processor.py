@@ -20,7 +20,7 @@ def find_variables(code):
     variable_declaration = type_("type")\
         + delimitedList(name("name") + assignment)\
         + ";"
-    struct_definition = Keyword("struct") + nestedExpr("{", "}") + name("name")
+    struct_definition = Keyword("struct") + nestedExpr("{", "}") + type_
     variables = []
     for var, start, end in (variable_declaration | struct_definition).scanString(code):
         variables.append(var.name)

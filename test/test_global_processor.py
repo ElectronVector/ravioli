@@ -120,6 +120,18 @@ def test_do_not_find_struct_members():
     assert ("a" and "b" and "c" not in variables)
 
 
+def test_do_not_find_struct_typedef_name():
+    code = """
+            typedef struct {
+                int a;
+                int b;
+                int c;
+            } my_struct_t;
+            """
+    variables = find_variables(code)
+    assert ("my_struct_t" not in variables)
+
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
