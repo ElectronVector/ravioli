@@ -192,10 +192,19 @@ def test_signed_typedefs_not_found():
     found = find_variables(code)
     assert (Variable("my_int_t") not in found)
 
+
+def test_array_found():
+    code = """
+            char a[10];
+            """
+    found = find_variables(code)
+    assert (Variable("a") in found)
+
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
 #     print(find_variables(code))
 
 # Todo: struct declarations with definitions
-# pointers, arrays, unions, typedef
+# pointers, arrays, unions,

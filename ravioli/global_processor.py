@@ -23,6 +23,7 @@ def find_variables(code):
 
     variable_declaration = type_("type")\
         + delimitedList(name("name") + assignment)\
+        + Optional("[" + Word(alphanums + "_") + "]")\
         + ";"
 
     struct = Keyword("struct") + Optional(name) + block
