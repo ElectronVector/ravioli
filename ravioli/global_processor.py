@@ -8,7 +8,7 @@ from pyparsing import (
     Optional,
     delimitedList,
     Group,
-    Keyword, Char, SkipTo, nestedExpr,
+    Keyword, Char, SkipTo, nestedExpr, MatchFirst,
 )
 
 
@@ -24,8 +24,13 @@ def find_variables(code):
         + ";"
     struct_definition = Keyword("struct") + Optional(name) + block + Optional(type_) + ";"
 
+    statements = [
+        variable_declaration,
+        struct_definition
+    ]
+
     variables = []
-    for var, start, end in (variable_declaration | struct_definition).scanString(code):
+    for var, start, end in MatchFirst(statements).scanString(code):
         variables.append(var.name)
     print(variables)
     return variables
