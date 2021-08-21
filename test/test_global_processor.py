@@ -208,6 +208,15 @@ def test_array_with_non_numeric_size_arg_found():
     found = find_variables(code)
     assert (Variable("a") in found)
 
+
+def test_array_with_initializer_found():
+    code = """
+            char a[MAX_SIZE] = {1, 2, 3};
+            """
+    found = find_variables(code)
+    assert (Variable("a") in found)
+
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
