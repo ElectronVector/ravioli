@@ -185,6 +185,13 @@ def test_unsigned_typedefs_not_found():
     assert (Variable("my_int_t") not in found)
 
 
+def test_signed_typedefs_not_found():
+    code = """
+            typedef signed int my_int_t;
+            """
+    found = find_variables(code)
+    assert (Variable("my_int_t") not in found)
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
