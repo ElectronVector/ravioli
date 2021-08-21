@@ -169,10 +169,17 @@ def test_find_struct_delcared_with_defintion():
     assert (variables == [Variable("a")])
 
 
+def test_typedefs_not_found():
+    code = """
+            typedef int my_int_t;
+            """
+    found = find_variables(code)
+    assert (Variable("my_int_t") not in found)
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
 #     print(find_variables(code))
 
 # Todo: struct declarations with definitions
-# pointers, arrays, structs, unions
+# pointers, arrays, unions, typedef
