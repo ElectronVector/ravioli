@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from ravioli.global_processor import find_variables
+from ravioli.variable import Variable
 
 
 def test_find_a_variable_declaration():
@@ -8,7 +9,7 @@ def test_find_a_variable_declaration():
             int a_variable;
             """
     variables = find_variables(code)
-    assert ("a_variable" in variables)
+    assert (Variable("a_variable") in variables)
 
 
 def test_find_two_variable_declarations():
@@ -17,7 +18,7 @@ def test_find_two_variable_declarations():
             int another_variable;
             """
     variables = find_variables(code)
-    assert ("a_variable" and "another_variable" in variables)
+    assert (Variable("a_variable") and Variable("another_variable") in variables)
 
 
 def test_find_a_variable_declaration_with_assignment():
@@ -25,7 +26,7 @@ def test_find_a_variable_declaration_with_assignment():
             int a_variable = 0;
             """
     variables = find_variables(code)
-    assert ("a_variable" in variables)
+    assert (Variable("a_variable") in variables)
 
 
 def test_find_a_const_variable():
@@ -33,7 +34,7 @@ def test_find_a_const_variable():
             const int const_variable = 0;
             """
     variables = find_variables(code)
-    assert("const_variable" in variables)
+    assert(Variable("const_variable") in variables)
 
 
 def test_find_a_static_variable():
@@ -41,7 +42,7 @@ def test_find_a_static_variable():
             static int static_variable = 0;
             """
     variables = find_variables(code)
-    assert("static_variable" in variables)
+    assert(Variable("static_variable") in variables)
 
 
 def test_find_a_variable_with_assignement_math():
@@ -49,7 +50,7 @@ def test_find_a_variable_with_assignement_math():
             int a_variable = another_variable + 1;
             """
     variables = find_variables(code)
-    assert("a_variable" in variables)
+    assert(Variable("a_variable") in variables)
 
 
 def test_find_multiple_variables_in_the_same_line():
@@ -57,7 +58,7 @@ def test_find_multiple_variables_in_the_same_line():
                 int a, b;
                 """
     variables = find_variables(code)
-    assert ("a" and "b" in variables)
+    assert (Variable("a") and Variable("b") in variables)
 
 
 def test_find_multiple_variables_with_assignments_in_the_same_line():
@@ -65,7 +66,7 @@ def test_find_multiple_variables_with_assignments_in_the_same_line():
                 int a = 0, b = 0;
                 """
     variables = find_variables(code)
-    assert ("a" and "b" in variables)
+    assert (Variable("a") and Variable("b") in variables)
 
 
 def test_do_not_find_nondeclaration_assignment():
@@ -73,7 +74,7 @@ def test_do_not_find_nondeclaration_assignment():
             a = 0;
             """
     variables = find_variables(code)
-    assert ("a" not in variables)
+    assert (Variable("a") not in variables)
 
 
 def test_do_not_find_nondeclaration_assignment_with_math():
@@ -81,7 +82,7 @@ def test_do_not_find_nondeclaration_assignment_with_math():
             a = b + 6;
             """
     variables = find_variables(code)
-    assert ("a" not in variables)
+    assert (Variable("a") not in variables)
 
 
 def test_find_multiple_declaration_statements_on_same_line():
@@ -89,7 +90,7 @@ def test_find_multiple_declaration_statements_on_same_line():
             int a; int b;
             """
     variables = find_variables(code)
-    assert ("a" and "b" in variables)
+    assert (Variable("a") and Variable("b") in variables)
 
 
 def test_find_multiple_declaration_statements_with_assignments_on_same_line():
@@ -97,7 +98,7 @@ def test_find_multiple_declaration_statements_with_assignments_on_same_line():
             int a = 0; int b = 0;
             """
     variables = find_variables(code)
-    assert ("a" and "b" in variables)
+    assert (Variable("a") and Variable("b") in variables)
 
 
 def test_do_not_find_nondeclaration_assignment_from_function_call():
@@ -105,7 +106,7 @@ def test_do_not_find_nondeclaration_assignment_from_function_call():
             a = function_call(var);
             """
     variables = find_variables(code)
-    assert ("a" not in variables)
+    assert (Variable("a") not in variables)
 
 
 def test_do_not_find_struct_members():
@@ -117,7 +118,7 @@ def test_do_not_find_struct_members():
             };
             """
     variables = find_variables(code)
-    assert ("a" and "b" and "c" not in variables)
+    assert (Variable("a") and Variable("b") and Variable("c") not in variables)
 
 
 def test_do_not_find_typedef_struct_members():
@@ -129,7 +130,7 @@ def test_do_not_find_typedef_struct_members():
             } my_struct_t;
             """
     variables = find_variables(code)
-    assert ("a" and "b" and "c" not in variables)
+    assert (Variable("a") and Variable("b") and Variable("c") not in variables)
 
 
 def test_do_not_find_struct_typedef_name():
@@ -141,7 +142,7 @@ def test_do_not_find_struct_typedef_name():
             } my_struct_t;
             """
     variables = find_variables(code)
-    assert ("my_struct_t" not in variables)
+    assert (Variable("my_struct_t") not in variables)
 
 
 def test_do_not_find_named_struct_with_typedef_name():
@@ -153,7 +154,7 @@ def test_do_not_find_named_struct_with_typedef_name():
             } my_struct_t;
             """
     variables = find_variables(code)
-    assert ("my_struct" and "my_struct_t" not in variables)
+    assert (Variable("my_struct") and Variable("my_struct_t") not in variables)
 
 
 def test_find_struct_delcared_with_defintion():
@@ -165,7 +166,7 @@ def test_find_struct_delcared_with_defintion():
             } a;
             """
     variables = find_variables(code)
-    assert (variables == ["a"])
+    assert (variables == [Variable("a")])
 
 
 # def test_file():

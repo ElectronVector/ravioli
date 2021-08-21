@@ -11,6 +11,8 @@ from pyparsing import (
     Keyword, Char, SkipTo, nestedExpr, MatchFirst,
 )
 
+from ravioli.variable import Variable
+
 
 def find_variables(code):
 
@@ -35,6 +37,6 @@ def find_variables(code):
 
     variables = []
     for var, start, end in MatchFirst(statements).scanString(code):
-        variables.append(var.name)
+        variables.append(Variable(var.name))
     print(variables)
     return variables
