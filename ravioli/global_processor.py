@@ -29,7 +29,7 @@ def find_variables(code):
     struct_definition = struct + Optional(name("name")) + ";"
     struct_typedef = Keyword("typedef") + struct + Optional(type_) + ";"
 
-    typedef = Keyword("typedef") + type_ + name + ";"
+    typedef = Keyword("typedef") + Optional(Keyword("unsigned")) + type_ + name + ";"
 
     statements = [
         typedef,
