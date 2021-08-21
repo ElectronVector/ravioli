@@ -156,6 +156,17 @@ def test_do_not_find_named_struct_with_typedef_name():
     assert ("my_struct" and "my_struct_t" not in variables)
 
 
+def test_find_struct_delcared_with_defintion():
+    code = """
+            struct my_struct {
+                int a;
+                int b;
+                int c;
+            } a;
+            """
+    variables = find_variables(code)
+    assert (variables == ["a"])
+
 
 # def test_file():
 #     code = Path('c/sample.c').read_text()

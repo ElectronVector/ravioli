@@ -22,11 +22,13 @@ def find_variables(code):
     variable_declaration = type_("type")\
         + delimitedList(name("name") + assignment)\
         + ";"
-    struct_definition = Keyword("struct") + Optional(name) + block + Optional(type_) + ";"
+    struct_typedef = Keyword("typedef") + Keyword("struct") + Optional(name) + block + Optional(type_) + ";"
+    struct_definition = Keyword("struct") + Optional(name) + block + Optional(name("name")) + ";"
 
     statements = [
         variable_declaration,
-        struct_definition
+        struct_definition,
+        struct_typedef
     ]
 
     variables = []
