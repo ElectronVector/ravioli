@@ -144,7 +144,7 @@ def test_do_not_find_struct_typedef_name():
     assert ("my_struct_t" not in variables)
 
 
-def test_do_not_find_names_struct_with_typedef_name():
+def test_do_not_find_named_struct_with_typedef_name():
     code = """
             typedef struct my_struct {
                 int a;
@@ -154,6 +154,8 @@ def test_do_not_find_names_struct_with_typedef_name():
             """
     variables = find_variables(code)
     assert ("my_struct" and "my_struct_t" not in variables)
+
+
 
 # def test_file():
 #     code = Path('c/sample.c').read_text()
