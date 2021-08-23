@@ -20,7 +20,7 @@ def find_variables(code):
     identifier = Word(alphas, alphanums + "_")
     assignment = Char("=") + Word(printables + " ", excludeChars=",;")
     block = nestedExpr("{", "}")
-    array = "[" + Word(alphanums + "_") + "]"
+    array = "[" + Optional(Word(alphanums + "_")) + "]"
 
     decl_single = identifier("name") + Optional(assignment)
     decl_array = identifier("name") + array + Optional("=" + block)

@@ -217,6 +217,13 @@ def test_array_with_initializer_found():
     assert (Variable("a") in found)
 
 
+def test_unsized_array_with_initializer_found():
+    code = """
+            char a[] = {1, 2, 3};
+            """
+    found = find_variables(code)
+    assert (Variable("a") in found)
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
