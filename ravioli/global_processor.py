@@ -8,7 +8,7 @@ from pyparsing import (
     Optional,
     delimitedList,
     Group,
-    Keyword, Char, SkipTo, nestedExpr, MatchFirst,
+    Keyword, Char, SkipTo, nestedExpr, MatchFirst, printables,
 )
 
 from ravioli.variable import Variable
@@ -18,12 +18,17 @@ def find_variables(code):
 
     type_ = Word(alphanums + "_")
     name = Word(alphas, alphanums + "_")
-    assignment = Char("=") + SkipTo(oneOf(", ;"))
+    assignment = Char("=") + Word(printables + " ", excludeChars=",;")
     block = nestedExpr("{", "}")
     array = "[" + Word(alphanums + "_") + "]"
 
+    decl_single = name("name")
+    decl_single_with_assignment = name("name") + assignment
+    decl_array = name("name") + array
+    decl_array_with_assignment = name("name") + array + "=" + block
+
     variable_declaration = type_("type")\
-        + delimitedList(name("name") + Optional(array) + Optional(assignment))\
+        + delimitedList(decl_array_with_assignment | decl_array | decl_single_with_assignment | decl_single)\
         + ";"
 
     struct = Keyword("struct") + Optional(name) + block

@@ -6,4 +6,4 @@ class Variable:
         return self.name == other.name
 
     def __repr__(self):
-        return self.name
+        return f'Variable("{self.name}")'
