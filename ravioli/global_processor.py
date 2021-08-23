@@ -22,13 +22,12 @@ def find_variables(code):
     block = nestedExpr("{", "}")
     array = "[" + Word(alphanums + "_") + "]"
 
-    decl_single = name("name")
-    decl_single_with_assignment = name("name") + assignment
+    decl_single = name("name") + Optional(assignment)
     decl_array = name("name") + array
     decl_array_with_assignment = name("name") + array + "=" + block
 
     variable_declaration = type_("type")\
-        + delimitedList(decl_array_with_assignment | decl_array | decl_single_with_assignment | decl_single)\
+        + delimitedList(decl_array_with_assignment | decl_array | decl_single)\
         + ";"
 
     struct = Keyword("struct") + Optional(name) + block
