@@ -17,25 +17,25 @@ from ravioli.variable import Variable
 def find_variables(code):
 
     type_ = Word(alphanums + "_")
-    name = Word(alphas, alphanums + "_")
+    indentifier = Word(alphas, alphanums + "_")
     assignment = Char("=") + Word(printables + " ", excludeChars=",;")
     block = nestedExpr("{", "}")
     array = "[" + Word(alphanums + "_") + "]"
 
-    decl_single = name("name") + Optional(assignment)
-    decl_array = name("name") + array
-    decl_array_with_assignment = name("name") + array + "=" + block
+    decl_single = indentifier("name") + Optional(assignment)
+    decl_array = indentifier("name") + array
+    decl_array_with_assignment = indentifier("name") + array + "=" + block
 
     variable_declaration = type_("type")\
         + delimitedList(decl_array_with_assignment | decl_array | decl_single)\
         + ";"
 
-    struct = Keyword("struct") + Optional(name) + block
-    struct_definition = struct + Optional(name("name")) + ";"
+    struct = Keyword("struct") + Optional(indentifier) + block
+    struct_definition = struct + Optional(indentifier("name")) + ";"
     struct_typedef = Keyword("typedef") + struct + Optional(type_) + ";"
 
     sign = Keyword("unsigned") | Keyword("signed")
-    typedef = Keyword("typedef") + Optional(sign) + type_ + name + ";"
+    typedef = Keyword("typedef") + Optional(sign) + type_ + indentifier + ";"
 
     statements = [
         typedef,
