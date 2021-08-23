@@ -291,10 +291,22 @@ def test_mutliple_arrays_at_once_with_initializer():
     found = find_variables(code)
     assert (Variable("a") and Variable("b") in found)
 
+def test_find_line_number():
+    code = """
+              int a;
+              int b;
+            """
+    found = find_variables(code)
+    assert (next(i for i in found if i == Variable("a")).line_number == 2)
+    assert (next(i for i in found if i == Variable("b")).line_number == 3)
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
 #     print(find_variables(code))
 
-# Todo: struct declarations with definitions
-# pointers, arrays, unions, enum, typedef arrays
+# Todo:
+#   pointers
+#   unions
+#   enum
+#   capture type, line number

@@ -8,6 +8,7 @@ from pyparsing import (
     Optional,
     delimitedList,
     Group,
+    lineno,
     Keyword, Char, SkipTo, nestedExpr, MatchFirst, printables,
 )
 
@@ -42,6 +43,6 @@ def find_variables(code):
 
     variables = []
     for var, start, end in MatchFirst(statements).scanString(code):
-        variables.append(Variable(var.name))
+        variables.append(Variable(var.name, line_number=lineno(start, code)))
     print(variables)
     return variables
