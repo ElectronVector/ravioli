@@ -30,7 +30,7 @@ def find_variables(code):
         + delimitedList(decl_array | decl_single)\
         + ";"
 
-    struct_definition = Keyword("struct") + Optional(identifier) + block + Optional(identifier("name")) + ";"
+    struct_definition = Keyword("struct") + Optional(identifier) + block + Optional(identifier("name")) + Optional(array) + ";"
     struct_typedef = Keyword("typedef") + Keyword("struct") + Optional(identifier) + block + identifier + ";"
 
     typedef = Keyword("typedef") + type_ + identifier + Optional(array) + ";"

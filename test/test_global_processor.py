@@ -158,6 +158,30 @@ def test_find_anonymous_struct_declaration():
     assert (Variable("my_struct") in variables)
 
 
+def test_find_anonymous_struct_array_declaration():
+    code = """
+            struct {
+                int a;
+                int b;
+                int c;
+            } my_struct[10];
+            """
+    variables = find_variables(code)
+    assert (Variable("my_struct") in variables)
+
+
+def test_find_named_struct_array_declaration():
+    code = """
+            struct a_struct {
+                int a;
+                int b;
+                int c;
+            } my_struct[10];
+            """
+    variables = find_variables(code)
+    assert (Variable("my_struct") in variables)
+
+
 def test_do_not_find_typedef_struct_members():
     code = """
             typedef struct {
@@ -319,6 +343,7 @@ def test_file():
 #   unions
 #   enum
 #   arrays of structs
+#   multi-dimension arrays
 #   struct initialization
 #   capture type
 #
