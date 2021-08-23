@@ -34,7 +34,7 @@ def test_find_a_const_variable():
             const int const_variable = 0;
             """
     variables = find_variables(code)
-    assert(Variable("const_variable") in variables)
+    assert (Variable("const_variable") in variables)
 
 
 def test_find_a_static_variable():
@@ -42,7 +42,7 @@ def test_find_a_static_variable():
             static int static_variable = 0;
             """
     variables = find_variables(code)
-    assert(Variable("static_variable") in variables)
+    assert (Variable("static_variable") in variables)
 
 
 def test_find_a_variable_with_assignement_math():
@@ -50,7 +50,7 @@ def test_find_a_variable_with_assignement_math():
             int a_variable = another_variable + 1;
             """
     variables = find_variables(code)
-    assert(Variable("a_variable") in variables)
+    assert (Variable("a_variable") in variables)
 
 
 def test_find_multiple_variables_in_the_same_line():
@@ -108,6 +108,8 @@ def test_do_not_find_nondeclaration_assignment_from_function_call():
     variables = find_variables(code)
     assert (Variable("a") not in variables)
 
+
+# Structs
 
 def test_do_not_find_struct_members():
     code = """
@@ -193,6 +195,8 @@ def test_signed_typedefs_not_found():
     assert (Variable("my_int_t") not in found)
 
 
+# Arrays
+
 def test_array_found():
     code = """
             char a[10];
@@ -239,10 +243,6 @@ def test_mutliple_arrays_at_once_with_initializer():
             """
     found = find_variables(code)
     assert (Variable("a") and Variable("b") in found)
-
-
-
-
 
 # def test_file():
 #     code = Path('c/sample.c').read_text()
