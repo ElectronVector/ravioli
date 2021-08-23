@@ -135,6 +135,18 @@ def test_do_not_find_anonymous_struct_members():
     assert (Variable("a") and Variable("b") and Variable("c") not in variables)
 
 
+def test_find_anonymous_struct_declaration():
+    code = """
+            struct {
+                int a;
+                int b;
+                int c;
+            } my_struct;
+            """
+    variables = find_variables(code)
+    assert (Variable("my_struct") in variables)
+
+
 def test_do_not_find_typedef_struct_members():
     code = """
             typedef struct {
@@ -182,6 +194,13 @@ def test_find_struct_delcared_with_defintion():
     variables = find_variables(code)
     assert (variables == [Variable("a")])
 
+
+def test_find_struct_delcared_without_defintion():
+    code = """
+            struct my_struct_t a;
+            """
+    variables = find_variables(code)
+    assert (variables == [Variable("a")])
 
 # Typedefs
 
