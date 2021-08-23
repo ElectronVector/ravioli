@@ -233,6 +233,17 @@ def test_mutliple_arrays_at_once():
     assert (Variable("a") and Variable("b") in found)
 
 
+def test_mutliple_arrays_at_once_with_initializer():
+    code = """
+            char a[3] = {1, 2, 3}, b[10];
+            """
+    found = find_variables(code)
+    assert (Variable("a") and Variable("b") in found)
+
+
+
+
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
