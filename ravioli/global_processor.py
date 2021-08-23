@@ -23,11 +23,10 @@ def find_variables(code):
     array = "[" + Word(alphanums + "_") + "]"
 
     decl_single = identifier("name") + Optional(assignment)
-    decl_array = identifier("name") + array
-    decl_array_with_assignment = identifier("name") + array + "=" + block
+    decl_array = identifier("name") + array + Optional("=" + block)
 
     variable_declaration = type_("type")\
-        + delimitedList(decl_array_with_assignment | decl_array | decl_single)\
+        + delimitedList(decl_array | decl_single)\
         + ";"
 
     struct = Keyword("struct") + Optional(identifier) + block
