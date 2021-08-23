@@ -338,7 +338,7 @@ def test_file():
     print(find_variables(code))
 
 
-# Todo:
+# Next:
 #   pointers
 #   unions
 #   enum
@@ -346,4 +346,3 @@ def test_file():
 #   multi-dimension arrays
 #   struct initialization
 #   capture type
-#
