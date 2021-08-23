@@ -179,7 +179,7 @@ def test_do_not_find_struct_typedef_name():
             } my_struct_t;
             """
     variables = find_variables(code)
-    assert (Variable("my_struct_t") not in variables)
+    assert (not variables)
 
 
 def test_do_not_find_named_struct_with_typedef_name():
@@ -191,7 +191,7 @@ def test_do_not_find_named_struct_with_typedef_name():
             } my_struct_t;
             """
     variables = find_variables(code)
-    assert (Variable("my_struct") and Variable("my_struct_t") not in variables)
+    assert (not variables)
 
 
 def test_find_struct_delcared_with_defintion():
@@ -212,6 +212,7 @@ def test_find_struct_delcared_without_defintion():
             """
     variables = find_variables(code)
     assert (variables == [Variable("a")])
+
 
 # Typedefs
 
@@ -245,6 +246,7 @@ def test_typedef_array_not_found():
             """
     found = find_variables(code)
     assert (Variable("my_array_t") not in found)
+
 
 # Arrays
 
@@ -305,10 +307,12 @@ def test_find_line_number():
     assert (find_variable_in_list("a", variables).line_number == 2)
     assert (find_variable_in_list("b", variables).line_number == 3)
 
-# def test_file():
-#     code = Path('c/sample.c').read_text()
-#     print(code)
-#     print(find_variables(code))
+
+def test_file():
+    code = Path('c/sample.c').read_text()
+    print(code)
+    print(find_variables(code))
+
 
 # Todo:
 #   pointers
