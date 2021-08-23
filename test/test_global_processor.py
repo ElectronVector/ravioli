@@ -123,6 +123,18 @@ def test_do_not_find_struct_members():
     assert (Variable("a") and Variable("b") and Variable("c") not in variables)
 
 
+def test_do_not_find_anonymous_struct_members():
+    code = """
+            struct {
+                int a;
+                int b;
+                int c;
+            } my_struct;
+            """
+    variables = find_variables(code)
+    assert (Variable("a") and Variable("b") and Variable("c") not in variables)
+
+
 def test_do_not_find_typedef_struct_members():
     code = """
             typedef struct {
@@ -170,6 +182,8 @@ def test_find_struct_delcared_with_defintion():
     variables = find_variables(code)
     assert (variables == [Variable("a")])
 
+
+# Typedefs
 
 def test_typedefs_not_found():
     code = """
@@ -250,4 +264,4 @@ def test_mutliple_arrays_at_once_with_initializer():
 #     print(find_variables(code))
 
 # Todo: struct declarations with definitions
-# pointers, arrays, unions,
+# pointers, arrays, unions, enum
