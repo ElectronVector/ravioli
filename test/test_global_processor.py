@@ -224,6 +224,15 @@ def test_unsized_array_with_initializer_found():
     found = find_variables(code)
     assert (Variable("a") in found)
 
+
+def test_mutliple_arrays_at_once():
+    code = """
+            char a[3], b[10];
+            """
+    found = find_variables(code)
+    assert (Variable("a") and Variable("b") in found)
+
+
 # def test_file():
 #     code = Path('c/sample.c').read_text()
 #     print(code)
