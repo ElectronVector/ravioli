@@ -235,6 +235,13 @@ def test_signed_typedefs_not_found():
     assert (Variable("my_int_t") not in found)
 
 
+def test_typedef_array_not_found():
+    code = """
+            typedef int my_array_t[10];
+            """
+    found = find_variables(code)
+    assert (Variable("my_array_t") not in found)
+
 # Arrays
 
 def test_array_found():
@@ -290,4 +297,4 @@ def test_mutliple_arrays_at_once_with_initializer():
 #     print(find_variables(code))
 
 # Todo: struct declarations with definitions
-# pointers, arrays, unions, enum
+# pointers, arrays, unions, enum, typedef arrays
