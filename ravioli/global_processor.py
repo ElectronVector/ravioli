@@ -18,12 +18,12 @@ def find_variables(code):
 
     type_ = Word(alphanums + "_")
     name = Word(alphas, alphanums + "_")
-    assignment = Optional(Char("=") + SkipTo(oneOf(", ;")))
+    assignment = Char("=") + SkipTo(oneOf(", ;"))
     block = nestedExpr("{", "}")
+    array = "[" + Word(alphanums + "_") + "]"
 
     variable_declaration = type_("type")\
-        + delimitedList(name("name") + assignment)\
-        + Optional("[" + Word(alphanums + "_") + "]")\
+        + delimitedList(name("name") + Optional(array) + Optional(assignment))\
         + ";"
 
     struct = Keyword("struct") + Optional(name) + block
