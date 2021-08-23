@@ -53,6 +53,13 @@ def test_find_a_variable_with_assignement_math():
     assert (Variable("a_variable") in variables)
 
 
+def test_find_a_compound_type_variable_declaration():
+    code = """
+            unsigned int a_variable;
+            """
+    variables = find_variables(code)
+    assert (Variable("a_variable") in variables)
+
 def test_find_multiple_variables_in_the_same_line():
     code = """
                 int a, b;
