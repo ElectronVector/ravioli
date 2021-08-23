@@ -4,6 +4,10 @@ from ravioli.global_processor import find_variables
 from ravioli.variable import Variable
 
 
+def find_variable_in_list(name, list):
+    return next(i for i in list if i == Variable(name))
+
+
 def test_find_a_variable_declaration():
     code = """
             int a_variable;
@@ -291,14 +295,15 @@ def test_mutliple_arrays_at_once_with_initializer():
     found = find_variables(code)
     assert (Variable("a") and Variable("b") in found)
 
+
 def test_find_line_number():
     code = """
               int a;
               int b;
             """
-    found = find_variables(code)
-    assert (next(i for i in found if i == Variable("a")).line_number == 2)
-    assert (next(i for i in found if i == Variable("b")).line_number == 3)
+    variables = find_variables(code)
+    assert (find_variable_in_list("a", variables).line_number == 2)
+    assert (find_variable_in_list("b", variables).line_number == 3)
 
 # def test_file():
 #     code = Path('c/sample.c').read_text()
