@@ -31,7 +31,7 @@ def find_variables(code):
 
     struct = Keyword("struct") + Optional(identifier) + block
     struct_definition = struct + Optional(identifier("name")) + ";"
-    struct_typedef = Keyword("typedef") + struct + Optional(type_) + ";"
+    struct_typedef = Keyword("typedef") + struct + Optional(identifier) + ";"
 
     typedef = Keyword("typedef") + type_ + identifier + ";"
 
