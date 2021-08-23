@@ -4,8 +4,8 @@ from ravioli.global_processor import find_variables
 from ravioli.variable import Variable
 
 
-def find_variable_in_list(name, list):
-    return next(i for i in list if i == Variable(name))
+def find_variable_in_list(name, list_):
+    return next(i for i in list_ if i == Variable(name))
 
 
 def test_find_a_variable_declaration():
