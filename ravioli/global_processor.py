@@ -30,19 +30,21 @@ def find_variables(code):
         + delimitedList(decl_array | decl_single)\
         + ";"
 
-    struct = Keyword("struct") + Optional(identifier) + block
-    struct_definition = struct + Optional(identifier("name")) + ";"
+    struct_definition = Keyword("struct") + Optional(identifier) + block + Optional(identifier("name")) + ";"
+    struct_typedef = Keyword("typedef") + Keyword("struct") + Optional(identifier) + block + identifier + ";"
 
-    typedef = Keyword("typedef") + (struct | type_) + identifier + Optional(array) + ";"
+    typedef = Keyword("typedef") + type_ + identifier + Optional(array) + ";"
 
     statements = [
-        typedef,
         variable_declaration,
+        struct_typedef,
         struct_definition,
+        typedef
     ]
 
     variables = []
     for var, start, end in MatchFirst(statements).scanString(code):
-        variables.append(Variable(var.name, line_number=lineno(start, code)))
+        if var.name:
+            variables.append(Variable(var.name, line_number=lineno(end, code)))
     print(variables)
     return variables
