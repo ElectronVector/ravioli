@@ -318,4 +318,7 @@ def test_file():
 #   pointers
 #   unions
 #   enum
-#   capture type, line number
+#   arrays of structs
+#   struct initialization
+#   capture type
+#
