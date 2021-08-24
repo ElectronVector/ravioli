@@ -229,6 +229,16 @@ class TestStucts:
         variables = find_variables(code)
         assert (variables == [Variable("a")])
 
+    def test_find_struct_with_assignment(self):
+        code = """
+        struct my_struct {
+            int a;
+            int b;
+            int c;
+        } my_struct_var = {1,2,3};
+        """
+        variables = find_variables(code)
+        assert (variables == [Variable("my_struct_var")])
 
 class TestTypedefs:
 
