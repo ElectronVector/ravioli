@@ -3,13 +3,10 @@ from pyparsing import (
     Word,
     alphas,
     alphanums,
-    Combine,
-    oneOf,
     Optional,
     delimitedList,
-    Group,
     lineno,
-    Keyword, Char, SkipTo, nestedExpr, MatchFirst, printables,
+    Keyword, Char, nestedExpr, MatchFirst, printables,
 )
 
 from ravioli.variable import Variable
@@ -19,15 +16,16 @@ def find_variables(code):
     sign = Keyword("unsigned") | Keyword("signed")
     type_ = Optional(sign) + Word(alphanums + "_")
     identifier = Word(alphas, alphanums + "_")
-    assignment = Char("=") + Word(printables + " ", excludeChars=",;")
     block = nestedExpr("{", "}")
     array = "[" + Optional(Word(alphanums + "_")) + "]"
 
-    decl_single = identifier("name") + Optional(assignment)
-    decl_array = identifier("name") + array + Optional("=" + block)
+    assignment_simple = "=" + Word(printables + " ", excludeChars=",;")
+    assignment_block = "=" + block
 
-    variable_declaration = type_("type")\
-        + delimitedList(decl_array | decl_single)\
+    variable_declaration = identifier("name") + Optional(array) + Optional(assignment_block | assignment_simple)
+
+    variable_declaration_list = type_("type")\
+        + delimitedList(variable_declaration)\
         + ";"
 
     struct_definition = Keyword("struct") + Optional(identifier) + block + Optional(identifier("name")) + Optional(array) + ";"
@@ -36,7 +34,7 @@ def find_variables(code):
     typedef = Keyword("typedef") + type_ + identifier + Optional(array) + ";"
 
     statements = [
-        variable_declaration,
+        variable_declaration_list,
         struct_typedef,
         struct_definition,
         typedef

@@ -345,4 +345,5 @@ def test_file():
 #   arrays of structs
 #   multi-dimension arrays
 #   struct initialization
+#   for loop
 #   capture type
