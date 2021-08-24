@@ -270,6 +270,7 @@ class TestStucts:
         variables = find_variables(code)
         assert (variables == [Variable("my_struct_var")])
 
+
 class TestTypedefs:
 
     def test_typedefs_not_found(self):
