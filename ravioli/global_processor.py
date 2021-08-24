@@ -15,7 +15,8 @@ from ravioli.variable import Variable
 def find_variables(code):
     sign = Keyword("unsigned") | Keyword("signed")
     type_ = Optional(sign) + Word(alphanums + "_")
-    identifier = Word(alphas, alphanums + "_")
+
+    variable = Word(alphas, alphanums + "_")
     struct_type = Word(alphas, alphanums + "_")
     typedef_type = Word(alphas, alphanums + "_")
 
@@ -25,13 +26,13 @@ def find_variables(code):
     assignment_simple = "=" + Word(printables + " ", excludeChars=",;")
     assignment_block = "=" + block
 
-    variable_declaration = identifier("name") + Optional(array) + Optional(assignment_block | assignment_simple)
+    variable_declaration = variable("name") + Optional(array) + Optional(assignment_block | assignment_simple)
 
     variable_declaration_list = type_("type")\
         + delimitedList(variable_declaration)\
         + ";"
 
-    struct_definition = Keyword("struct") + Optional(struct_type) + block + Optional(identifier("name")) + Optional(array) + ";"
+    struct_definition = Keyword("struct") + Optional(struct_type) + block + Optional(variable("name")) + Optional(array) + ";"
     struct_typedef = Keyword("typedef") + Keyword("struct") + Optional(struct_type) + block + typedef_type + ";"
 
     typedef = Keyword("typedef") + type_ + typedef_type + Optional(array) + ";"
