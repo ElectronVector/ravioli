@@ -240,6 +240,17 @@ class TestStucts:
         variables = find_variables(code)
         assert (variables == [Variable("my_struct_var")])
 
+    def test_find_anonymous_struct_with_assignment(self):
+        code = """
+        struct {
+            int a;
+            int b;
+            int c;
+        } my_struct_var = {1,2,3};
+        """
+        variables = find_variables(code)
+        assert (variables == [Variable("my_struct_var")])
+
 class TestTypedefs:
 
     def test_typedefs_not_found(self):
