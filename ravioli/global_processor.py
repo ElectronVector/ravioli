@@ -16,6 +16,9 @@ def find_variables(code):
     sign = Keyword("unsigned") | Keyword("signed")
     type_ = Optional(sign) + Word(alphanums + "_")
     identifier = Word(alphas, alphanums + "_")
+    struct_type = Word(alphas, alphanums + "_")
+    typedef_type = Word(alphas, alphanums + "_")
+
     block = nestedExpr("{", "}")
     array = "[" + Optional(Word(alphanums + "_")) + "]"
 
@@ -28,10 +31,10 @@ def find_variables(code):
         + delimitedList(variable_declaration)\
         + ";"
 
-    struct_definition = Keyword("struct") + Optional(identifier) + block + Optional(identifier("name")) + Optional(array) + ";"
-    struct_typedef = Keyword("typedef") + Keyword("struct") + Optional(identifier) + block + identifier + ";"
+    struct_definition = Keyword("struct") + Optional(struct_type) + block + Optional(identifier("name")) + Optional(array) + ";"
+    struct_typedef = Keyword("typedef") + Keyword("struct") + Optional(struct_type) + block + typedef_type + ";"
 
-    typedef = Keyword("typedef") + type_ + identifier + Optional(array) + ";"
+    typedef = Keyword("typedef") + type_ + typedef_type + Optional(array) + ";"
 
     statements = [
         variable_declaration_list,
