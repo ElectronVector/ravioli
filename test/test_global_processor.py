@@ -369,6 +369,5 @@ def test_file():
 #   enum
 #   arrays of structs
 #   multi-dimension arrays
-#   struct initialization
 #   for loop
 #   capture type
