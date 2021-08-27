@@ -46,7 +46,7 @@ class TestPlainVariables:
         variables = find_variables(code)
         assert (Variable("static_variable") in variables)
 
-    def test_find_a_variable_with_assignement_math(self):
+    def test_find_a_variable_with_assignment_math(self):
         code = """
                 int a_variable = another_variable + 1;
                 """
@@ -74,14 +74,14 @@ class TestPlainVariables:
         variables = find_variables(code)
         assert (Variable("a") and Variable("b") in variables)
 
-    def test_do_not_find_nondeclaration_assignment(self):
+    def test_do_not_find_non_declaration_assignment(self):
         code = """
                 a = 0;
                 """
         variables = find_variables(code)
         assert (Variable("a") not in variables)
 
-    def test_do_not_find_nondeclaration_assignment_with_math(self):
+    def test_do_not_find_non_declaration_assignment_with_math(self):
         code = """
                 a = b + 6;
                 """
@@ -102,7 +102,7 @@ class TestPlainVariables:
         variables = find_variables(code)
         assert (Variable("a") and Variable("b") in variables)
 
-    def test_do_not_find_nondeclaration_assignment_from_function_call(self):
+    def test_do_not_find_non_declaration_assignment_from_function_call(self):
         code = """
                 a = function_call(var);
                 """
@@ -110,7 +110,7 @@ class TestPlainVariables:
         assert (Variable("a") not in variables)
 
 
-class TestStucts:
+class TestStructs:
 
     def test_do_not_find_struct_members(self):
         code = """
@@ -200,7 +200,7 @@ class TestStucts:
         variables = find_variables(code)
         assert (not variables)
 
-    def test_find_struct_delcared_with_defintion(self):
+    def test_find_struct_declared_with_definition(self):
         code = """
                 struct my_struct {
                     int a;
@@ -211,7 +211,7 @@ class TestStucts:
         variables = find_variables(code)
         assert (variables == [Variable("a")])
 
-    def test_find_struct_delcared_without_defintion(self):
+    def test_find_struct_declared_without_definition(self):
         code = """
                 struct my_struct_t a;
                 """
@@ -321,14 +321,14 @@ class TestArrays:
         found = find_variables(code)
         assert (Variable("a") in found)
 
-    def test_mutliple_arrays_at_once(self):
+    def test_multiple_arrays_at_once(self):
         code = """
                 char a[3], b[10];
                 """
         found = find_variables(code)
         assert (Variable("a") and Variable("b") in found)
 
-    def test_mutliple_arrays_at_once_with_initializer(self):
+    def test_multiple_arrays_at_once_with_initializer(self):
         code = """
                 char a[3] = {1, 2, 3}, b[10];
                 """
