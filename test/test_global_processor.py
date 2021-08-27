@@ -367,7 +367,6 @@ def test_file():
 #   pointers
 #   unions
 #   enum
-#   arrays of structs
 #   multi-dimension arrays
 #   for loop
 #   capture type
