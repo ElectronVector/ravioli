@@ -218,7 +218,7 @@ class TestStucts:
         variables = find_variables(code)
         assert (variables == [Variable("a")])
 
-    def test_find_struct_with_assignment(self):
+    def test_find_struct_with_definition_and_assignment(self):
         code = """
         struct my_struct {
             int a;
