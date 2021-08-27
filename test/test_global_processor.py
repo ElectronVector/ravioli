@@ -8,117 +8,106 @@ def find_variable_in_list(name, list_):
     return next(i for i in list_ if i == Variable(name))
 
 
-def test_find_a_variable_declaration():
-    code = """
-            int a_variable;
-            """
-    variables = find_variables(code)
-    assert (Variable("a_variable") in variables)
+class TestPlainVariables:
 
-
-def test_find_two_variable_declarations():
-    code = """
-            int a_variable;
-            int another_variable;
-            """
-    variables = find_variables(code)
-    assert (Variable("a_variable") and Variable("another_variable") in variables)
-
-
-def test_find_a_variable_declaration_with_assignment():
-    code = """
-            int a_variable = 0;
-            """
-    variables = find_variables(code)
-    assert (Variable("a_variable") in variables)
-
-
-def test_find_a_const_variable():
-    code = """
-            const int const_variable = 0;
-            """
-    variables = find_variables(code)
-    assert (Variable("const_variable") in variables)
-
-
-def test_find_a_static_variable():
-    code = """
-            static int static_variable = 0;
-            """
-    variables = find_variables(code)
-    assert (Variable("static_variable") in variables)
-
-
-def test_find_a_variable_with_assignement_math():
-    code = """
-            int a_variable = another_variable + 1;
-            """
-    variables = find_variables(code)
-    assert (Variable("a_variable") in variables)
-
-
-def test_find_a_compound_type_variable_declaration():
-    code = """
-            unsigned int a_variable;
-            """
-    variables = find_variables(code)
-    assert (Variable("a_variable") in variables)
-
-
-def test_find_multiple_variables_in_the_same_line():
-    code = """
-                int a, b;
+    def test_find_a_variable_declaration(self):
+        code = """
+                int a_variable;
                 """
-    variables = find_variables(code)
-    assert (Variable("a") and Variable("b") in variables)
+        variables = find_variables(code)
+        assert (Variable("a_variable") in variables)
 
-
-def test_find_multiple_variables_with_assignments_in_the_same_line():
-    code = """
-                int a = 0, b = 0;
+    def test_find_two_variable_declarations(self):
+        code = """
+                int a_variable;
+                int another_variable;
                 """
-    variables = find_variables(code)
-    assert (Variable("a") and Variable("b") in variables)
+        variables = find_variables(code)
+        assert (Variable("a_variable") and Variable("another_variable") in variables)
 
+    def test_find_a_variable_declaration_with_assignment(self):
+        code = """
+                int a_variable = 0;
+                """
+        variables = find_variables(code)
+        assert (Variable("a_variable") in variables)
 
-def test_do_not_find_nondeclaration_assignment():
-    code = """
-            a = 0;
-            """
-    variables = find_variables(code)
-    assert (Variable("a") not in variables)
+    def test_find_a_const_variable(self):
+        code = """
+                const int const_variable = 0;
+                """
+        variables = find_variables(code)
+        assert (Variable("const_variable") in variables)
 
+    def test_find_a_static_variable(self):
+        code = """
+                static int static_variable = 0;
+                """
+        variables = find_variables(code)
+        assert (Variable("static_variable") in variables)
 
-def test_do_not_find_nondeclaration_assignment_with_math():
-    code = """
-            a = b + 6;
-            """
-    variables = find_variables(code)
-    assert (Variable("a") not in variables)
+    def test_find_a_variable_with_assignement_math(self):
+        code = """
+                int a_variable = another_variable + 1;
+                """
+        variables = find_variables(code)
+        assert (Variable("a_variable") in variables)
 
+    def test_find_a_compound_type_variable_declaration(self):
+        code = """
+                unsigned int a_variable;
+                """
+        variables = find_variables(code)
+        assert (Variable("a_variable") in variables)
 
-def test_find_multiple_declaration_statements_on_same_line():
-    code = """
-            int a; int b;
-            """
-    variables = find_variables(code)
-    assert (Variable("a") and Variable("b") in variables)
+    def test_find_multiple_variables_in_the_same_line(self):
+        code = """
+                    int a, b;
+                    """
+        variables = find_variables(code)
+        assert (Variable("a") and Variable("b") in variables)
 
+    def test_find_multiple_variables_with_assignments_in_the_same_line(self):
+        code = """
+                    int a = 0, b = 0;
+                    """
+        variables = find_variables(code)
+        assert (Variable("a") and Variable("b") in variables)
 
-def test_find_multiple_declaration_statements_with_assignments_on_same_line():
-    code = """
-            int a = 0; int b = 0;
-            """
-    variables = find_variables(code)
-    assert (Variable("a") and Variable("b") in variables)
+    def test_do_not_find_nondeclaration_assignment(self):
+        code = """
+                a = 0;
+                """
+        variables = find_variables(code)
+        assert (Variable("a") not in variables)
 
+    def test_do_not_find_nondeclaration_assignment_with_math(self):
+        code = """
+                a = b + 6;
+                """
+        variables = find_variables(code)
+        assert (Variable("a") not in variables)
 
-def test_do_not_find_nondeclaration_assignment_from_function_call():
-    code = """
-            a = function_call(var);
-            """
-    variables = find_variables(code)
-    assert (Variable("a") not in variables)
+    def test_find_multiple_declaration_statements_on_same_line(self):
+        code = """
+                int a; int b;
+                """
+        variables = find_variables(code)
+        assert (Variable("a") and Variable("b") in variables)
+
+    def test_find_multiple_declaration_statements_with_assignments_on_same_line(self):
+        code = """
+                int a = 0; int b = 0;
+                """
+        variables = find_variables(code)
+        assert (Variable("a") and Variable("b") in variables)
+
+    def test_do_not_find_nondeclaration_assignment_from_function_call(self):
+        code = """
+                a = function_call(var);
+                """
+        variables = find_variables(code)
+        assert (Variable("a") not in variables)
 
 
 class TestStucts:
