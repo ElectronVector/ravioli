@@ -47,3 +47,15 @@ def find_variables(code):
             variables.append(Variable(var.name, line_number=lineno(end, code)))
     print(variables)
     return variables
+
+
+def find_usages(code):
+    array_index = "[" + Optional(Word(alphanums + "_")) + "]"
+    identifier = Word(alphas, alphanums + "_")
+    variable_name = identifier("name") + Optional(array_index)
+
+    usages = []
+    for use, start, end in variable_name.scanString(code):
+        usages.append(use.name)
+
+    return usages
