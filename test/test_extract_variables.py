@@ -20,6 +20,14 @@ def test_find_multiple_declarations():
     assert ("a" and "b" in decl_names)
 
 
+def test_find_multiple_declarations_on_same_line():
+    code = """int a; int b;
+           """
+    v = extract_variables(code)
+    decl_names = [d.name for d in v["declarations"]]
+    assert ("a" and "b" in decl_names)
+
+
 def test_find_usage():
     code = """a = 0;
            """
