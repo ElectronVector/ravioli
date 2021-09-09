@@ -48,8 +48,11 @@ class VariableExtractor:
 
         return self
 
-    # Get all of the extracted stuff in a single dictionary.
     def get_all_as_dict(self):
+        """Get all of the extracted variable information in a single dictionary.
+        Note: Call `extract` first to do the extraction.
+        :return: A dictionary containing all variable information.
+        """
         return {
             "declarations": self.declarations,
             "usages": self.usages,
