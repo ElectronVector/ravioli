@@ -14,47 +14,43 @@ class Token:
         self.name = name
 
 
-variables = {
-    "declarations": [],
-    "usages": [],
-    "functions": []
-}
+class VariableExtractor:
+    def __init__(self):
+        self.variables = {
+            "declarations": [],
+            "usages": [],
+            "functions": []
+        }
 
+    def extract_declaration(self, token):
+        self.variables["declarations"].append(Token(token[1]))
+        print(f"extracting declaration: {token}")
 
-def extract_declaration(token):
-    variables["declarations"].append(Token(token[1]))
-    print(f"extracting declaration: {token}")
+    def extract_assignment(self, token):
+        self.variables["usages"].append(Token(token[0]))
+        print(f"extracting assignment: {token}")
 
+    def extract_function(self, token):
+        self.variables["functions"].append(Token(token[1]))
+        print(f"extracting function: {token}")
 
-def extract_assignment(token):
-    variables["usages"].append(Token(token[0]))
-    print(f"extracting assignment: {token}")
+    def extract(self, code):
 
+        type_ = Word(alphanums)
+        variable_name = Word(alphas, alphanums + "_")
+        declaration = type_ + variable_name + ";"
+        declaration.setParseAction(self.extract_declaration)
 
-def extract_function(token):
-    variables["functions"].append(Token(token[1]))
-    print(f"extracting function: {token}")
+        assignment = variable_name + "=" + Word(alphanums) + ";"
+        assignment.setParseAction(self.extract_assignment)
+
+        function = type_ + variable_name + "(" + ... + ")" + nestedExpr("{", "}")
+        function.setParseAction(self.extract_function)
+
+        ZeroOrMore(MatchFirst([assignment, declaration, function])).parseString(code)
+
+        return self.variables
 
 
 def extract_variables(code):
-    global variables
-    variables = {
-        "declarations": [],
-        "usages": [],
-        "functions": []
-    }
-
-    type_ = Word(alphanums)
-    variable_name = Word(alphas, alphanums + "_")
-    declaration = type_ + variable_name + ";"
-    declaration.setParseAction(extract_declaration)
-
-    assignment = variable_name + "=" + Word(alphanums) + ";"
-    assignment.setParseAction(extract_assignment)
-
-    function = type_ + variable_name + "(" + ... + ")" + nestedExpr("{", "}")
-    function.setParseAction(extract_function)
-
-    ZeroOrMore(MatchFirst([assignment, declaration, function])).parseString(code)
-
-    return variables
+    return VariableExtractor().extract(code)
