@@ -59,3 +59,11 @@ def test_find_a_function_and_variable_declarations():
     v = extract_variables(code)
     assert ("a_function" in names_of(v["functions"]))
     assert ("a" and "b" and "c" in names_of(v["declarations"]))
+
+# To do
+# - Find function calls
+# - Extract function parameters
+# - stucts, enums, typedefs
+# - compound/special types (unsigned, const, static)
+# - pointers
+# - find variable usages on the right side of the equals
