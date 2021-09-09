@@ -22,18 +22,15 @@ class VariableExtractor:
         self.usages = []
         self.functions = []
 
-    def _save_token(self, token, type_):
+    def _save_token(self, parsed_token, type_):
         name_index = 1
-        static = False
-        const = False
+        qualifiers = {"static": False, "const": False}
         # Check for declaration qualifiers.
-        if token[0] == "static":
-            name_index += 1
-            static = True
-        if token[0] == "const":
-            name_index += 1
-            const = True
-        type_.append(Token(token[name_index], static, const))
+        for i in range(2):
+            if parsed_token[i] in ["static", "const"]:
+                name_index += 1
+                qualifiers[parsed_token[i]] = True
+        type_.append(Token(parsed_token[name_index], qualifiers["static"], qualifiers["const"]))
 
     def extract_declaration(self, token):
         self._save_token(token, self.declarations)
@@ -52,7 +49,7 @@ class VariableExtractor:
         identifier = Word(alphas, alphanums + "_")
         assignment = "=" + Word(alphanums)
 
-        declaration = Optional(Keyword("static") | Keyword("const")) + type_ + identifier + Optional(assignment) + ";"
+        declaration = ZeroOrMore(Keyword("static") | Keyword("const")) + type_ + identifier + Optional(assignment) + ";"
         declaration.setParseAction(self.extract_declaration)
 
         variable_assignment = identifier + assignment + ";"

@@ -90,6 +90,16 @@ def test_find_const_declaration():
     v = extract_variables(code)
     assert get_token_by_name("a", v["declarations"]).const
 
+
+def test_find_static_const_declaration():
+    code = """
+    static const int a = 0;
+    """
+    v = extract_variables(code)
+    decl = get_token_by_name("a", v["declarations"])
+    assert (decl.const and decl.static)
+
+
 def test_find_static_function():
     code = """
     static void a_function(int a, int b) {
