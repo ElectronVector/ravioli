@@ -21,7 +21,11 @@ class VariableExtractor:
         self.functions = []
 
     def extract_declaration(self, token):
-        self.declarations.append(Token(token[1]))
+        name_index = 1
+        # Check for declaration qualifiers.
+        if token[0] == "static":
+            name_index += 1
+        self.declarations.append(Token(token[name_index]))
         print(f"extracting declaration: {token}")
 
     def extract_assignment(self, token):
@@ -35,7 +39,7 @@ class VariableExtractor:
     def extract(self, code):
         type_ = Word(alphanums)
         identifier = Word(alphas, alphanums + "_")
-        declaration = type_ + identifier + ";"
+        declaration = Optional(Keyword("static")) + type_ + identifier + ";"
         declaration.setParseAction(self.extract_declaration)
 
         assignment = identifier + "=" + Word(alphanums) + ";"

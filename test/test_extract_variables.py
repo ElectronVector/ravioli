@@ -2,8 +2,10 @@ from pathlib import Path
 
 from ravioli.extract_variables import extract_variables
 
+
 def names_of(list_):
     return [x.name for x in list_]
+
 
 def test_find_declaration():
     code = """int a;
@@ -60,10 +62,19 @@ def test_find_a_function_and_variable_declarations():
     assert ("a_function" in names_of(v["functions"]))
     assert ("a" and "b" and "c" in names_of(v["declarations"]))
 
+
+def test_find_static_declaration():
+    code = """
+    static int a;
+    """
+    v = extract_variables(code)
+    assert ("a" in names_of(v["declarations"]))
+
 # To do
 # - Find function calls
 # - Extract function parameters
 # - stucts, enums, typedefs
 # - compound/special types (unsigned, const, static)
+# - arrays
 # - pointers
 # - find variable usages on the right side of the equals
