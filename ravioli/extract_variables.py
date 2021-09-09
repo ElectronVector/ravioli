@@ -22,7 +22,8 @@ class VariableExtractor:
         self.usages = []
         self.functions = []
 
-    def _save_token(self, parsed_token, type_):
+    @staticmethod
+    def _save_token(parsed_token, type_):
         name_index = 1
         qualifiers = {"static": False, "const": False}
         # Check for declaration qualifiers.
