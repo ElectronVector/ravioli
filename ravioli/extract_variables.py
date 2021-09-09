@@ -37,6 +37,13 @@ def extract_function(token):
 
 
 def extract_variables(code):
+    global variables
+    variables = {
+        "declarations": [],
+        "usages": [],
+        "functions": []
+    }
+
     type_ = Word(alphanums)
     variable_name = Word(alphas, alphanums + "_")
     declaration = type_ + variable_name + ";"
