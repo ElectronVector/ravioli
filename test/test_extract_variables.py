@@ -47,3 +47,15 @@ def test_dont_find_function_prototype():
             """
     v = extract_variables(code)
     assert ("a_function" not in names_of(v["functions"]))
+
+
+def test_find_a_function_and_variable_declarations():
+    code = """
+    int a; int b;
+    void a_function(int a, int b) {
+    }
+    int c;
+    """
+    v = extract_variables(code)
+    assert ("a_function" in names_of(v["functions"]))
+    assert ("a" and "b" and "c" in names_of(v["declarations"]))
