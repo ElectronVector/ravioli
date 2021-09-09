@@ -75,7 +75,7 @@ def test_find_static_declaration():
     assert get_token_by_name("a", v["declarations"]).static
 
 
-def test_find_static_declaration():
+def test_find_static_function():
     code = """
     static void a_function(int a, int b) {
     }
