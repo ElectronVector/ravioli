@@ -2,6 +2,8 @@ from pathlib import Path
 
 from ravioli.extract_variables import extract_variables
 
+def names_of(list_):
+    return [x.name for x in list_]
 
 def test_find_declaration():
     code = """int a;
@@ -49,5 +51,4 @@ def test_dont_find_function_prototype():
     code = """int a_function(int a, int b);
             """
     v = extract_variables(code)
-    function_names = [f.name for f in v["functions"]]
-    assert ("a_function" not in function_names)
+    assert ("a_function" not in names_of(v["functions"]))
