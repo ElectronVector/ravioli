@@ -16,7 +16,8 @@ class Token:
 
 variables = {
     "declarations": [],
-    "usages": []
+    "usages": [],
+    "functions": []
 }
 
 
@@ -30,6 +31,11 @@ def extract_assignment(token):
     print(f"extracting assignment: {token}")
 
 
+def extract_function(token):
+    variables["functions"].append(Token(token[1]))
+    print(f"extracting function: {token}")
+
+
 def extract_variables(code):
     type_ = Word(alphanums)
     variable_name = Word(alphas, alphanums + "_")
@@ -39,6 +45,9 @@ def extract_variables(code):
     assignment = variable_name + "=" + Word(alphanums) + ";"
     assignment.setParseAction(extract_assignment)
 
-    ZeroOrMore(MatchFirst([assignment, declaration])).parseString(code)
+    function = type_ + variable_name + "(" + ... + ")" + nestedExpr("{", "}")
+    function.setParseAction(extract_function)
+
+    ZeroOrMore(MatchFirst([assignment, declaration, function])).parseString(code)
 
     return variables
