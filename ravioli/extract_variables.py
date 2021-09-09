@@ -21,14 +21,17 @@ class VariableExtractor:
         self.usages = []
         self.functions = []
 
-    def extract_declaration(self, token):
+    def _save_token(self, token, type_):
         name_index = 1
         static = False
         # Check for declaration qualifiers.
         if token[0] == "static":
             name_index += 1
             static = True
-        self.declarations.append(Token(token[name_index], static))
+        type_.append(Token(token[name_index], static))
+
+    def extract_declaration(self, token):
+        self._save_token(token, self.declarations)
         print(f"extracting declaration: {token}")
 
     def extract_assignment(self, token):
@@ -36,13 +39,7 @@ class VariableExtractor:
         print(f"extracting assignment: {token}")
 
     def extract_function(self, token):
-        name_index = 1
-        static = False
-        # Check for declaration qualifiers.
-        if token[0] == "static":
-            name_index += 1
-            static = True
-        self.functions.append(Token(token[name_index], static))
+        self._save_token(token, self.functions)
         print(f"extracting function: {token}")
 
     def extract(self, code):
