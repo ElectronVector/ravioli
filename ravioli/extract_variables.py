@@ -50,13 +50,15 @@ class VariableExtractor:
         identifier = Word(alphas, alphanums + "_")
         assignment = "=" + Word(alphanums)
 
-        declaration = ZeroOrMore(Keyword("static") | Keyword("const")) + type_ + identifier + Optional(assignment) + ";"
+        variable_qualifiers = Keyword("static") | Keyword("const")
+        declaration = ZeroOrMore(variable_qualifiers) + type_ + identifier + Optional(assignment) + ";"
         declaration.setParseAction(self.extract_declaration)
 
         variable_assignment = identifier + assignment + ";"
         variable_assignment.setParseAction(self.extract_assignment)
 
-        function = Optional(Keyword("static")) + type_ + identifier + "(" + ... + ")" + nestedExpr("{", "}")
+        function_qualifiers = Keyword("static")
+        function = ZeroOrMore(function_qualifiers) + type_ + identifier + "(" + ... + ")" + nestedExpr("{", "}")
         function.setParseAction(self.extract_function)
 
         ZeroOrMore(MatchFirst([variable_assignment, declaration, function])).parseString(code)
