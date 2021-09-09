@@ -9,8 +9,7 @@ def test_find_declaration():
     code = """int a;
            """
     v = extract_variables(code)
-    decl_names = [d.name for d in v["declarations"]]
-    assert ("a" in decl_names)
+    assert ("a" in names_of(v["declarations"]))
 
 
 def test_find_multiple_declarations():
@@ -18,24 +17,21 @@ def test_find_multiple_declarations():
               int b;
            """
     v = extract_variables(code)
-    decl_names = [d.name for d in v["declarations"]]
-    assert ("a" and "b" in decl_names)
+    assert ("a" and "b" in names_of(v["declarations"]))
 
 
 def test_find_multiple_declarations_on_same_line():
     code = """int a; int b;
            """
     v = extract_variables(code)
-    decl_names = [d.name for d in v["declarations"]]
-    assert ("a" and "b" in decl_names)
+    assert ("a" and "b" in names_of(v["declarations"]))
 
 
 def test_find_usage():
     code = """a = 0;
            """
     v = extract_variables(code)
-    usage_names = [u.name for u in v["usages"]]
-    assert ("a" in usage_names)
+    assert ("a" in names_of(v["usages"]))
 
 
 def test_find_function_definition():
@@ -43,8 +39,7 @@ def test_find_function_definition():
               }
            """
     v = extract_variables(code)
-    function_names = [f.name for f in v["functions"]]
-    assert ("a_function" in function_names)
+    assert ("a_function" in names_of(v["functions"]))
 
 
 def test_dont_find_function_prototype():
