@@ -34,14 +34,14 @@ class VariableExtractor:
 
     def extract(self, code):
         type_ = Word(alphanums)
-        variable_name = Word(alphas, alphanums + "_")
-        declaration = type_ + variable_name + ";"
+        identifier = Word(alphas, alphanums + "_")
+        declaration = type_ + identifier + ";"
         declaration.setParseAction(self.extract_declaration)
 
-        assignment = variable_name + "=" + Word(alphanums) + ";"
+        assignment = identifier + "=" + Word(alphanums) + ";"
         assignment.setParseAction(self.extract_assignment)
 
-        function = type_ + variable_name + "(" + ... + ")" + nestedExpr("{", "}")
+        function = type_ + identifier + "(" + ... + ")" + nestedExpr("{", "}")
         function.setParseAction(self.extract_function)
 
         ZeroOrMore(MatchFirst([assignment, declaration, function])).parseString(code)
