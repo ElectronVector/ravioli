@@ -45,16 +45,18 @@ class VariableExtractor:
     def extract(self, code):
         type_ = Word(alphanums)
         identifier = Word(alphas, alphanums + "_")
-        declaration = Optional(Keyword("static")) + type_ + identifier + Optional("=" + Word(alphanums)) + ";"
+        assignment = "=" + Word(alphanums)
+
+        declaration = Optional(Keyword("static")) + type_ + identifier + Optional(assignment) + ";"
         declaration.setParseAction(self.extract_declaration)
 
-        assignment = identifier + "=" + Word(alphanums) + ";"
-        assignment.setParseAction(self.extract_assignment)
+        variable_assignment = identifier + assignment + ";"
+        variable_assignment.setParseAction(self.extract_assignment)
 
         function = Optional(Keyword("static")) + type_ + identifier + "(" + ... + ")" + nestedExpr("{", "}")
         function.setParseAction(self.extract_function)
 
-        ZeroOrMore(MatchFirst([assignment, declaration, function])).parseString(code)
+        ZeroOrMore(MatchFirst([variable_assignment, declaration, function])).parseString(code)
 
         return self
 
