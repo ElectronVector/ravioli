@@ -45,7 +45,7 @@ class VariableExtractor:
     def extract(self, code):
         type_ = Word(alphanums)
         identifier = Word(alphas, alphanums + "_")
-        declaration = Optional(Keyword("static")) + type_ + identifier + ";"
+        declaration = Optional(Keyword("static")) + type_ + identifier + Optional("=" + Word(alphanums)) + ";"
         declaration.setParseAction(self.extract_declaration)
 
         assignment = identifier + "=" + Word(alphanums) + ";"

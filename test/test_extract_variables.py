@@ -75,6 +75,14 @@ def test_find_static_declaration():
     assert get_token_by_name("a", v["declarations"]).static
 
 
+def test_find_declaration_with_assignment():
+    code = """
+    int a = 0;
+    """
+    v = extract_variables(code)
+    assert ("a" in names_of(v["declarations"]))
+
+
 def test_find_static_function():
     code = """
     static void a_function(int a, int b) {
