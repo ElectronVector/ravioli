@@ -69,6 +69,9 @@ def test_find_static_declaration():
     """
     v = extract_variables(code)
     assert ("a" in names_of(v["declarations"]))
+    static_decl = next(d for d in v["declarations"])
+    assert (static_decl.static)
+
 
 # To do
 # - Find function calls

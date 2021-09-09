@@ -10,8 +10,9 @@ from pyparsing import (
 
 
 class Token:
-    def __init__(self, name):
+    def __init__(self, name, static=False):
         self.name = name
+        self.static = static
 
 
 class VariableExtractor:
@@ -22,10 +23,12 @@ class VariableExtractor:
 
     def extract_declaration(self, token):
         name_index = 1
+        static = False
         # Check for declaration qualifiers.
         if token[0] == "static":
             name_index += 1
-        self.declarations.append(Token(token[name_index]))
+            static = True
+        self.declarations.append(Token(token[name_index], static))
         print(f"extracting declaration: {token}")
 
     def extract_assignment(self, token):
