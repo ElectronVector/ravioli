@@ -7,6 +7,10 @@ def names_of(list_):
     return [x.name for x in list_]
 
 
+def get_token_by_name(name, list_):
+    return next(d for d in list_ if d.name == name)
+
+
 def test_find_declaration():
     code = """int a;
            """
@@ -68,9 +72,7 @@ def test_find_static_declaration():
     static int a;
     """
     v = extract_variables(code)
-    assert ("a" in names_of(v["declarations"]))
-    static_decl = next(d for d in v["declarations"])
-    assert (static_decl.static)
+    assert get_token_by_name("a", v["declarations"]).static
 
 
 # To do
