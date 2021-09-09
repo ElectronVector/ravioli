@@ -35,3 +35,11 @@ def test_find_usage():
     usage_names = [u.name for u in v["usages"]]
     assert ("a" in usage_names)
 
+
+def test_find_function_declaration():
+    pass
+
+
+def test_find_function_definition():
+    pass
+
