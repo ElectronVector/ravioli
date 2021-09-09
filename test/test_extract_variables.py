@@ -75,6 +75,14 @@ def test_find_static_declaration():
     assert get_token_by_name("a", v["declarations"]).static
 
 
+def test_find_static_declaration():
+    code = """
+    static void a_function(int a, int b) {
+    }
+    """
+    v = extract_variables(code)
+    assert get_token_by_name("a_function", v["functions"]).static
+
 # To do
 # - Find function calls
 # - Extract function parameters

@@ -36,7 +36,13 @@ class VariableExtractor:
         print(f"extracting assignment: {token}")
 
     def extract_function(self, token):
-        self.functions.append(Token(token[1]))
+        name_index = 1
+        static = False
+        # Check for declaration qualifiers.
+        if token[0] == "static":
+            name_index += 1
+            static = True
+        self.functions.append(Token(token[name_index], static))
         print(f"extracting function: {token}")
 
     def extract(self, code):
@@ -48,7 +54,7 @@ class VariableExtractor:
         assignment = identifier + "=" + Word(alphanums) + ";"
         assignment.setParseAction(self.extract_assignment)
 
-        function = type_ + identifier + "(" + ... + ")" + nestedExpr("{", "}")
+        function = Optional(Keyword("static")) + type_ + identifier + "(" + ... + ")" + nestedExpr("{", "}")
         function.setParseAction(self.extract_function)
 
         ZeroOrMore(MatchFirst([assignment, declaration, function])).parseString(code)
