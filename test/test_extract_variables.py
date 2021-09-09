@@ -115,4 +115,5 @@ def test_find_static_function():
 # - compound/special types (unsigned, const, static)
 # - arrays
 # - pointers
+# - compound assignments
 # - find variable usages on the right side of the equals
