@@ -26,6 +26,16 @@ def extract_definitions_from_statement(statement):
         return tokens[1]
 
 
+def extract_usages_from_statement(statement):
+    usages = []
+    if "=" in statement:
+        # Usage must be directly to the left of the = or after the equal
+        tokens = statement.split()
+        eq_index = tokens.index('=')
+        usages.append(tokens[eq_index - 1])
+
+    return usages
+
 def extract_undefined_usages(code):
     statements = extract_statements(code)
     declarations = []
@@ -34,9 +44,10 @@ def extract_undefined_usages(code):
         new_declarations = extract_definitions_from_statement(s)
         if new_declarations:
             declarations += new_declarations
-        else:
-            usages += [t for t in s.split() if t.isalpha()]
+        new_usages = extract_usages_from_statement(s)
+        if new_usages:
+            usages += new_usages
 
-    print(usages)
-    print(declarations)
+    print(f"usages: {usages}")
+    print(f"declarations: {declarations}")
     return [u for u in usages if u not in declarations]
