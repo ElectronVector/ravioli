@@ -19,7 +19,7 @@ def clean_up_whitespace(s):
     return " ".join(s.strip().split())
 
 
-def extract_definitions_from_statement(statement):
+def extract_declarations_from_statement(statement):
     tokens = statement.split()
     if is_valid_identifier(tokens[0]) and is_valid_identifier(tokens[1]):
         # This is a declaration. Extract the second token.
@@ -56,7 +56,7 @@ def extract_undefined_usages(code):
     declarations = []
     usages = []
     for s in statements:
-        new_declarations = extract_definitions_from_statement(s)
+        new_declarations = extract_declarations_from_statement(s)
         if new_declarations:
             declarations += new_declarations
         new_usages = extract_usages_from_statement(s)
