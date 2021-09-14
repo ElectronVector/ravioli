@@ -49,3 +49,11 @@ def test_do_not_find_an_undefined_usage_after_definition_and_assignment():
             a = 1;
         """
     assert extract_undefined_usages(code) == []
+
+
+def test_find_usage_on_the_right_side_of_the_equals():
+    code = """
+            int a = 0;
+            a = global + 1;
+        """
+    assert extract_undefined_usages(code) == ["global"]

@@ -33,8 +33,9 @@ def extract_usages_from_statement(statement):
         tokens = statement.split()
         eq_index = tokens.index('=')
         usages.append(tokens[eq_index - 1])
-
+        usages += [t for t in tokens[eq_index:] if t.isalpha()]
     return usages
+
 
 def extract_undefined_usages(code):
     statements = extract_statements(code)
