@@ -67,6 +67,14 @@ def test_find_usages_with_underscores():
     assert extract_undefined_usages(code) == ["some_global"]
 
 
+# Test extract_declarations_from_statement()
+# TODO
+
+
+# Test extract_usages_from_statement()
+# TODO
+
+
 # Test identifier detection
 def test_all_alphas_is_valid():
     assert is_valid_identifier("name")
