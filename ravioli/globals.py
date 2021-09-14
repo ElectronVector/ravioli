@@ -25,6 +25,19 @@ def extract_definitions_from_statement(statement):
         # This is a declaration. Extract the second token.
         return tokens[1]
 
+def is_valid_identifier(s):
+    """
+    Determine if this string is a valid c variable name.
+    """
+    # The first character must be a letter or underscore.
+    if s[0].isdigit():
+        return False
+    for c in s:
+        if not (c == "_" or c.isalpha() or c.isdigit()):
+            return False
+
+    return True
+
 
 def extract_usages_from_statement(statement):
     usages = []
@@ -33,7 +46,7 @@ def extract_usages_from_statement(statement):
         tokens = statement.split()
         eq_index = tokens.index('=')
         usages.append(tokens[eq_index - 1])
-        usages += [t for t in tokens[eq_index:] if t.isalpha()]
+        usages += [t for t in tokens[eq_index:] if is_valid_identifier(t)]
     return usages
 
 

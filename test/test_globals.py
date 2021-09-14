@@ -1,4 +1,4 @@
-from ravioli.globals import extract_statements, extract_undefined_usages
+from ravioli.globals import extract_statements, extract_undefined_usages, is_valid_identifier
 
 
 def test_single_statement():
@@ -57,3 +57,32 @@ def test_find_usage_on_the_right_side_of_the_equals():
             a = global + 1;
         """
     assert extract_undefined_usages(code) == ["global"]
+
+
+def test_find_usages_with_underscores():
+    code = """
+            int a = 0;
+            a = some_global + 1;
+        """
+    assert extract_undefined_usages(code) == ["some_global"]
+
+
+# Test identifier detection
+def test_all_alphas_is_valid():
+    assert is_valid_identifier("name")
+
+
+def test_alphas_and_underscore_is_valid():
+    assert is_valid_identifier("a_name")
+
+
+def test_starting_with_underscore_is_valid():
+    assert is_valid_identifier("_a_name")
+
+
+def test_starting_with_number_is_invalid():
+    assert not is_valid_identifier("1invalidname")
+
+
+def test_number_not_at_start_is_valid():
+    assert is_valid_identifier("name1")
