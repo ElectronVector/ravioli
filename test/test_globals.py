@@ -24,9 +24,10 @@ def test_multiple_statements_with_extra_whitespace():
     """
     assert extract_statements(code) == ["int a", "int b = 0", "int c"]
 
+# Test getting line numbers from statements.
+# TODO
 
-
-
+# Test extracting undefined usages.
 
 def test_do_not_find_a_defined_usage():
     code = """
