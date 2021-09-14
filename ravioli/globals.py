@@ -21,9 +21,10 @@ def clean_up_whitespace(s):
 
 def extract_definitions_from_statement(statement):
     tokens = statement.split()
-    if tokens[0].isalpha() and tokens[1].isalpha():
+    if is_valid_identifier(tokens[0]) and is_valid_identifier(tokens[1]):
         # This is a declaration. Extract the second token.
         return tokens[1]
+
 
 def is_valid_identifier(s):
     """
