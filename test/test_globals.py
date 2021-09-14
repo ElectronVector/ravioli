@@ -86,3 +86,11 @@ def test_starting_with_number_is_invalid():
 
 def test_number_not_at_start_is_valid():
     assert is_valid_identifier("name1")
+
+
+def test_a_single_letter_is_valid():
+    assert is_valid_identifier("a")
+
+
+def test_a_single_number_is_invalid():
+    assert not is_valid_identifier("1")
