@@ -22,8 +22,11 @@ def clean_up_whitespace(s):
 def extract_declarations_from_statement(statement):
     tokens = statement.split()
     if is_valid_identifier(tokens[0]) and is_valid_identifier(tokens[1]):
-        # This is a declaration. Extract the second token.
-        return [tokens[1]]
+        # This is a declaration. Extract the last token.
+        if len(tokens) > 2 and is_valid_identifier(tokens[2]):
+            return[tokens[2]]
+        else:
+            return [tokens[1]]
 
 
 def is_valid_identifier(s):

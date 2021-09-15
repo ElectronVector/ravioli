@@ -77,6 +77,11 @@ def test_find_delcaration_with_custom_type():
     assert extract_declarations_from_statement(statement) == ["abcd5"]
 
 
+def test_find_delcaration_with_compund_type():
+    statement = "unsigned int a = 0"
+    assert extract_declarations_from_statement(statement) == ["a"]
+
+
 # Test extract_usages_from_statement()
 # TODO
 
