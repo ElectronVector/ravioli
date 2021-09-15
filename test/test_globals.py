@@ -1,4 +1,5 @@
-from ravioli.globals import extract_statements, extract_undefined_usages, is_valid_identifier
+from ravioli.globals import extract_statements, extract_undefined_usages, is_valid_identifier, \
+    extract_declarations_from_statement
 
 
 def test_single_statement():
@@ -69,7 +70,11 @@ def test_find_usages_with_underscores():
 
 
 # Test extract_declarations_from_statement()
-# TODO
+
+
+def test_find_delcaration_with_custom_type():
+    statement = "type_t abcd5 = 0"
+    assert extract_declarations_from_statement(statement) == ["abcd5"]
 
 
 # Test extract_usages_from_statement()

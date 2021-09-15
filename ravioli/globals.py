@@ -23,7 +23,7 @@ def extract_declarations_from_statement(statement):
     tokens = statement.split()
     if is_valid_identifier(tokens[0]) and is_valid_identifier(tokens[1]):
         # This is a declaration. Extract the second token.
-        return tokens[1]
+        return [tokens[1]]
 
 
 def is_valid_identifier(s):
