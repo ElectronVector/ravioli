@@ -87,7 +87,18 @@ def test_find_declaration_with_multilple_qualifiers():
     statement = "static unsigned int a = 0"
     assert extract_declarations_from_statement(statement) == ["a"]
 
-# TODO: Find multiple comma-separated declarations in the same statment.
+
+# TODO
+def test_find_multiple_comma_separated_declarations_in_a_single_statement():
+    statement = "int a, b"
+    assert extract_declarations_from_statement(statement) == ["a", "b"]
+
+
+# TODO
+def test_find_multiple_comma_separated_declarations_in_a_single_statement_with_assignment():
+    statement = "int a = 0, b = 1"
+    assert extract_declarations_from_statement(statement) == ["a", "b"]
+
 
 # Test extract_usages_from_statement()
 # TODO
