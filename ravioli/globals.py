@@ -20,13 +20,19 @@ def clean_up_whitespace(s):
 
 
 def extract_declarations_from_statement(statement):
+    # Split the statement into tokens by spaces.
     tokens = statement.split()
-    if is_valid_identifier(tokens[0]) and is_valid_identifier(tokens[1]):
-        # This is a declaration. Extract the last token.
-        if len(tokens) > 2 and is_valid_identifier(tokens[2]):
-            return[tokens[2]]
-        else:
-            return [tokens[1]]
+    declaration = None
+    # Iterate over the list, looking for two or more identifiers next to each other from the start.
+    for i, t in enumerate(tokens):
+        if not is_valid_identifier(t):
+            break
+        elif i > 0:
+            # Save the last valid identifier because this is going to be the declaration.
+            declaration = t
+
+    if declaration:
+        return [declaration]
 
 
 def is_valid_identifier(s):

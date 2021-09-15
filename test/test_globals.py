@@ -30,6 +30,7 @@ def test_multiple_statements_with_extra_whitespace():
 
 # Test extracting undefined usages.
 
+
 def test_do_not_find_a_defined_usage():
     code = """
             int a;
@@ -72,15 +73,21 @@ def test_find_usages_with_underscores():
 # Test extract_declarations_from_statement()
 
 
-def test_find_delcaration_with_custom_type():
+def test_find_declaration_with_custom_type():
     statement = "type_t abcd5 = 0"
     assert extract_declarations_from_statement(statement) == ["abcd5"]
 
 
-def test_find_delcaration_with_compund_type():
+def test_find_declaration_with_compound_type():
     statement = "unsigned int a = 0"
     assert extract_declarations_from_statement(statement) == ["a"]
 
+
+def test_find_declaration_with_multilple_qualifiers():
+    statement = "static unsigned int a = 0"
+    assert extract_declarations_from_statement(statement) == ["a"]
+
+# TODO: Find multiple comma-separated declarations in the same statment.
 
 # Test extract_usages_from_statement()
 # TODO
