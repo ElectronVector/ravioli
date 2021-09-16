@@ -80,6 +80,9 @@ def is_valid_identifier(s):
 
 
 def extract_usages_from_statement(statement):
+    # Ensure that there is whitespace around operators so that they are correctly parsed.
+    statement = statement.replace("+", " + ")
+    statement = statement.replace("=", " = ")
     usages = []
     if "=" in statement:
         # Usage must be directly to the left of the = or after the equal

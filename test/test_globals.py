@@ -136,6 +136,11 @@ def test_dont_find_invalid_assignment():
     assert extract_usages_from_statement(statement) == ["b", "c"]
 
 
+def test_find_usages_with_no_spaces():
+    statement = "a=b+c"
+    assert extract_usages_from_statement(statement) == ["a", "b", "c"]
+
+
 # Test identifier detection
 def test_all_alphas_is_valid():
     assert is_valid_identifier("name")
