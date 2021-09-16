@@ -22,6 +22,7 @@ def clean_up_whitespace(s):
 def extract_declarations_from_statement(statement):
     # Split the statement into tokens by spaces.
     tokens = statement.split()
+    print(tokens)
     declaration = None
     # Iterate over the list, looking for two or more identifiers next to each other from the start.
     for i, t in enumerate(tokens):

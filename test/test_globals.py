@@ -90,6 +90,12 @@ def test_find_declaration_with_multilple_qualifiers():
 
 # TODO
 def test_find_multiple_comma_separated_declarations_in_a_single_statement():
+    statement = "int a , b"
+    assert extract_declarations_from_statement(statement) == ["a", "b"]
+
+
+# TODO
+def test_find_multiple_comma_separated_declarations_in_a_single_statement_with_no_whitespace():
     statement = "int a, b"
     assert extract_declarations_from_statement(statement) == ["a", "b"]
 
