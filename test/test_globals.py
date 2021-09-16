@@ -83,6 +83,11 @@ def test_find_declaration_with_compound_type():
     assert extract_declarations_from_statement(statement) == ["a"]
 
 
+def test_find_declaration_with_assignment_and_no_spaces():
+    statement = "unsigned int a=0"
+    assert extract_declarations_from_statement(statement) == ["a"]
+
+
 def test_find_declaration_with_multilple_qualifiers():
     statement = "static unsigned int a = 0"
     assert extract_declarations_from_statement(statement) == ["a"]
@@ -138,6 +143,11 @@ def test_dont_find_invalid_assignment():
 
 def test_find_usages_with_no_spaces():
     statement = "a=b+c"
+    assert extract_usages_from_statement(statement) == ["a", "b", "c"]
+
+
+def test_find_usages_with_no_spaces_and_different_operators():
+    statement = "a=b-c"
     assert extract_usages_from_statement(statement) == ["a", "b", "c"]
 
 

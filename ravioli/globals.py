@@ -27,6 +27,7 @@ def extract_declarations_from_statement(statement):
     """
     # Ensure that there is whitespace around all commas.
     statement = statement.replace(",", " , ")
+    statement = add_spaces_around_operators(statement)
     # Split the statement into tokens by spaces.
     tokens = statement.split()
     declarations = []
@@ -80,7 +81,7 @@ def is_valid_identifier(s):
 
 
 def add_spaces_around_operators(s):
-    operators = ["+", "="]
+    operators = ['+', '-', '*', '/', '=']
     return ''.join(map(lambda c: f" {c} " if c in operators else c, s))
 
 
