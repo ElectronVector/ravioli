@@ -26,8 +26,7 @@ def extract_declarations_from_statement(statement):
     :return: An array of variable names declared in the statement.
     """
     # Ensure that there is whitespace around all commas.
-    statement = statement.replace(",", " , ")
-    statement = add_spaces_around_operators(statement)
+    statement = add_spaces_around_punctuation(statement)
     # Split the statement into tokens by spaces.
     tokens = statement.split()
     declarations = []
@@ -80,15 +79,15 @@ def is_valid_identifier(s):
     return True
 
 
-def add_spaces_around_operators(s):
-    operators = ['+', '-', '*', '/', '=', '(', ')']
-    return ''.join(map(lambda c: f" {c} " if c in operators else c, s))
+def add_spaces_around_punctuation(s):
+    punctuation = ['+', '-', '*', '/', '=', '(', ')', ',']
+    return ''.join(map(lambda c: f" {c} " if c in punctuation else c, s))
 
 
 def extract_usages_from_statement(statement):
     operators = ["+", "="]
     # Ensure that there is whitespace around operators so that they are correctly parsed.
-    statement = add_spaces_around_operators(statement)
+    statement = add_spaces_around_punctuation(statement)
     print(statement)
     usages = []
     if "=" in statement:
