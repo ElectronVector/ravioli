@@ -34,8 +34,9 @@ def extract_declarations_from_statement(statement):
         if t == ",":
             # A comma indicates the end of a declaration and that their will be another. Save this one and don't stop
             # yet. If we have previously saved a declaration with at least two consecutive identifiers, save it.
-            if len(potential_declaration) >= 2:
-                # The last identifier saved is the name of the declaration.
+            if type_found:
+                declarations.append(potential_declaration[-1])
+            elif len(potential_declaration) >= 2:
                 declarations.append(potential_declaration[-1])
                 type_found = True
             potential_declaration = []

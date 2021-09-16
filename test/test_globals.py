@@ -103,6 +103,11 @@ def test_find_multiple_comma_separated_declarations_in_a_single_statement_with_a
     assert extract_declarations_from_statement(statement) == ["a", "b"]
 
 
+def test_find_more_comma_separated_declarations_in_a_single_statement():
+    statement = "int a = 0, b, c = 5"
+    assert extract_declarations_from_statement(statement) == ["a", "b", "c"]
+
+
 def test_dont_find_non_declarations_with_commas():
     statement = "a, b"
     assert extract_declarations_from_statement(statement) == []
