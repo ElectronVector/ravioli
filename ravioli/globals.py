@@ -29,12 +29,13 @@ def extract_declarations_from_statement(statement):
     type_found = None
     potential_declaration = []
     on_right_side_of_equals = False
-    # Iterate over the list, looking for two or more identifiers next to each other from the start.
+    # Iterate over the list, looking for two or more identifiers next to each other from the start, commas that
+    # separate compound identifiers or equals signs, were we can't have identifiers after them.
     for i, t in enumerate(tokens):
         if t == ",":
             # A comma potentially ends a declaration.
             # A declaration should be saved if 1) there are at least two consecutive valid identifiers or 2) we
-            # previously found two consecutive identifers and this is another declaration after a comma.
+            # previously found two consecutive identifiers and this is another declaration after a comma.
             if type_found or (len(potential_declaration) >= 2):
                 declarations.append(potential_declaration[-1])
                 type_found = True
@@ -52,7 +53,7 @@ def extract_declarations_from_statement(statement):
     if potential_declaration:
         print(potential_declaration)
         # A declaration should be saved if 1) there are at least two consecutive valid identifiers or 2) we previously
-        # found two consecutive identifers and this is another declaration after a comma.
+        # found two consecutive identifiers and this is another declaration after a comma.
         if type_found or (len(potential_declaration) >= 2):
             declarations.append(potential_declaration[-1])
 
