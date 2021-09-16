@@ -79,10 +79,16 @@ def is_valid_identifier(s):
     return True
 
 
+def add_spaces_around_operators(s):
+    operators = ["+", "="]
+    return ''.join(map(lambda c: f" {c} " if c in operators else c, s))
+
+
 def extract_usages_from_statement(statement):
+    operators = ["+", "="]
     # Ensure that there is whitespace around operators so that they are correctly parsed.
-    statement = statement.replace("+", " + ")
-    statement = statement.replace("=", " = ")
+    statement = add_spaces_around_operators(statement)
+    print(statement)
     usages = []
     if "=" in statement:
         # Usage must be directly to the left of the = or after the equal
