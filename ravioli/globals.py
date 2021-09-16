@@ -85,7 +85,8 @@ def extract_usages_from_statement(statement):
         # Usage must be directly to the left of the = or after the equal
         tokens = statement.split()
         eq_index = tokens.index('=')
-        usages.append(tokens[eq_index - 1])
+        if is_valid_identifier(tokens[eq_index - 1]):
+            usages.append(tokens[eq_index - 1])
         usages += [t for t in tokens[eq_index:] if is_valid_identifier(t)]
     return usages
 

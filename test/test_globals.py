@@ -131,6 +131,11 @@ def test_usages_on_the_right_side_of_an_equals():
     assert extract_usages_from_statement(statement) == ["a", "b", "c"]
 
 
+def test_dont_find_invalid_assignment():
+    statement = "0 = b + c"
+    assert extract_usages_from_statement(statement) == ["b", "c"]
+
+
 # Test identifier detection
 def test_all_alphas_is_valid():
     assert is_valid_identifier("name")
