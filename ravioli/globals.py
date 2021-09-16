@@ -32,13 +32,13 @@ def extract_declarations_from_statement(statement):
     # Iterate over the list, looking for two or more identifiers next to each other from the start.
     for i, t in enumerate(tokens):
         if t == ",":
-            # A comma indicates the end of a declaration and that their will be another. Save this one and don't stop
-            # yet. If we have previously saved a declaration with at least two consecutive identifiers, save it.
-            if type_found:
-                declarations.append(potential_declaration[-1])
-            elif len(potential_declaration) >= 2:
+            # A comma potentially ends a declaration.
+            # A declaration should be saved if 1) there are at least two consecutive valid identifiers or 2) we
+            # previously found two consecutive identifers and this is another declaration after a comma.
+            if type_found or (len(potential_declaration) >= 2):
                 declarations.append(potential_declaration[-1])
                 type_found = True
+            # After a comma we need to start a new potential declaration.
             potential_declaration = []
             # Once we get to a comma, we are back on the left side of the equals sign.
             on_right_side_of_equals = False
@@ -51,9 +51,9 @@ def extract_declarations_from_statement(statement):
 
     if potential_declaration:
         print(potential_declaration)
-        if type_found:
-            declarations.append(potential_declaration[-1])
-        elif len(potential_declaration) >= 2:
+        # A declaration should be saved if 1) there are at least two consecutive valid identifiers or 2) we previously
+        # found two consecutive identifers and this is another declaration after a comma.
+        if type_found or (len(potential_declaration) >= 2):
             declarations.append(potential_declaration[-1])
 
     return declarations
