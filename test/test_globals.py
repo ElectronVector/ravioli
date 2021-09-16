@@ -2,6 +2,13 @@ from ravioli.globals import extract_statements, extract_undefined_usages, is_val
     extract_declarations_from_statement, extract_usages_from_statement
 
 
+# TODO
+# Separate statement extraction from declaration and usage extraction (use different modules).
+# Update statement extractor to extract blocks.
+# Parse block names.
+# Parse block arguments as statements that belong to the block.
+
+
 def test_single_statement():
     code = """
         int a;
