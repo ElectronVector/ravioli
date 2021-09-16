@@ -1,5 +1,5 @@
 from ravioli.globals import extract_statements, extract_undefined_usages, is_valid_identifier, \
-    extract_declarations_from_statement
+    extract_declarations_from_statement, extract_usages_from_statement
 
 
 def test_single_statement():
@@ -112,8 +112,18 @@ def test_dont_find_non_declarations_with_commas():
     statement = "a, b"
     assert extract_declarations_from_statement(statement) == []
 
+
 # Test extract_usages_from_statement()
-# TODO
+
+
+def test_dont_find_declarations_as_usages():
+    statement = "int a"
+    assert extract_usages_from_statement(statement) == []
+
+
+def test_find_an_assignment():
+    statement = "a = 1"
+    assert extract_usages_from_statement(statement) == ["a"]
 
 
 # Test identifier detection

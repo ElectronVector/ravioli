@@ -20,6 +20,11 @@ def clean_up_whitespace(s):
 
 
 def extract_declarations_from_statement(statement):
+    """
+    Find all declarations of new variables in the current statement.
+    :param statement: A bit of C code that ends with a semi-colon.
+    :return: An array of variable names declared in the statement.
+    """
     # Ensure that there is whitespace around all commas.
     statement = statement.replace(",", " , ")
     # Split the statement into tokens by spaces.
@@ -62,7 +67,7 @@ def extract_declarations_from_statement(statement):
 
 def is_valid_identifier(s):
     """
-    Determine if this string is a valid c variable name.
+    Determine if this string is a valid C language variable name.
     """
     # The first character must be a letter or underscore.
     if s[0].isdigit():
