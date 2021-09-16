@@ -151,6 +151,11 @@ def test_find_usages_with_no_spaces_and_different_operators():
     assert extract_usages_from_statement(statement) == ["a", "b", "c"]
 
 
+def test_find_usages_with_parentheses_in_expresssions():
+    statement = "a= (b - c)*d"
+    assert extract_usages_from_statement(statement) == ["a", "b", "c", "d"]
+
+
 def test_find_usages_within_function_call():
     statement = "a_function_call(a,b,c)"
     assert extract_usages_from_statement(statement) == ["a", "b", "c"]

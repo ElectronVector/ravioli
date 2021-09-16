@@ -81,7 +81,7 @@ def is_valid_identifier(s):
 
 
 def add_spaces_around_operators(s):
-    operators = ['+', '-', '*', '/', '=']
+    operators = ['+', '-', '*', '/', '=', '(', ')']
     return ''.join(map(lambda c: f" {c} " if c in operators else c, s))
 
 
