@@ -1,39 +1,6 @@
-from ravioli.globals import extract_statements, extract_undefined_usages, is_valid_identifier, \
+from ravioli.globals import extract_undefined_usages, is_valid_identifier, \
     extract_declarations_from_statement, extract_usages_from_statement
 
-
-# TODO
-# Separate statement extraction from declaration and usage extraction (use different modules).
-# Update statement extractor to extract blocks.
-# Parse block names.
-# Parse block arguments as statements that belong to the block.
-
-
-def test_single_statement():
-    code = """
-        int a;
-    """
-    assert extract_statements(code) == ["int a"]
-
-
-def test_multiple_statements():
-    code = """
-        int a; int b;
-        int c;
-    """
-    assert extract_statements(code) == ["int a", "int b", "int c"]
-
-
-def test_multiple_statements_with_extra_whitespace():
-    code = """
-        int   a; int b =   0;
-        int
-            c;
-    """
-    assert extract_statements(code) == ["int a", "int b = 0", "int c"]
-
-# Test getting line numbers from statements.
-# TODO
 
 # Test extracting undefined usages.
 
@@ -163,9 +130,9 @@ def test_find_usages_with_parentheses_in_expresssions():
     assert extract_usages_from_statement(statement) == ["a", "b", "c", "d"]
 
 
-def test_find_usages_within_function_call():
-    statement = "a_function_call(a,b,c)"
-    assert extract_usages_from_statement(statement) == ["a", "b", "c"]
+# def test_find_usages_within_function_call():
+#     statement = "a_function_call(a,b,c)"
+#     assert extract_usages_from_statement(statement) == ["a", "b", "c"]
 
 
 # Test identifier detection
