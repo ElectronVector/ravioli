@@ -1,4 +1,5 @@
-from ravioli.extract_statements import extract_statements
+from ravioli.extract_statements import extract_statements, Block
+
 
 # TODO
 # Update statement extractor to extract blocks.
@@ -28,6 +29,14 @@ def test_multiple_statements_with_extra_whitespace():
             c;
     """
     assert extract_statements(code) == ["int a", "int b = 0", "int c"]
+
+
+def test_block():
+    code = """
+    function_def() {
+    }
+    """
+    assert extract_statements(code) == [Block("function_def")]
 
 # Test getting line numbers from statements.
 # TODO
