@@ -79,5 +79,8 @@ def test_multiple_nested_blocks():
             "a++",
         ])]
 
-# Test getting line numbers from statements.
-# TODO
+
+# TODO: Extract function (and conditional block) arguments.
+
+
+# TODO: Test getting line numbers from statements.

@@ -16,6 +16,12 @@ class Block:
         self.children.append(item)
 
 
+def remove_function_parameters(s):
+    s = s.replace("(", "")
+    s = s.replace(")", "")
+    return s
+
+
 def extract_statements(code):
     parse_tree = []
     nest_levels = [parse_tree]
@@ -27,8 +33,7 @@ def extract_statements(code):
             temp = ""
         elif c == "{":
             title = clean_up_whitespace(temp)
-            title = title.replace("(", "")
-            title = title.replace(")", "")
+            title = remove_function_parameters(title)
             new_block = Block(title)
             nest_levels[-1].append(new_block)
             nest_levels.append(new_block)
