@@ -47,5 +47,15 @@ def test_block_with_a_statement():
     """
     assert extract_statements(code) == [Block("function_def", ["int a"])]
 
+
+def test_block_with_multiple_statements():
+    code = """
+    function_def() {
+        int a;
+        a = b + 2;
+    }
+    """
+    assert extract_statements(code) == [Block("function_def", ["int a", "a = b + 2"])]
+
 # Test getting line numbers from statements.
 # TODO
