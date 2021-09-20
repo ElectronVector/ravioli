@@ -66,6 +66,7 @@ def test_multiple_nested_blocks():
         if() {
             c += 1;
         }
+        a++;
     }
     """
     assert extract_statements(code) == [
@@ -74,7 +75,8 @@ def test_multiple_nested_blocks():
             "a = b + 2",
             Block("if", [
                 "c += 1"
-            ])
+            ]),
+            "a++",
         ])]
 
 # Test getting line numbers from statements.
