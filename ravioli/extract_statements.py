@@ -30,8 +30,8 @@ def extract_statements(code):
             title = title.replace("(", "")
             title = title.replace(")", "")
             new_block = Block(title)
+            nest_levels[-1].append(new_block)
             nest_levels.append(new_block)
-            parse_tree.append(new_block)
             temp = ""
         elif c == "}":
             # This is the end of a block. Remove this nest level as we aren't going to save anything here any more.

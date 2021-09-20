@@ -57,5 +57,25 @@ def test_block_with_multiple_statements():
     """
     assert extract_statements(code) == [Block("function_def", ["int a", "a = b + 2"])]
 
+
+def test_multiple_nested_blocks():
+    code = """
+    function_def() {
+        int a;
+        a = b + 2;
+        if() {
+            c += 1;
+        }
+    }
+    """
+    assert extract_statements(code) == [
+        Block("function_def", [
+            "int a",
+            "a = b + 2",
+            Block("if", [
+                "c += 1"
+            ])
+        ])]
+
 # Test getting line numbers from statements.
 # TODO
