@@ -33,6 +33,7 @@ def find_globals_by_function(code):
     statements = extract_statements(code)
     for s in statements:
         if isinstance(s, Block):
+            # The title includes the return type so we need to get the last word as the name of the function.
             functions[get_last_word(s.title)] = []
     return functions
 
