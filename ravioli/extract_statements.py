@@ -28,7 +28,6 @@ def extract_name_and_parameters(s):
     param_string = s[param_start+1:param_end]
     # Extract comma-separated paramaters separately.
     params = [clean_up_whitespace(p) for p in param_string.split(",") if p]
-    print(f"func: {name}, params: {params}")
     return name, params
 
 
