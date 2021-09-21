@@ -42,13 +42,17 @@ def find_undefined_usages(statements):
     usages = []
     for s in statements:
         if isinstance(s, Block):
+            # If this is a block, recursively calculate the undefined usages in each deeper-nested block.
+            # Only add undefined usages if they are not defined at this level.
             undefined_usages += [u for u in find_undefined_usages(s.children) if u not in declarations]
         else:
+            # Attempt to extract and save declarations and usages from all statements at this nesting level.
             for new_declaration in extract_declarations_from_statement(s):
                 declarations.append(new_declaration)
             for new_usage in extract_usages_from_statement(s):
                 usages.append(new_usage)
 
+    # Undefined usages are usages that haven't been declared.
     undefined_usages += [u for u in usages if u not in declarations]
 
     return undefined_usages
