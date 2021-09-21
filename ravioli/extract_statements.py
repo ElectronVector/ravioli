@@ -16,10 +16,13 @@ class Block:
         self.children.append(item)
 
 
-def remove_function_parameters(s):
-    s = s.replace("(", "")
-    s = s.replace(")", "")
-    return s
+def extract_name_and_parameters(s):
+    param_start = s.find("(")
+    param_end = s.rfind(")")
+    name = clean_up_whitespace(s[:param_start])
+    params = clean_up_whitespace(s[param_start+1:param_end])
+    print(f"func: {name}, params: {params}")
+    return name, params
 
 
 def extract_statements(code):
@@ -32,9 +35,12 @@ def extract_statements(code):
             nest_levels[-1].append(clean_up_whitespace(temp))
             temp = ""
         elif c == "{":
-            title = clean_up_whitespace(temp)
-            title = remove_function_parameters(title)
+            title, params = extract_name_and_parameters(temp)
+            title = clean_up_whitespace(title)
+            params = clean_up_whitespace(params)
             new_block = Block(title)
+            if params:
+                new_block.append(params)
             nest_levels[-1].append(new_block)
             nest_levels.append(new_block)
             temp = ""

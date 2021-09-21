@@ -80,7 +80,21 @@ def test_multiple_nested_blocks():
         ])]
 
 
-# TODO: Extract function (and conditional block) arguments.
+def test_parameter_extracted_from_block():
+    code = """
+    function_def(int x) {
+        int a;
+    }
+    """
+    assert extract_statements(code) == [Block("function_def", ["int x", "int a"])]
 
+
+def test_multiple_parameters_extracted_from_block():
+    code = """
+    function_def(int x, unsigned int y) {
+        int a;
+    }
+    """
+    assert extract_statements(code) == [Block("function_def", ["int x", "unsigned int y", "int a"])]
 
 # TODO: Test getting line numbers from statements.
