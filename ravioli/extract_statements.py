@@ -26,10 +26,7 @@ def extract_name_and_parameters(s):
     param_end = s.rfind(")")
     name = clean_up_whitespace(s[:param_start])
     param_string = s[param_start+1:param_end]
-    print(param_string.split(","))
-    params = [clean_up_whitespace(p) for p in param_string.split(",")]
-    if params == ['']:
-        params = None
+    params = [clean_up_whitespace(p) for p in param_string.split(",") if p]
     print(f"func: {name}, params: {params}")
     return name, params
 
