@@ -1,4 +1,5 @@
-from ravioli.find_globals import extract_undefined_usages
+from ravioli.find_globals import extract_undefined_usages, find_globals_by_function
+
 
 # Test extracting undefined usages.
 
@@ -40,3 +41,30 @@ def test_find_usages_with_underscores():
             a = some_global + 1;
         """
     assert extract_undefined_usages(code) == ["some_global"]
+
+
+def test_find_function_defintions():
+    code = """
+    int a_function (int x, int y) {
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": []}
+
+
+def test_find_multiple_function_definitions():
+    code = """
+    int a_function (int x, int y) {
+    }
+    int another_function (float z) {
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": [], "another_function": []}
+
+
+# def test_find_globals_usages_in_function():
+#     code = """
+#     int a_function (int x, int y) {
+#         x = a_global;
+#     }
+#     """
+#     assert find_globals_by_function(code) == {"a_function": ["a_global"]}
