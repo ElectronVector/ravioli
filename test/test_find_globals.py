@@ -108,3 +108,20 @@ def test_count_a_global_that_is_defined_locally():
     }
     """
     assert find_globals_by_function(code) == {"a_function": ["a_global"]}
+
+
+def test_nested_counting():
+    code = """
+    int a_global;
+    int a_function (bool x) {
+        if (x)
+        {
+            a_global = 1;
+        }
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": ["a_global"]}
+
+# TODO
+# - Count usages for equality tests like ==, !=, >, etc.
+# - Test with more operators: ++, ==, etc.
