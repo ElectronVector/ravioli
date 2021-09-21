@@ -50,6 +50,7 @@ def find_globals_by_function(code):
     for s in statements:
         if isinstance(s, Block):
             # The title includes the return type so we need to get the last word as the name of the function.
+            # Find the undefined usages in the child statements belonging to the block.
             functions[get_last_word(s.title)] = find_undefined_usages(s.children)
     return functions
 
