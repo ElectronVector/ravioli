@@ -54,11 +54,12 @@ def find_globals_by_function(code):
             # Find the undefined usages in the child statements belonging to the block.
             functions[get_last_word(s.title)] = find_undefined_usages(s.children)
         else:
-            # Look for static variable definitions.
+            # Look for non-global variable definitions.
             for decl in extract_declarations_from_statement(s):
-                # For each potential new declaration, check for the use of the word static.
-                if "static" in s.split() or "const" in s.split():
-                    # This is a static variable.
+                # For each potential new declaration, check for the use of a keyword that would make it not a global.
+                not_global_keywords = ["static", "const"]
+                if any(word in not_global_keywords for word in s.split()):
+                    # This is not a global variable.
                     not_globals.append(decl)
 
     # Remove any undefined uses from functions for variables declared as static.
