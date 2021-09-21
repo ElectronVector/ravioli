@@ -122,6 +122,19 @@ def test_nested_counting():
     """
     assert find_globals_by_function(code) == {"a_function": ["a_global"]}
 
+
+def test_dont_count_variable_defined_at_a_higher_scope():
+    code = """
+    int a_function (bool x) {
+        int y = 0;
+        if (x)
+        {
+            y = 1;
+        }
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": []}
+
 # TODO
 # - Count usages for equality tests like ==, !=, >, etc.
 # - Test with more operators: ++, ==, etc.

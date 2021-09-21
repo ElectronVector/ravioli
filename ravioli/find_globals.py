@@ -42,7 +42,7 @@ def find_undefined_usages(statements):
     usages = []
     for s in statements:
         if isinstance(s, Block):
-            undefined_usages += find_undefined_usages(s.children)
+            undefined_usages += [u for u in find_undefined_usages(s.children) if u not in declarations]
         else:
             new_declarations = extract_declarations_from_statement(s)
             if new_declarations:
