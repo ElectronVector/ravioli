@@ -44,12 +44,10 @@ def find_undefined_usages(statements):
         if isinstance(s, Block):
             undefined_usages += [u for u in find_undefined_usages(s.children) if u not in declarations]
         else:
-            new_declarations = extract_declarations_from_statement(s)
-            if new_declarations:
-                declarations += new_declarations
-            new_usages = extract_usages_from_statement(s)
-            if new_usages:
-                usages += new_usages
+            for new_declaration in extract_declarations_from_statement(s):
+                declarations.append(new_declaration)
+            for new_usage in extract_usages_from_statement(s):
+                usages.append(new_usage)
 
     undefined_usages += [u for u in usages if u not in declarations]
 
