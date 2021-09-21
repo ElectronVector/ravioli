@@ -2,9 +2,11 @@ from ravioli.extract_statements import extract_statements, Block
 
 
 # TODO
-# Update statement extractor to extract blocks.
-# Parse block names.
-# Parse block arguments as statements that belong to the block.
+# Refactor globals.py:
+#   - Remove extract_undefined_usages - put this somewhere where we are going to process a real file.
+#   - Rename.
+# Try actually counting globals in some sample code.
+# Parse for and do-while loops.
 
 
 def test_single_statement():
