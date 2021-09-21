@@ -25,7 +25,7 @@ def get_last_word(s):
     :param s: The string to extract from.
     :return:  The last whole word present in the string.
     """
-    return s.title.split()[-1]
+    return s.split()[-1]
 
 
 def find_globals_by_function(code):
@@ -33,6 +33,6 @@ def find_globals_by_function(code):
     statements = extract_statements(code)
     for s in statements:
         if isinstance(s, Block):
-            functions[get_last_word(s)] = []
+            functions[get_last_word(s.title)] = []
     return functions
 
