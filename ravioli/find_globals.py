@@ -19,11 +19,20 @@ def extract_undefined_usages(code):
     return [u for u in usages if u not in declarations]
 
 
+def get_last_word(s):
+    """
+    Get the last whitespace delimited word in the string.
+    :param s: The string to extract from.
+    :return:  The last whole word present in the string.
+    """
+    return s.title.split()[-1]
+
+
 def find_globals_by_function(code):
     functions = {}
     statements = extract_statements(code)
     for s in statements:
         if isinstance(s, Block):
-            functions[s.title.split()[-1]] = []
+            functions[get_last_word(s)] = []
     return functions
 
