@@ -13,10 +13,7 @@ class Block:
     def append(self, item):
         if not self.children:
             self.children = []
-        if isinstance(item, list):
-            self.children += item
-        else:
-            self.children.append(item)
+        self.children.append(item)
 
 
 def extract_name_and_parameters(s):
@@ -52,7 +49,8 @@ def extract_statements(code):
             title = clean_up_whitespace(title)
             new_block = Block(title)
             if params:
-                new_block.append(params)
+                for p in params:
+                    new_block.append(p)
             nest_levels[-1].append(new_block)
             nest_levels.append(new_block)
             temp = ""
