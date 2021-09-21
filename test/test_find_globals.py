@@ -88,3 +88,13 @@ def test_dont_count_multiply_defined_static_variable_access():
     }
     """
     assert find_globals_by_function(code) == {"a_function": []}
+
+
+def test_dont_count_a_const_variable_access():
+    code = """
+    const int const_value;
+    int a_function (int x, int y) {
+        x = const_value;
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": []}
