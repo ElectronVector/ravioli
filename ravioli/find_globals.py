@@ -28,6 +28,16 @@ def get_last_word(s):
     return s.split()[-1]
 
 
+def is_not_a_global(s):
+    """
+    Test if this statement contains keywords to suggest that a declaration here is not a global variable declaration.
+    :param s: The string to check.
+    :return: True if a non-global keyword is found.
+    """
+    not_global_keywords = ["static", "const"]
+    return any(word in not_global_keywords for word in s.split())
+
+
 def find_undefined_usages(statements):
     declarations = []
     usages = []
@@ -57,8 +67,7 @@ def find_globals_by_function(code):
             # Look for non-global variable definitions.
             for decl in extract_declarations_from_statement(s):
                 # For each potential new declaration, check for the use of a keyword that would make it not a global.
-                not_global_keywords = ["static", "const"]
-                if any(word in not_global_keywords for word in s.split()):
+                if is_not_a_global(s):
                     # This is not a global variable.
                     not_globals.append(decl)
 
