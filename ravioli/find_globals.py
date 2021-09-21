@@ -28,22 +28,28 @@ def get_last_word(s):
     return s.split()[-1]
 
 
+def find_undefined_usages(statements):
+    declarations = []
+    usages = []
+    for s in statements:
+        new_declarations = extract_declarations_from_statement(s)
+        if new_declarations:
+            declarations += new_declarations
+        new_usages = extract_usages_from_statement(s)
+        if new_usages:
+            usages += new_usages
+
+    print(f"usages: {usages}")
+    print(f"declarations: {declarations}")
+    return [u for u in usages if u not in declarations]
+
+
 def find_globals_by_function(code):
     functions = {}
     statements = extract_statements(code)
     for s in statements:
         if isinstance(s, Block):
             # The title includes the return type so we need to get the last word as the name of the function.
-            functions[get_last_word(s.title)] = []
-            declarations = []
-            usages = []
-            for c in s.children:
-                new_declarations = extract_declarations_from_statement(c)
-                if new_declarations:
-                    declarations += new_declarations
-                new_usages = extract_usages_from_statement(c)
-                if new_usages:
-                    usages += new_usages
-            functions[get_last_word(s.title)] = [u for u in usages if u not in declarations]
+            functions[get_last_word(s.title)] = find_undefined_usages(s.children)
     return functions
 
