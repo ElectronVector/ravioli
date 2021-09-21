@@ -162,7 +162,7 @@ def test_something_more_complicated():
             }
         }
         if (z) {
-            y = 0
+            another_global = 0;
         }
     }
     int another_function (bool x, bool y) {
@@ -174,7 +174,8 @@ def test_something_more_complicated():
         }
     }
     """
-    assert find_globals_by_function(code) == {"a_function": ["a_global"], "another_function": ["another_global"]}
+    assert find_globals_by_function(code) == {"a_function": ["a_global", "another_global"],
+                                              "another_function": ["another_global"]}
 
 # TODO
 # - Count usages for equality tests like ==, !=, >, etc.
