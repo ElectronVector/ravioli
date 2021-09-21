@@ -61,10 +61,10 @@ def test_find_multiple_function_definitions():
     assert find_globals_by_function(code) == {"a_function": [], "another_function": []}
 
 
-# def test_find_globals_usages_in_function():
-#     code = """
-#     int a_function (int x, int y) {
-#         x = a_global;
-#     }
-#     """
-#     assert find_globals_by_function(code) == {"a_function": ["a_global"]}
+def test_find_globals_usages_in_function():
+    code = """
+    int a_function (int x, int y) {
+        x = a_global;
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": ["a_global"]}
