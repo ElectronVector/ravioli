@@ -78,3 +78,13 @@ def test_dont_count_a_static_variable_access():
     }
     """
     assert find_globals_by_function(code) == {"a_function": []}
+
+
+def test_dont_count_multiply_defined_static_variable_access():
+    code = """
+    static int not_a_global, also_not_a_global;
+    int a_function (int x, int y) {
+        x = not_a_global;
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": []}
