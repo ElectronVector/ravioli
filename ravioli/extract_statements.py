@@ -19,8 +19,8 @@ class Block:
 def extract_name_and_parameters(s):
     """
     Parse a function (block) name and its parameters by parsing before and inside the parentheses.
-    :param s:
-    :return: (name, [params])
+    :param s: The string to extract the block name and parameters from.
+    :return: A tuple containing the 1) name of the block and 2) an array of block parameters.
     """
     param_start = s.find("(")
     param_end = s.rfind(")")
