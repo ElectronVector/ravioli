@@ -45,6 +45,7 @@ def find_undefined_usages(statements):
 
 
 def find_globals_by_function(code):
+    static_vars = []
     functions = {}
     statements = extract_statements(code)
     for s in statements:
@@ -52,5 +53,20 @@ def find_globals_by_function(code):
             # The title includes the return type so we need to get the last word as the name of the function.
             # Find the undefined usages in the child statements belonging to the block.
             functions[get_last_word(s.title)] = find_undefined_usages(s.children)
+        else:
+            # Look for static variable definitions.
+            new_declarations = extract_declarations_from_statement(s)
+            for n in new_declarations:
+                # For each potential new declaration, check for the use of the word static.
+                if "static" in s.split():
+                    # This is a static variable.
+                    static_vars.append(n)
+
+    # Remove any undefined uses from functions for variables declared as static.
+    for function, undefined_usages in functions.items():
+        for u in undefined_usages:
+            if u in static_vars:
+                undefined_usages.remove(u)
+
     return functions
 

@@ -68,3 +68,13 @@ def test_find_globals_usages_in_function():
     }
     """
     assert find_globals_by_function(code) == {"a_function": ["a_global"]}
+
+
+def test_dont_count_a_static_variable_access():
+    code = """
+    static int not_a_global;
+    int a_function (int x, int y) {
+        x = not_a_global;
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": []}
