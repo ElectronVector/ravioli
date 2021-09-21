@@ -63,9 +63,8 @@ def find_globals_by_function(code):
 
     # Remove any undefined uses from functions for variables declared as static.
     for function, undefined_usages in functions.items():
-        for u in undefined_usages:
-            if u in not_globals:
-                undefined_usages.remove(u)
+        # items() makes a copy of the dictionary so we can modify the original.
+        functions[function] = [u for u in undefined_usages if u not in not_globals]
 
     return functions
 
