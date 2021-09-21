@@ -38,7 +38,6 @@ def extract_declarations_from_statement(statement):
             potential_declaration.append(t)
 
     if potential_declaration:
-        print(potential_declaration)
         # A declaration should be saved if 1) there are at least two consecutive valid identifiers or 2) we previously
         # found two consecutive identifiers and this is another declaration after a comma.
         if type_found or (len(potential_declaration) >= 2):
@@ -70,7 +69,6 @@ def extract_usages_from_statement(statement):
     operators = ["+", "="]
     # Ensure that there is whitespace around operators so that they are correctly parsed.
     statement = add_spaces_around_punctuation(statement)
-    print(statement)
     usages = []
     if "=" in statement:
         # Usage must be directly to the left of the = or after the equal

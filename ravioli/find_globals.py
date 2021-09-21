@@ -14,8 +14,6 @@ def extract_undefined_usages(code):
         if new_usages:
             usages += new_usages
 
-    print(f"usages: {usages}")
-    print(f"declarations: {declarations}")
     return [u for u in usages if u not in declarations]
 
 
@@ -49,8 +47,6 @@ def find_undefined_usages(statements):
         if new_usages:
             usages += new_usages
 
-    print(f"usages: {usages}")
-    print(f"declarations: {declarations}")
     return [u for u in usages if u not in declarations]
 
 
