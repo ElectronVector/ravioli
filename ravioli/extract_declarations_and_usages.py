@@ -80,20 +80,3 @@ def extract_usages_from_statement(statement):
             usages.append(tokens[eq_index - 1])
         usages += [t for t in tokens[eq_index:] if is_valid_identifier(t)]
     return usages
-
-
-def extract_undefined_usages(code):
-    statements = extract_statements(code)
-    declarations = []
-    usages = []
-    for s in statements:
-        new_declarations = extract_declarations_from_statement(s)
-        if new_declarations:
-            declarations += new_declarations
-        new_usages = extract_usages_from_statement(s)
-        if new_usages:
-            usages += new_usages
-
-    print(f"usages: {usages}")
-    print(f"declarations: {declarations}")
-    return [u for u in usages if u not in declarations]

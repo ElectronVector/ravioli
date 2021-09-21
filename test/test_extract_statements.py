@@ -2,7 +2,7 @@ from ravioli.extract_statements import extract_statements, Block
 
 
 # TODO
-# Refactor globals.py:
+# Refactor extract_declarations_and_usages.py:
 #   - Remove extract_undefined_usages - put this somewhere where we are going to process a real file.
 #   - Rename.
 # Try actually counting globals in some sample code.
