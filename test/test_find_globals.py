@@ -123,6 +123,23 @@ def test_nested_counting():
     assert find_globals_by_function(code) == {"a_function": ["a_global"]}
 
 
+def test_count_global_usages_more_than_once():
+    code = """
+    int a_global;
+    int a_function (bool x) {
+        if (x)
+        {
+            a_global = 1;
+        }
+        else
+        {
+            a_global = 2;
+        }
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": ["a_global", "a_global"]}
+
+
 def test_dont_count_variable_defined_at_a_higher_scope():
     code = """
     int a_function (bool x) {
