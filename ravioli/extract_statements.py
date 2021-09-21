@@ -13,14 +13,27 @@ class Block:
     def append(self, item):
         if not self.children:
             self.children = []
-        self.children.append(item)
+        if isinstance(item, list):
+            self.children += item
+        else:
+            self.children.append(item)
 
 
 def extract_name_and_parameters(s):
+    """
+    Parse a function (block) name and its parameters by parsing before and inside the parentheses.
+    :param s:
+    :return: (name, [params])
+    """
     param_start = s.find("(")
     param_end = s.rfind(")")
     name = clean_up_whitespace(s[:param_start])
-    params = clean_up_whitespace(s[param_start+1:param_end])
+    param_string = s[param_start+1:param_end]
+    params = []
+    for p in param_string.split(","):
+        param = clean_up_whitespace(p)
+        if param:
+            params.append(param)
     print(f"func: {name}, params: {params}")
     return name, params
 
@@ -37,7 +50,6 @@ def extract_statements(code):
         elif c == "{":
             title, params = extract_name_and_parameters(temp)
             title = clean_up_whitespace(title)
-            params = clean_up_whitespace(params)
             new_block = Block(title)
             if params:
                 new_block.append(params)
