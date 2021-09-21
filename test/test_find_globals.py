@@ -98,3 +98,13 @@ def test_dont_count_a_const_variable_access():
     }
     """
     assert find_globals_by_function(code) == {"a_function": []}
+
+
+def test_count_a_global_that_is_defined_locally():
+    code = """
+    int a_global;
+    int a_function (int x, int y) {
+        x = a_global;
+    }
+    """
+    assert find_globals_by_function(code) == {"a_function": ["a_global"]}

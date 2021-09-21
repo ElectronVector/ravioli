@@ -57,7 +57,7 @@ def find_globals_by_function(code):
             # Look for static variable definitions.
             for decl in extract_declarations_from_statement(s):
                 # For each potential new declaration, check for the use of the word static.
-                if "static" or "const" in s.split():
+                if "static" in s.split() or "const" in s.split():
                     # This is a static variable.
                     not_globals.append(decl)
 
