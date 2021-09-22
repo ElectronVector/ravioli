@@ -51,7 +51,9 @@ def find_globals_by_function(code):
         if isinstance(s, Block):
             # The title includes the return type so we need to get the last word as the name of the function.
             # Find the undefined usages in the child statements belonging to the block.
-            functions.append({"name": get_last_word(s.title), "line_number": s.line_number, "undefined_usages": find_undefined_usages(s.children)})
+            functions.append({"name": get_last_word(s.title),
+                              "line_number": s.line_number,
+                              "undefined_usages": find_undefined_usages(s.children)})
         else:
             # Look for non-global variable definitions.
             for decl in extract_declarations(s.text):
