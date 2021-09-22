@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from ravioli.extract_declarations_and_usages import extract_declarations, extract_usages
 from ravioli.extract_statements import extract_statements, Block
 
@@ -21,6 +23,9 @@ def is_not_a_global(s):
     return any(word in not_global_keywords for word in s.split())
 
 
+Use = namedtuple("Use", ["name", "line_number"])
+
+
 def find_undefined_usages(statements):
     undefined_usages = []
     declarations = []
@@ -29,16 +34,16 @@ def find_undefined_usages(statements):
         if isinstance(s, Block):
             # If this is a block, recursively calculate the undefined usages in each deeper-nested block.
             # Only add undefined usages if they are not defined at this level.
-            undefined_usages += [u for u in find_undefined_usages(s.children) if u[0] not in declarations]
+            undefined_usages += [u for u in find_undefined_usages(s.children) if u.name not in declarations]
         else:
             # Attempt to extract and save declarations and usages from all statements at this nesting level.
             for new_declaration in extract_declarations(s.text):
                 declarations.append(new_declaration)
             for new_usage in extract_usages(s.text):
-                usages.append((new_usage, s.line_number))
+                usages.append(Use(new_usage, s.line_number))
 
     # Undefined usages are usages that haven't been declared.
-    undefined_usages += [u for u in usages if u[0] not in declarations]
+    undefined_usages += [u for u in usages if u.name not in declarations]
 
     return undefined_usages
 
@@ -64,7 +69,6 @@ def find_globals_by_function(code):
 
     # Remove any undefined uses from functions for variables declared as static.
     for function in functions:
-        function["undefined_usages"] = [u for u in function["undefined_usages"] if u[0] not in not_globals]
+        function["undefined_usages"] = [u for u in function["undefined_usages"] if u.name not in not_globals]
 
     return functions
-
