@@ -32,9 +32,9 @@ def find_undefined_usages(statements):
             undefined_usages += [u for u in find_undefined_usages(s.children) if u not in declarations]
         else:
             # Attempt to extract and save declarations and usages from all statements at this nesting level.
-            for new_declaration in extract_declarations_from_statement(s):
+            for new_declaration in extract_declarations_from_statement(s.text):
                 declarations.append(new_declaration)
-            for new_usage in extract_usages_from_statement(s):
+            for new_usage in extract_usages_from_statement(s.text):
                 usages.append(new_usage)
 
     # Undefined usages are usages that haven't been declared.
@@ -54,9 +54,9 @@ def find_globals_by_function(code):
             functions[get_last_word(s.title)] = find_undefined_usages(s.children)
         else:
             # Look for non-global variable definitions.
-            for decl in extract_declarations_from_statement(s):
+            for decl in extract_declarations_from_statement(s.text):
                 # For each potential new declaration, check for the use of a keyword that would make it not a global.
-                if is_not_a_global(s):
+                if is_not_a_global(s.text):
                     # This is not a global variable.
                     not_globals.append(decl)
 
