@@ -45,13 +45,13 @@ def find_undefined_usages(statements):
 
 def find_globals_by_function(code):
     not_globals = []
-    functions = {}
+    functions = []
     statements = extract_statements(code)
     for s in statements:
         if isinstance(s, Block):
             # The title includes the return type so we need to get the last word as the name of the function.
             # Find the undefined usages in the child statements belonging to the block.
-            functions[get_last_word(s.title)] = find_undefined_usages(s.children)
+            functions.append({"name": get_last_word(s.title), "line_number": s.line_number, "undefined_usages": find_undefined_usages(s.children)})
         else:
             # Look for non-global variable definitions.
             for decl in extract_declarations(s.text):
@@ -61,9 +61,8 @@ def find_globals_by_function(code):
                     not_globals.append(decl)
 
     # Remove any undefined uses from functions for variables declared as static.
-    for function, undefined_usages in functions.items():
-        # items() makes a copy of the dictionary so we can modify the original.
-        functions[function] = [u for u in undefined_usages if u not in not_globals]
+    for function in functions:
+        function["undefined_usages"] = [u for u in function["undefined_usages"] if u not in not_globals]
 
     return functions
 
