@@ -23,10 +23,11 @@ def is_not_a_global(s):
     return any(word in not_global_keywords for word in s.split())
 
 
+# A usage is a name and a line number tuple. Give the elements names to make things more readable.
 Use = namedtuple("Use", ["name", "line_number"])
 
 
-def find_undefined_usages(statements):
+def __find_undefined_usages(statements):
     undefined_usages = []
     declarations = []
     usages = []
@@ -34,7 +35,7 @@ def find_undefined_usages(statements):
         if isinstance(s, Block):
             # If this is a block, recursively calculate the undefined usages in each deeper-nested block.
             # Only add undefined usages if they are not defined at this level.
-            undefined_usages += [u for u in find_undefined_usages(s.children) if u.name not in declarations]
+            undefined_usages += [u for u in __find_undefined_usages(s.children) if u.name not in declarations]
         else:
             # Attempt to extract and save declarations and usages from all statements at this nesting level.
             for new_declaration in extract_declarations(s.text):
@@ -58,7 +59,7 @@ def find_globals_by_function(code):
             # Find the undefined usages in the child statements belonging to the block.
             functions.append({"name": get_last_word(s.title),
                               "line_number": s.line_number,
-                              "undefined_usages": find_undefined_usages(s.children)})
+                              "undefined_usages": __find_undefined_usages(s.children)})
         else:
             # Look for non-global variable definitions.
             for decl in extract_declarations(s.text):
