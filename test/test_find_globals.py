@@ -172,9 +172,21 @@ def test_something_more_complicated():
                                                "undefined_usages": [("another_global", 16)]}]
 
 
+# TODO: This finds the struct definition at the top of the file, but we don't want that.
+def test_sample_code():
+    import pprint
+    pp = pprint.PrettyPrinter(depth=4)
+    with open('c/sample.c') as f:
+        results = find_globals_by_function(f.read())
+
+    pp.pprint(results)
+    assert len(results) == 20
+
+
 # TODO
 # - Count usages for equality tests like ==, !=, >, etc.
 # - Test with more operators: ++, ==, etc.
 # - Test for stdbool true/false (should not be globals)
-# - Find line number
 # - Handle comments.
+# - Handle usages as arguments to function calls.
+# - structs, enums, arrays
