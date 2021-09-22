@@ -33,7 +33,7 @@ def test_find_globals_usages_in_function():
             """
     assert find_globals_by_function(code) == [{"name": "a_function",
                                                "line_number": 1,
-                                               "undefined_usages": ["a_global"]}]
+                                               "undefined_usages": [("a_global", 2)]}]
 
 
 def test_dont_count_a_static_variable_access():
@@ -77,7 +77,7 @@ def test_count_a_global_that_is_defined_locally():
                 """
     assert find_globals_by_function(code) == [{"name": "a_function",
                                                "line_number": 2,
-                                               "undefined_usages": ["a_global"]}]
+                                               "undefined_usages": [("a_global", 3)]}]
 
 
 def test_nested_counting():
@@ -91,7 +91,7 @@ def test_nested_counting():
                 """
     assert find_globals_by_function(code) == [{"name": "a_function",
                                                "line_number": 2,
-                                               "undefined_usages": ["a_global"]}]
+                                               "undefined_usages": [("a_global", 5)]}]
 
 
 def test_count_global_usages_more_than_once():
@@ -109,7 +109,7 @@ def test_count_global_usages_more_than_once():
                 """
     assert find_globals_by_function(code) == [{"name": "a_function",
                                                "line_number": 2,
-                                               "undefined_usages": ["a_global", "a_global"]}]
+                                               "undefined_usages": [("a_global", 5), ("a_global", 9)]}]
 
 
 def test_dont_count_variable_defined_at_a_higher_scope():
@@ -166,10 +166,10 @@ def test_something_more_complicated():
                 """
     assert find_globals_by_function(code) == [{"name": "a_function",
                                                "line_number": 1,
-                                               "undefined_usages": ["a_global", "another_global"]},
+                                               "undefined_usages": [("a_global", 5), ("another_global", 9)]},
                                               {"name": "another_function",
                                                "line_number": 12,
-                                               "undefined_usages": ["another_global"]}]
+                                               "undefined_usages": [("another_global", 16)]}]
 
 
 # TODO
