@@ -1,16 +1,16 @@
 from ravioli.extract_statements import extract_statements
 
 
-def extract_declarations_from_statement(statement):
+def extract_declarations(text):
     """
-    Find all declarations of new variables in the current statement.
-    :param statement: A bit of C code that ends with a semi-colon.
-    :return: An array of variable names declared in the statement.
+    Find all declarations of new variables in the current text.
+    :param text: A bit of C code that ends with a semi-colon.
+    :return: An array of variable names declared in the text.
     """
     # Ensure that there is whitespace around all commas.
-    statement = add_spaces_around_punctuation(statement)
-    # Split the statement into tokens by spaces.
-    tokens = statement.split()
+    text = add_spaces_around_punctuation(text)
+    # Split the text into tokens by spaces.
+    tokens = text.split()
     declarations = []
 
     type_found = None
@@ -65,14 +65,14 @@ def add_spaces_around_punctuation(s):
     return ''.join(map(lambda c: f" {c} " if c in punctuation else c, s))
 
 
-def extract_usages_from_statement(statement):
+def extract_usages(text):
     operators = ["+", "="]
     # Ensure that there is whitespace around operators so that they are correctly parsed.
-    statement = add_spaces_around_punctuation(statement)
+    text = add_spaces_around_punctuation(text)
     usages = []
-    if "=" in statement:
+    if "=" in text:
         # Usage must be directly to the left of the = or after the equal
-        tokens = statement.split()
+        tokens = text.split()
         eq_index = tokens.index('=')
         if is_valid_identifier(tokens[eq_index - 1]):
             usages.append(tokens[eq_index - 1])
