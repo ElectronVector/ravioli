@@ -154,7 +154,10 @@ def test_something_more_complicated():
     assert find_globals_by_function(code) == {"a_function": ["a_global", "another_global"],
                                               "another_function": ["another_global"]}
 
+
 # TODO
 # - Count usages for equality tests like ==, !=, >, etc.
 # - Test with more operators: ++, ==, etc.
 # - Test for stdbool true/false (should not be globals)
+# - Find line number
+# - Handle comments.
