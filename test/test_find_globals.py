@@ -143,6 +143,35 @@ def test_dont_count_variable_defined_at_a_higher_scope_with_more_nesting():
                                                "undefined_usages": []}]
 
 
+def test_dont_process_struct_as_function_at_top_level():
+    code = """  struct my_struct {
+                    int a;
+                    int b;
+                    int c;
+                };
+                
+                int a_function (bool x, bool y) {
+                }
+                """
+    assert find_globals_by_function(code) == [{"name": "a_function",
+                                               "line_number": 7,
+                                               "undefined_usages": []}]
+
+
+def test_dont_count_struct_member_def_in_function_as_variable_definition():
+    code = """  int a_function (int x) {
+                    struct my_struct {
+                        int a;
+                        int b;
+                    };
+                    a = x;
+                }
+                """
+    assert find_globals_by_function(code) == [{"name": "a_function",
+                                               "line_number": 1,
+                                               "undefined_usages": [("a", 6)]}]
+
+
 def test_something_more_complicated():
     code = """  int a_function (bool x, bool y) {
                     int z = 0;
@@ -190,3 +219,4 @@ def test_sample_code():
 # - Handle comments.
 # - Handle usages as arguments to function calls.
 # - structs, enums, arrays
+# - dot and arrow notation for structs
