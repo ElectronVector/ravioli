@@ -230,7 +230,6 @@ def test_something_more_complicated():
                                                "undefined_usages": [("another_global", 16)]}]
 
 
-# TODO: This finds the struct definition at the top of the file, but we don't want that.
 def test_sample_code():
     import pprint
     pp = pprint.PrettyPrinter(depth=4)
@@ -250,3 +249,4 @@ def test_sample_code():
 # - structs, enums, arrays
 # - stucts that are initialized
 # - dot and arrow notation for structs
+# - assignments inside of blocks (e.g. setting the value of a struct)
