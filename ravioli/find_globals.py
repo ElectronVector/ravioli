@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 from ravioli.extract_declarations_and_usages import extract_declarations, extract_usages
-from ravioli.extract_statements import extract_statements, Block
+from ravioli.extract_statements import extract_statements, Block, clean_up_whitespace
 
 
 def get_last_word(s):
@@ -36,7 +36,8 @@ def __find_undefined_usages(statements):
             # If this is a block, recursively calculate the undefined usages in each deeper-nested block.
             # Only add undefined usages if they are not defined at this level.
             undefined_usages += [u for u in __find_undefined_usages(s.children) if u.name not in declarations]
-            declarations.append(s.trailing_content)
+            if s.trailing_content:
+                declarations += [clean_up_whitespace(token) for token in s.trailing_content.split(",")]
         else:
             # Attempt to extract and save declarations and usages from all statements at this nesting level.
             for new_declaration in extract_declarations(s.text):
