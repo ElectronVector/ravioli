@@ -1,12 +1,17 @@
 
 class Block:
-    def __init__(self, title, line_number, children=None):
+    def __init__(self, title, line_number, children=None, trailing_content=None):
         self.title = title
         self.line_number = line_number
         self.children = children
+        self.trailing_content = trailing_content
 
     def __repr__(self):
-        return f"Block({self.title}, {self.line_number}, {self.children})"
+        r = f"Block({self.title}, {self.line_number}, {self.children}"
+        if self.trailing_content:
+            r += f", {self.trailing_content}"
+        r += ")"
+        return r
 
     def __eq__(self, other):
         return (self.title == other.title
@@ -40,10 +45,15 @@ def extract_name_and_parameters(s):
     """
     param_start = s.find("(")
     param_end = s.rfind(")")
-    name = clean_up_whitespace(s[:param_start])
-    param_string = s[param_start + 1:param_end]
-    # Extract comma-separated paramaters separately.
-    params = [clean_up_whitespace(p) for p in param_string.split(",") if p]
+    if param_start >= 0 and param_end >= 0:
+        # There are parentheses (and thus parameters) here.
+        name = clean_up_whitespace(s[:param_start])
+        param_string = s[param_start + 1:param_end]
+        # Extract comma-separated paramaters separately.
+        params = [clean_up_whitespace(p) for p in param_string.split(",") if p]
+    else:
+        name = clean_up_whitespace(s)
+        params = None
     return name, params
 
 
