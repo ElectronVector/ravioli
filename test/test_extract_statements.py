@@ -102,7 +102,6 @@ def test_trailing_content_extracted_with_struct():
                     int b;
                 } a;
                 """
-    print(extract_statements(code))
     assert extract_statements(code) == [Block("struct my_struct", 1, [Statement("int a", 2), Statement("int b", 3)], "a")]
 
 
@@ -136,7 +135,6 @@ def test_more_complicated_trailing_content_extracted_with_struct_inside_function
                                                 Statement("int b", 4)
                                             ], "x, y")
                                         ])]
-
 
 
 # TODO
