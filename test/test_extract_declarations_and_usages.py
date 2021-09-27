@@ -50,6 +50,21 @@ def test_dont_find_non_declarations_with_commas():
     assert extract_declarations(statement) == []
 
 
+def test_find_struct_declaration_with_initialization():
+    statement = "struct my_struct a = x"
+    assert extract_declarations(statement) == ["a"]
+
+
+def test_find_struct_declaration_with_brace_initialization():
+    statement = "struct my_struct a = 1, 2, 3"
+    assert extract_declarations(statement) == ["a"]
+
+
+def test_find_struct_declaration_with_variables_in_brace_initialization():
+    statement = "struct my_struct a = x, 2, 3"
+    assert extract_declarations(statement) == ["a"]
+    assert extract_usages(statement) == ["a", "x"]
+
 # Test extract_usages()
 
 

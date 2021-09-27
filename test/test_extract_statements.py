@@ -137,5 +137,15 @@ def test_more_complicated_trailing_content_extracted_with_struct_inside_function
                                         ])]
 
 
+def test_struct_defintion_extracted_without_struct_defintion():
+    # TODO: I think this is the way we want to go, because we don't care about what the actual struct definition is.
+    # This will require undoing the "trailing content" business implemented earlier.
+    code = """  struct my_struct {
+                    int a;
+                    int b;
+                } a;
+                """
+    assert extract_statements(code) == [Statement("struct my_struct a", 1)]
+
 # TODO
 # - Test line numbers of function parameters split over multiple lines.
