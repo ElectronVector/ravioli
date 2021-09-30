@@ -68,13 +68,7 @@ def extract_statements(code):
             # Save the current statement.
             text = clean_up_whitespace(temp)
             newlines_in_text = temp.count("\n")
-            # Todo: Make this a little less complicated.
-            # If we just finished parsing a struct block, add the next semi-colon delimited statement as trailing
-            # content to the previous block.
-            if parse_tree and isinstance(parse_tree[-1], Block) and "struct" in parse_tree[-1].title and not isinstance(nest_levels[-1], Block):
-                parse_tree[-1].trailing_context = text
-            else:
-                nest_levels[-1].append(Statement(text, line_number - newlines_in_text))
+            nest_levels[-1].append(Statement(text, line_number - newlines_in_text))
             temp = ""
         elif c == "{":
             title, params = extract_name_and_parameters(temp)
