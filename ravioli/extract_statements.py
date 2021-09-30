@@ -52,31 +52,44 @@ def extract_statements(code):
     parse_tree = []
     nest_levels = [parse_tree]
     temp = ""
+    struct_nest_levels = 0
     for c in code:
         if c == ";":
-            # Save the current statement.
-            text = clean_up_whitespace(temp)
-            newlines_in_text = temp.count("\n")
-            nest_levels[-1].append(Statement(text, line_number - newlines_in_text))
-            temp = ""
+            if struct_nest_levels > 0:
+                temp += c
+            else:
+                # Save the current statement.
+                text = temp.strip()
+                newlines_in_text = temp.count("\n")
+                nest_levels[-1].append(Statement(text, line_number - newlines_in_text))
+                temp = ""
         elif c == "{":
             title, params = extract_name_and_parameters(temp)
             title = clean_up_whitespace(title)
-            new_block = Block(title, line_number)
-            if params:
-                for p in params:
-                    new_block.append(Statement(p, line_number))
-            nest_levels[-1].append(new_block)
-            nest_levels.append(new_block)
-            temp = ""
+            if "struct" in title:
+                # Don't do all the nested parsing for a struct. Just capture everything up to the semicolon.
+                temp += c
+                struct_nest_levels += 1
+            else:
+                new_block = Block(title, line_number)
+                if params:
+                    for p in params:
+                        new_block.append(Statement(p, line_number))
+                nest_levels[-1].append(new_block)
+                nest_levels.append(new_block)
+                temp = ""
         elif c == "}":
-            # This is the end of a block. Remove this nest level as we aren't going to save anything here any more.
-            nest_levels.pop()
-            temp = ""
+            if struct_nest_levels == 0:
+                # This is the end of a block. Remove this nest level as we aren't going to save anything here any more.
+                nest_levels.pop()
+                temp = ""
+            else:
+                temp += c
+                struct_nest_levels -= 1
         elif c == "\n":
             line_number += 1
-            if temp:
-                # Only capture the new line if we haven't just completed a statement.
+            if temp or (struct_nest_levels > 0):
+                # Only capture the new line if we haven't just completed a statement, or in the middle of processing a struct.
                 temp += c
         else:
             temp += c

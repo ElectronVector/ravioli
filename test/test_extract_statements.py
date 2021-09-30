@@ -27,7 +27,8 @@ def test_multiple_statements_with_extra_whitespace():
                 int
                     c;
                 """
-    assert extract_statements(code) == [Statement("int a", 1), Statement("int b = 0", 1), Statement("int c", 2)]
+    assert extract_statements(code) == [Statement("int   a", 1), Statement("int b =   0", 1),
+                                        Statement("int\n                    c", 2)]
 
 
 def test_block():
@@ -89,6 +90,28 @@ def test_multiple_parameters_extracted_from_block():
                 }
                 """
     assert extract_statements(code) == [Block("function_def", 1, [Statement("int x", 1), Statement("unsigned int y", 1), Statement("int a", 2)])]
+
+
+# Structs
+
+def test_struct_extracted_as_a_single_statement():
+    code = """struct my_struct {
+                int a;
+                int b;
+              } c;"""
+    assert extract_statements(code) == [Statement(code.rstrip(";"), 1)]
+
+
+def test_nested_struct_extracted_as_a_single_statement():
+    code = """struct my_struct {
+                int a;
+                int b;
+                struct nested_struct {
+                    int x;
+                    int y;
+                } z;
+              } c;"""
+    assert extract_statements(code) == [Statement(code.rstrip(";"), 1)]
 
 # TODO
 # - Test line numbers of function parameters split over multiple lines.
