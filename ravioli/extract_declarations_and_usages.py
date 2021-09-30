@@ -61,15 +61,19 @@ def is_valid_identifier(s):
 
 
 def add_spaces_around_punctuation(s):
-    s = s.replace("+=", "=")
-    s = s.replace("-=", "=")
-    s = s.replace("*=", "=")
     punctuation = ['+', '-', '*', '/', '=', '(', ')', ',']
     return ''.join(map(lambda c: f" {c} " if c in punctuation else c, s))
 
 
+def simplify_assignment_operators(s):
+    extra_assignment_operators = ["+=", "-=", "*="]
+    for x in extra_assignment_operators:
+        s = s.replace(x, "=")
+    return s
+
+
 def extract_usages(text):
-    operators = ["+", "="]
+    text = simplify_assignment_operators(text)
     # Ensure that there is whitespace around operators so that they are correctly parsed.
     text = add_spaces_around_punctuation(text)
     usages = []
