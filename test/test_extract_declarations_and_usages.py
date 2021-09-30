@@ -1,5 +1,5 @@
 from ravioli.extract_declarations_and_usages import is_valid_identifier, extract_declarations, \
-    extract_usages
+    extract_usages, add_spaces_around_operators
 
 
 # Test extract_declarations()
@@ -128,9 +128,9 @@ def test_find_a_usage_with_a_shift_operator():
     assert extract_usages(statement) == ["a", "b"]
 
 
-def test_find_a_usage_with_a_shift_operator_and_no_whitespace():
-    statement = "a = b<<1"
-    assert extract_usages(statement) == ["a", "b"]
+# def test_find_a_usage_with_a_shift_operator_and_no_whitespace():
+#     statement = "a = b<<1"
+#     assert extract_usages(statement) == ["a", "b"]
 
 # def test_find_usages_within_function_call():
 #     statement = "a_function_call(a,b,c)"
@@ -164,3 +164,10 @@ def test_a_single_letter_is_valid():
 
 def test_a_single_number_is_invalid():
     assert not is_valid_identifier("1")
+
+
+# Test operator spacing
+
+def test_bitshift_and_assignment():
+    code = "a<<=1"
+    assert add_spaces_around_operators(code) == "a <<= 1"
