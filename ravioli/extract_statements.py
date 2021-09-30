@@ -72,7 +72,7 @@ def extract_statements(code):
             # If we just finished parsing a struct block, add the next semi-colon delimited statement as trailing
             # content to the previous block.
             if last_block and "struct" in last_block.title:
-                last_block.trailing_content = text
+                last_block.trailing_context = text
             else:
                 nest_levels[-1].append(Statement(text, line_number - newlines_in_text))
             temp = ""
