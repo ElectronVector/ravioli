@@ -47,6 +47,19 @@ def extract_name_and_parameters(s):
     return name, params
 
 
+def find_change_in_nesting_level(c):
+    if c == "{":
+        return 1
+    elif c == "}":
+        return -1
+    else:
+        return 0
+
+
+def is_struct(text):
+    return "struct" in text.split()
+
+
 def extract_statements(code):
     line_number = 1
     parse_tree = []
@@ -62,10 +75,7 @@ def extract_statements(code):
         elif struct_nest_levels > 0:
             # We are parsing a struct. Keep going until we get to the last semi-colon.
             temp += c
-            if c == "{":
-                struct_nest_levels += 1
-            elif c == "}":
-                struct_nest_levels -= 1
+            struct_nest_levels += find_change_in_nesting_level(c)
         elif c == ";":
             # Save the current statement.
             text = temp.strip()
@@ -75,7 +85,7 @@ def extract_statements(code):
         elif c == "{":
             title, params = extract_name_and_parameters(temp)
             title = clean_up_whitespace(title)
-            if "struct" in title.split():
+            if is_struct(title):
                 # Don't do all the nested parsing for a struct. Just capture everything up to the semicolon.
                 temp += c
                 struct_nest_levels += 1
