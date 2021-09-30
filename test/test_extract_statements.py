@@ -1,4 +1,4 @@
-from ravioli.extract_statements import extract_statements, Block, Statement, extract_name_and_parameters
+from ravioli.extract_statements import extract_statements, Block, Statement
 
 
 # TODO
@@ -89,37 +89,6 @@ def test_multiple_parameters_extracted_from_block():
                 }
                 """
     assert extract_statements(code) == [Block("function_def", 1, [Statement("int x", 1), Statement("unsigned int y", 1), Statement("int a", 2)])]
-
-
-def test_extract_correct_name_from_struct_def():
-    code = "struct my_struct"
-    assert extract_name_and_parameters(code) == ("struct my_struct", None)
-
-
-def test_trailing_content_extracted_with_block():
-    code = """  struct my_struct {
-                    int a;
-                    int b;
-                } a;
-                """
-    print(extract_statements(code))
-    assert extract_statements(code) == [Block("struct my_struct", 1, [Statement("int a", 2), Statement("int b", 3)], "a")]
-
-
-# def test_trailing_content_extracted_with_block_inside_function():
-#     code = """  function_def() {
-#                     struct my_struct {
-#                         int a;
-#                         int b;
-#                     } a;
-#                 }
-#                 """
-#     assert extract_statements(code) == [Block(
-#                                             "function_def",
-#                                             1,
-#                                             [Block("struct my_struct", 2, [Statement("int a", 3), Statement("int b", 4)])],
-#                                         )]
-
 
 # TODO
 # - Test line numbers of function parameters split over multiple lines.
