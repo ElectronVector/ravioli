@@ -186,19 +186,19 @@ def test_dont_count_local_struct_declaration_as_undefined():
                                                "undefined_usages": []}]
 
 
-# def test_dont_count_multiple_local_struct_declarations_as_undefined():
-#     code = """  int a_function (int x) {
-#                     struct my_struct {
-#                         int a;
-#                         int b;
-#                     } y, z;
-#                     y = x;
-#                     z = x;
-#                 }
-#                 """
-#     assert find_globals_by_function(code) == [{"name": "a_function",
-#                                                "line_number": 1,
-#                                                "undefined_usages": []}]
+def test_dont_count_multiple_local_struct_declarations_as_undefined():
+    code = """  int a_function (int x) {
+                    struct my_struct {
+                        int a;
+                        int b;
+                    } y, z;
+                    y = x;
+                    z = x;
+                }
+                """
+    assert find_globals_by_function(code) == [{"name": "a_function",
+                                               "line_number": 1,
+                                               "undefined_usages": []}]
 
 
 def test_something_more_complicated():
