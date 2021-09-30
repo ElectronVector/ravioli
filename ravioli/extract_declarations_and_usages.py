@@ -61,6 +61,9 @@ def is_valid_identifier(s):
 
 
 def add_spaces_around_punctuation(s):
+    s = s.replace("+=", "=")
+    s = s.replace("-=", "=")
+    s = s.replace("*=", "=")
     punctuation = ['+', '-', '*', '/', '=', '(', ')', ',']
     return ''.join(map(lambda c: f" {c} " if c in punctuation else c, s))
 

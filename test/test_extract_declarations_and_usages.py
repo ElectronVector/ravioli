@@ -103,6 +103,20 @@ def test_find_usages_with_parentheses_in_expresssions():
     assert extract_usages(statement) == ["a", "b", "c", "d"]
 
 
+def test_find_an_assignment_with_plus():
+    statement = "a += 1"
+    assert extract_usages(statement) == ["a"]
+
+
+def test_find_an_assignment_with_minus():
+    statement = "a -= 1"
+    assert extract_usages(statement) == ["a"]
+
+
+def test_find_an_assignment_with_times():
+    statement = "a *= 1"
+    assert extract_usages(statement) == ["a"]
+
 # def test_find_usages_within_function_call():
 #     statement = "a_function_call(a,b,c)"
 #     assert extract_usages(statement) == ["a", "b", "c"]
