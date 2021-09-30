@@ -121,5 +121,12 @@ def test_struct_with_initialization_extracted_as_a_single_statement():
               } c = {1, 2};"""
     assert extract_statements(code) == [Statement(code.rstrip(";"), 1)]
 
+
+def test_function_with_struct_in_name_extracted_as_block():
+    code = """  function_def_with_struct_in_name() {
+                }
+                """
+    assert extract_statements(code) == [Block("function_def_with_struct_in_name", 1)]
+
 # TODO
 # - Test line numbers of function parameters split over multiple lines.
