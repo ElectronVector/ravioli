@@ -60,6 +60,11 @@ def test_dont_find_non_declarations_with_other_boolean_operators():
     assert extract_declarations(statement) == []
 
 
+def test_dont_find_non_declarations_with_two_char_boolean_operators():
+    statement = "a <= b"
+    assert extract_declarations(statement) == []
+
+
 def test_extract_struct_declaration_with_definition():
     statement = """ struct my_struct {
                         int a;
