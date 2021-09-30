@@ -127,6 +127,11 @@ def test_find_a_usage_with_a_shift_operator():
     statement = "a = b << 1"
     assert extract_usages(statement) == ["a", "b"]
 
+
+def test_find_a_usage_with_a_shift_operator_and_no_whitespace():
+    statement = "a = b<<1"
+    assert extract_usages(statement) == ["a", "b"]
+
 # def test_find_usages_within_function_call():
 #     statement = "a_function_call(a,b,c)"
 #     assert extract_usages(statement) == ["a", "b", "c"]
