@@ -63,20 +63,19 @@ def extract_statements(code):
     parse_tree = []
     nest_levels = [parse_tree]
     temp = ""
-    last_block = None
     for c in code:
         if c == ";":
             # Save the current statement.
             text = clean_up_whitespace(temp)
             newlines_in_text = temp.count("\n")
+            # Todo: Make this a little less complicated.
             # If we just finished parsing a struct block, add the next semi-colon delimited statement as trailing
             # content to the previous block.
-            if last_block and "struct" in last_block.title:
-                last_block.trailing_context = text
+            if parse_tree and isinstance(parse_tree[-1], Block) and "struct" in parse_tree[-1].title and not isinstance(nest_levels[-1], Block):
+                parse_tree[-1].trailing_context = text
             else:
                 nest_levels[-1].append(Statement(text, line_number - newlines_in_text))
             temp = ""
-            last_block = None
         elif c == "{":
             title, params = extract_name_and_parameters(temp)
             title = clean_up_whitespace(title)
@@ -88,7 +87,6 @@ def extract_statements(code):
             nest_levels.append(new_block)
             temp = ""
         elif c == "}":
-            last_block = nest_levels[-1]
             # This is the end of a block. Remove this nest level as we aren't going to save anything here any more.
             nest_levels.pop()
             temp = ""
