@@ -63,7 +63,7 @@ def is_valid_identifier(s):
             return False
 
     # Todo: Check for other reserved keywords.
-    if s == "else":
+    if s in ["if", "else", "do", "while", "break", "return"]:
         return False
 
     return True

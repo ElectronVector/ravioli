@@ -242,7 +242,6 @@ def test_sample_code():
 
 
 # TODO
-# - Count usages for equality tests like ==, !=, >, etc.
 # - Test with more operators: ++, ==, etc.
 # - Test for stdbool true/false (should not be globals)
 # - Handle comments.

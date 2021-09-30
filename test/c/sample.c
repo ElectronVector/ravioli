@@ -115,7 +115,7 @@ int multiple_compound_if(int i, int j) {
 }
 
 int while_loop() {
-    i = 0;
+    int i = 0;
     while (i < 10){
         global_variable += 1;
         i++;
@@ -123,13 +123,13 @@ int while_loop() {
 }
 
 int for_loop() {
-    for (i = 0; i < 10; i++){
+    for (int i = 0; i < 10; i++){
         global_variable += 1;
     }
 }
 
 int do_while_loop() {
-    i = 0;
+   int i = 0;
     do {
         global_variable += 1;
         i++;
@@ -146,15 +146,15 @@ int compound_while_loop(int j, int i) {
 }
 
 int nested_for_loops() {
-    for (i = 0; i < 10; i++){
-        for (j = 0; j < 10; j++) {
+    for (int i = 0; i < 10; i++){
+        for (int j = 0; j < 10; j++) {
             global_variable += 1;
         }
     }
 }
 
 int nested_loops_with_compound_conditional() {
-    for (i = 0; i < 10; i++){
+    for (int i = 0; i < 10; i++){
         int j = 0;
         while ((j < 10) && (i < 5)) {
             global_variable += 1;
@@ -173,7 +173,7 @@ int a_complicated_example(int x, int y, int z) {
     }
     else if ((x > 5) && (y > 3) && (z > 1)) {
         answer += 1;
-        result = 0;
+        int result = 0;
         for (int i = 0, j = 0; (i < 10) && (result == 0); i++) {
             if ((global_variable == 15) || (another_global == 12)) {
                 result = 1;
@@ -241,7 +241,7 @@ int a_more_complicated_example(int x, int y, int z) {
         answer += 4;
     } else if ((x > 5) && (y > 3) && (z > 1)) {
         answer += 1;
-        result = 0;
+        int result = 0;
         for (int i = 0, j = 0; (i < 10) && (result == 0); i++) {
             if ((global_variable == 15) || (another_global == 12)) {
                 result = 1;
