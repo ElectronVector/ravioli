@@ -23,7 +23,7 @@ def extract_declarations(text):
             # A comma potentially ends a declaration.
             # A declaration should be saved if 1) there are at least two consecutive valid identifiers or 2) we
             # previously found two consecutive identifiers and this is another declaration after a comma.
-            if (type_found or (len(potential_declaration) >= 2)) and potential_declaration:
+            if type_found or (len(potential_declaration) >= 2):
                 declarations.append(potential_declaration[-1])
                 type_found = True
             # After a comma we need to start a new potential declaration.
