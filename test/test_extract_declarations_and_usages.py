@@ -63,7 +63,7 @@ def test_extract_multiple_struct_declarations_with_definition():
                         int a;
                         int b;
                     } c, d"""
-    assert extract_declarations(statement) == ["c, d"]
+    assert extract_declarations(statement) == ["c", "d"]
 
 # Test extract_usages()
 

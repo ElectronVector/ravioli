@@ -113,5 +113,13 @@ def test_nested_struct_extracted_as_a_single_statement():
               } c;"""
     assert extract_statements(code) == [Statement(code.rstrip(";"), 1)]
 
+
+def test_struct_with_initialization_extracted_as_a_single_statement():
+    code = """struct my_struct {
+                int a;
+                int b;
+              } c = {1, 2};"""
+    assert extract_statements(code) == [Statement(code.rstrip(";"), 1)]
+
 # TODO
 # - Test line numbers of function parameters split over multiple lines.
