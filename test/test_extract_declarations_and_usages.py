@@ -50,6 +50,21 @@ def test_dont_find_non_declarations_with_commas():
     assert extract_declarations(statement) == []
 
 
+def test_extract_struct_declaration_with_definition():
+    statement = """ struct my_struct {
+                        int a;
+                        int b;
+                    } c"""
+    assert extract_declarations(statement) == ["c"]
+
+
+def test_extract_multiple_struct_declarations_with_definition():
+    statement = """ struct my_struct {
+                        int a;
+                        int b;
+                    } c, d"""
+    assert extract_declarations(statement) == ["c, d"]
+
 # Test extract_usages()
 
 

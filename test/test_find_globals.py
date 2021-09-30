@@ -177,8 +177,8 @@ def test_dont_count_local_struct_declaration_as_undefined():
                     struct my_struct {
                         int a;
                         int b;
-                    } a;
-                    a = x;
+                    } c;
+                    c = x;
                 }
                 """
     assert find_globals_by_function(code) == [{"name": "a_function",
