@@ -157,9 +157,10 @@ def test_find_usages_in_more_complicated_boolean_logic():
     code = "!a||b&&c"
     assert extract_usages(code) == ["a", "b", "c"]
 
-# def test_find_usages_within_function_call():
-#     statement = "a_function_call(a,b,c)"
-#     assert extract_usages(statement) == ["a", "b", "c"]
+
+def test_find_usages_within_function_call():
+    statement = "a_function_call(a,b,c)"
+    assert extract_usages(statement) == ["a", "b", "c"]
 
 
 # Test identifier detection
