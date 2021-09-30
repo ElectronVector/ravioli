@@ -171,3 +171,8 @@ def test_a_single_number_is_invalid():
 def test_bitshift_and_assignment():
     code = "a<<=1"
     assert add_spaces_around_operators(code) == "a <<= 1"
+
+
+def test_bitshift_right_and_assignment():
+    code = "a>>=1"
+    assert add_spaces_around_operators(code) == "a >>= 1"
