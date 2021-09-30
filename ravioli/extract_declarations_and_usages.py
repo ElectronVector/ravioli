@@ -69,6 +69,7 @@ def add_spaces_around_punctuation(s):
 def add_spaces_around_operators(s):
     three_char_operators = ["<<=", ">>="]
     two_char_operators = ["<<"]
+    one_char_operators = ["<"]
     operators = ['+', '-', '*', '/', '=']
     new_s = ""
     i = 0
@@ -79,6 +80,9 @@ def add_spaces_around_operators(s):
         elif s[i:i+2] in two_char_operators:
             new_s += " " + s[i:i + 2] + " "
             i += 2
+        elif s[i] in one_char_operators:
+            new_s += " " + s[i] + " "
+            i += 1
         else:
             new_s += s[i]
             i += 1
