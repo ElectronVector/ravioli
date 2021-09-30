@@ -108,6 +108,11 @@ def test_find_an_assignment_with_plus():
     assert extract_usages(statement) == ["a"]
 
 
+def test_find_an_assignment_with_plus_and_no_spaces():
+    statement = "a+=1"
+    assert extract_usages(statement) == ["a"]
+
+
 def test_find_an_assignment_with_minus():
     statement = "a -= 1"
     assert extract_usages(statement) == ["a"]
