@@ -50,6 +50,16 @@ def test_dont_find_non_declarations_with_commas():
     assert extract_declarations(statement) == []
 
 
+def test_dont_find_non_declarations_with_boolean_operators():
+    statement = "a > b"
+    assert extract_declarations(statement) == []
+
+
+# def test_dont_find_non_declarations_with_other_boolean_operators():
+#     statement = "a < b"
+#     assert extract_declarations(statement) == []
+
+
 def test_extract_struct_declaration_with_definition():
     statement = """ struct my_struct {
                         int a;
@@ -129,8 +139,13 @@ def test_find_a_usage_with_a_shift_operator():
 
 
 def test_find_a_usage_with_a_shift_operator_and_no_whitespace():
-    statement = "a = b<<1"
+    statement = "a=b<<1"
     assert extract_usages(statement) == ["a", "b"]
+
+
+def test_find_a_usages_in_boolean_conditional():
+    statement = "x > y"
+    assert extract_usages(statement) == ["x", "y"]
 
 # def test_find_usages_within_function_call():
 #     statement = "a_function_call(a,b,c)"
@@ -186,3 +201,8 @@ def test_bitshift():
 def test_less_than():
     code = "a<1"
     assert add_spaces_around_operators(code) == "a < 1"
+
+
+def test_some_boolean_logic():
+    code = "!a||b&&c"
+    assert add_spaces_around_operators(code) == " ! a || b && c"

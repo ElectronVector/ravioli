@@ -37,6 +37,10 @@ def extract_declarations(text):
         elif is_valid_identifier(t) and not on_right_side_of_equals:
             # Save all the valid consecutive identifier so that we can eventually save the last one.
             potential_declaration.append(t)
+        elif t == ">" or t == ">=":
+            # This is a boolean operation, reset the identifier count because anything previously captured won't be
+            # a type for a new declaration.
+            potential_declaration = []
 
     if potential_declaration:
         # A declaration should be saved if 1) there are at least two consecutive valid identifiers or 2) we previously
@@ -57,6 +61,10 @@ def is_valid_identifier(s):
     for c in s:
         if not (c == "_" or c.isalpha() or c.isdigit()):
             return False
+
+    # Todo: Check for other reserved keywords.
+    if s == "else":
+        return False
 
     return True
 
@@ -105,11 +113,15 @@ def extract_usages(text):
     # car about what the actual assignment operator is.
     text = simplify_assignment_operators(text)
     usages = []
-    if "=" in text:
+    if " = " in text:
         # Usage must be directly to the left of the = or after the equal
         tokens = text.split()
         eq_index = tokens.index('=')
         if is_valid_identifier(tokens[eq_index - 1]):
             usages.append(tokens[eq_index - 1])
         usages += [t for t in tokens[eq_index:] if is_valid_identifier(t)]
+    elif not extract_declarations(text):
+        tokens = text.split()
+        usages += [t for t in tokens if is_valid_identifier(t)]
+
     return usages
