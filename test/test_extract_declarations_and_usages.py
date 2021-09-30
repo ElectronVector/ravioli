@@ -122,6 +122,11 @@ def test_find_an_assignment_with_times():
     statement = "a *= 1"
     assert extract_usages(statement) == ["a"]
 
+
+def test_find_a_usage_with_an_increment_operator():
+    statement = "a++"
+    assert extract_usages(statement) == ["a"]
+
 # def test_find_usages_within_function_call():
 #     statement = "a_function_call(a,b,c)"
 #     assert extract_usages(statement) == ["a", "b", "c"]
