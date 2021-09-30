@@ -66,7 +66,7 @@ def add_spaces_around_punctuation(s):
 
 
 def simplify_assignment_operators(s):
-    extra_assignment_operators = ["+=", "-=", "*="]
+    extra_assignment_operators = ["+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|="]
     for x in extra_assignment_operators:
         s = s.replace(x, "=")
     return s
