@@ -37,7 +37,7 @@ def extract_declarations(text):
         elif is_valid_identifier(t) and not on_right_side_of_equals:
             # Save all the valid consecutive identifier so that we can eventually save the last one.
             potential_declaration.append(t)
-        elif t == ">" or t == ">=":
+        elif t == ">" or t == "<":
             # This is a boolean operation, reset the identifier count because anything previously captured won't be
             # a type for a new declaration.
             potential_declaration = []
