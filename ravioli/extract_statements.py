@@ -43,18 +43,17 @@ def extract_name_and_parameters(s):
     :param s: The string to extract the block name and parameters from.
     :return: A tuple containing the 1) name of the block and 2) an array of block parameters.
     """
-    params = None
     param_start = s.find("(")
     param_end = s.rfind(")")
-    if param_start == -1 or param_end == -1:
-        # We didn't find both parentheses here -- thus there are no parameters.
-        name = clean_up_whitespace(s)
-    else:
+    if param_start >= 0 and param_end >= 0:
+        # There are parentheses (and thus parameters) here.
         name = clean_up_whitespace(s[:param_start])
         param_string = s[param_start + 1:param_end]
-        # Extract comma-separated parameters separately.
+        # Extract comma-separated paramaters separately.
         params = [clean_up_whitespace(p) for p in param_string.split(",") if p]
-
+    else:
+        name = clean_up_whitespace(s)
+        params = None
     return name, params
 
 
