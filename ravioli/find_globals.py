@@ -42,8 +42,7 @@ def __find_undefined_usages(statements):
                 declarations.append(new_declaration)
             for new_usage in extract_usages(s.text):
                 usages.append(Use(new_usage, s.line_number))
-    print(f"decls: {declarations}")
-    print(f"usages: {usages}")
+
     # Undefined usages are usages that haven't been declared.
     undefined_usages += [u for u in usages if u.name not in declarations]
 
