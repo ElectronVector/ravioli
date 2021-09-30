@@ -68,8 +68,9 @@ def add_spaces_around_punctuation(s):
 
 def add_spaces_around_operators(s):
     three_char_operators = ["<<=", ">>="]
-    two_char_operators = ["<<", "<<"]
-    one_char_operators = ["<", ">", "+", "-", "*", "/", "="]
+    two_char_operators = ["<<", "<<", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|=", "==", ">=", "<=",
+                          "&&", "||", "++", "--", "!="]
+    one_char_operators = ["<", ">", "+", "-", "*", "/", "%", "=", "!", "&", "|", "^", "~"]
     new_s = ""
     i = 0
     while i < len(s):
@@ -97,10 +98,10 @@ def simplify_assignment_operators(s):
 
 
 def extract_usages(text):
-    text = simplify_assignment_operators(text)
     # Ensure that there is whitespace around operators so that they are correctly parsed.
     text = add_spaces_around_operators(text)
     text = add_spaces_around_punctuation(text)
+    text = simplify_assignment_operators(text)
     usages = []
     if "=" in text:
         # Usage must be directly to the left of the = or after the equal
