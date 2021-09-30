@@ -113,15 +113,18 @@ def extract_usages(text):
     # car about what the actual assignment operator is.
     text = simplify_assignment_operators(text)
     usages = []
-    if " = " in text:
+    # Look at all the whitespace-delimited tokens in the text.
+    tokens = text.split()
+    if "=" in tokens:
         # Usage must be directly to the left of the = or after the equal
-        tokens = text.split()
         eq_index = tokens.index('=')
         if is_valid_identifier(tokens[eq_index - 1]):
+            # Before the =
             usages.append(tokens[eq_index - 1])
+        # After the =
         usages += [t for t in tokens[eq_index:] if is_valid_identifier(t)]
     elif not extract_declarations(text):
-        tokens = text.split()
+        # If there are no declarations in this text, then we can look at everything for tokens.
         usages += [t for t in tokens if is_valid_identifier(t)]
 
     return usages
