@@ -71,23 +71,23 @@ def add_spaces_around_operators(s):
     two_char_operators = ["<<", "<<", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|=", "==", ">=", "<=",
                           "&&", "||", "++", "--", "!="]
     one_char_operators = ["<", ">", "+", "-", "*", "/", "%", "=", "!", "&", "|", "^", "~"]
-    new_s = ""
+    s_with_spaces = ""
     i = 0
     while i < len(s):
         if s[i:i+3] in three_char_operators:
-            new_s += " " + s[i:i+3] + " "
+            s_with_spaces += " " + s[i:i+3] + " "
             i += 3
         elif s[i:i+2] in two_char_operators:
-            new_s += " " + s[i:i + 2] + " "
+            s_with_spaces += " " + s[i:i + 2] + " "
             i += 2
         elif s[i] in one_char_operators:
-            new_s += " " + s[i] + " "
+            s_with_spaces += " " + s[i] + " "
             i += 1
         else:
-            new_s += s[i]
+            s_with_spaces += s[i]
             i += 1
 
-    return new_s
+    return s_with_spaces
 
 
 def simplify_assignment_operators(s):
