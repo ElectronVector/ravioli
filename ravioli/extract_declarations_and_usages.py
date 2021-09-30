@@ -98,9 +98,11 @@ def simplify_assignment_operators(s):
 
 
 def extract_usages(text):
-    # Ensure that there is whitespace around operators so that they are correctly parsed.
+    # Ensure that there is whitespace around operators and punctuation so that they are correctly parsed.
     text = add_spaces_around_operators(text)
     text = add_spaces_around_punctuation(text)
+    # Convert multicharacter assignment operators to = so that can detect them all the same way. We really don't\
+    # car about what the actual assignment operator is.
     text = simplify_assignment_operators(text)
     usages = []
     if "=" in text:
