@@ -64,6 +64,7 @@ def is_operator(s):
 
 
 def is_reserved_keyword(s):
+    # False and true are not technically reserved C keywords, but we don't want to count them.
     return s.lower() in ["if", "else", "do", "while", "break", "return", "false", "true"]
 
 
