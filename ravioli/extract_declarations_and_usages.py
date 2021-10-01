@@ -5,6 +5,7 @@ three_char_operators = ["<<=", ">>="]
 two_char_operators = ["<<", "<<", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|=", "==", ">=", "<=",
                           "&&", "||", "++", "--", "!="]
 one_char_operators = ["<", ">", "+", "-", "*", "/", "%", "=", "!", "&", "|", "^", "~"]
+punctuation = ['(', ')', ',']
 
 def extract_declarations(text):
     """
@@ -42,7 +43,7 @@ def extract_declarations(text):
         elif is_valid_identifier(t) and not on_right_side_of_equals:
             # Save all the valid consecutive identifier so that we can eventually save the last one.
             potential_declaration.append(t)
-        elif is_operator(t) or (t == "("):
+        elif is_operator(t) or is_punctuation(t):
             # You can't have a declaration separated by an operator.
             potential_declaration = []
 
@@ -53,6 +54,10 @@ def extract_declarations(text):
             declarations.append(potential_declaration[-1])
 
     return declarations
+
+
+def is_punctuation(s):
+    return s in punctuation
 
 
 def is_operator(s):
@@ -78,7 +83,6 @@ def is_valid_identifier(s):
 
 
 def add_spaces_around_punctuation(s):
-    punctuation = ['(', ')', ',']
     return ''.join(map(lambda c: f" {c} " if c in punctuation else c, s))
 
 
