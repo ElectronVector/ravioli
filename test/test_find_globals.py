@@ -242,7 +242,6 @@ def test_sample_code():
 
 
 # TODO
-# - Test with more operators: ++, ==, etc.
 # - Test for stdbool true/false (should not be globals)
 # - Handle comments.
 # - enums, arrays
