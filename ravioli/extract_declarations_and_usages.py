@@ -1,4 +1,4 @@
-from ravioli.extract_statements import extract_statements
+from itertools import zip_longest
 
 
 def extract_declarations(text):
@@ -37,9 +37,9 @@ def extract_declarations(text):
         elif is_valid_identifier(t) and not on_right_side_of_equals:
             # Save all the valid consecutive identifier so that we can eventually save the last one.
             potential_declaration.append(t)
-        elif t in [">", "<", "<=", "<=", "!=", "&&", "&", "||", "|"]:
-            # This is a boolean operation, reset the identifier count because anything previously captured won't be
-            # a type for a new declaration.
+        elif t in [">", "<", "<=", "<=", "!=", "&&", "&", "||", "|", "("]:
+            # This is a boolean operation or the start of a function call arg list, reset the identifier count because
+            # anything previously captured won't be a type for a new declaration.
             potential_declaration = []
 
     if potential_declaration:
@@ -125,6 +125,8 @@ def extract_usages(text):
         usages += [t for t in tokens[eq_index:] if is_valid_identifier(t)]
     elif not extract_declarations(text):
         # If there are no declarations in this text, then we can look at everything for tokens.
-        usages += [t for t in tokens if is_valid_identifier(t)]
+        for token, next_token in zip_longest(tokens, tokens[1:]):
+            if is_valid_identifier(token) and not next_token == "(":
+                usages += token
 
     return usages
