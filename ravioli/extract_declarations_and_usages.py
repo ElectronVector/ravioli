@@ -83,7 +83,7 @@ def is_valid_identifier(s):
 
 
 def add_spaces_around_punctuation(s):
-    return ''.join(map(lambda c: f" {c} " if c in punctuation else c, s))
+    return ''.join(map(lambda c: f" {c} " if is_punctuation(c) else c, s))
 
 
 def add_spaces_around_operators(s):
