@@ -179,6 +179,11 @@ def test_dont_find_true_as_usage():
     assert extract_usages(statement) == ["a"]
 
 
+def test_dont_find_capital_false_as_usage():
+    statement = "a = FALSE"
+    assert extract_usages(statement) == ["a"]
+
+
 def test_find_usages_within_function_call():
     statement = "a_function_call(a,b,c)"
     assert extract_usages(statement) == ["a", "b", "c"]
