@@ -42,9 +42,8 @@ def extract_declarations(text):
         elif is_valid_identifier(t) and not on_right_side_of_equals:
             # Save all the valid consecutive identifier so that we can eventually save the last one.
             potential_declaration.append(t)
-        elif t in (one_char_operators + two_char_operators + three_char_operators + ["("]):
-            # This is a boolean operation or the start of a function call arg list, reset the identifier count because
-            # anything previously captured won't be a type for a new declaration.
+        elif is_operator(t) or (t == "("):
+            # You can't have a declaration separated by an operator.
             potential_declaration = []
 
     if potential_declaration:
@@ -54,6 +53,10 @@ def extract_declarations(text):
             declarations.append(potential_declaration[-1])
 
     return declarations
+
+
+def is_operator(s):
+    return s in (one_char_operators + two_char_operators + three_char_operators)
 
 
 def is_valid_identifier(s):
