@@ -44,7 +44,7 @@ def extract_declarations(text):
             # Save all the valid consecutive identifier so that we can eventually save the last one.
             potential_declaration.append(t)
         elif is_operator(t) or is_punctuation(t):
-            # You can't have a declaration separated by an operator.
+            # You can't have a declaration separated by an operator or punctuation.
             potential_declaration = []
 
     if potential_declaration:
