@@ -5,7 +5,6 @@ three_char_operators = ["<<=", ">>="]
 two_char_operators = ["<<", "<<", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|=", "==", ">=", "<=",
                           "&&", "||", "++", "--", "!="]
 one_char_operators = ["<", ">", "+", "-", "*", "/", "%", "=", "!", "&", "|", "^", "~"]
-punctuation = ['(', ')', ',']
 
 def extract_declarations(text):
     """
@@ -57,27 +56,30 @@ def extract_declarations(text):
 
 
 def is_punctuation(s):
-    return s in punctuation
+    return s in ['(', ')', ',']
 
 
 def is_operator(s):
     return s in (one_char_operators + two_char_operators + three_char_operators)
 
 
+def is_reserved_keyword(s):
+    return s.lower() in ["if", "else", "do", "while", "break", "return", "false", "true"]
+
+
 def is_valid_identifier(s):
     """
     Determine if this string is a valid C language variable name.
     """
+    if is_reserved_keyword(s):
+        return False
+
     # The first character must be a letter or underscore.
     if s[0].isdigit():
         return False
     for c in s:
         if not (c == "_" or c.isalpha() or c.isdigit()):
             return False
-
-    # Todo: Check for other reserved keywords.
-    if s.lower() in ["if", "else", "do", "while", "break", "return", "false", "true"]:
-        return False
 
     return True
 
