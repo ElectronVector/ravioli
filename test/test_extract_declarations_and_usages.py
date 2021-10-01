@@ -163,6 +163,11 @@ def test_find_usages_within_function_call():
     assert extract_usages(statement) == ["a", "b", "c"]
 
 
+def test_find_usages_within_function_call_with_some_math():
+    code = "a_function_call(a+x,(b%y),c<<z)"
+    assert extract_usages(code) == ["a", "x", "b", "y", "c", "z"]
+
+
 # Test identifier detection
 def test_all_alphas_is_valid():
     assert is_valid_identifier("name")

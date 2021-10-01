@@ -1,6 +1,11 @@
 from itertools import zip_longest
 
 
+three_char_operators = ["<<=", ">>="]
+two_char_operators = ["<<", "<<", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|=", "==", ">=", "<=",
+                          "&&", "||", "++", "--", "!="]
+one_char_operators = ["<", ">", "+", "-", "*", "/", "%", "=", "!", "&", "|", "^", "~"]
+
 def extract_declarations(text):
     """
     Find all declarations of new variables in the current text.
@@ -37,7 +42,7 @@ def extract_declarations(text):
         elif is_valid_identifier(t) and not on_right_side_of_equals:
             # Save all the valid consecutive identifier so that we can eventually save the last one.
             potential_declaration.append(t)
-        elif t in [">", "<", "<=", "<=", "!=", "&&", "&", "||", "|", "("]:
+        elif t in (one_char_operators + two_char_operators + three_char_operators + ["("]):
             # This is a boolean operation or the start of a function call arg list, reset the identifier count because
             # anything previously captured won't be a type for a new declaration.
             potential_declaration = []
@@ -75,10 +80,6 @@ def add_spaces_around_punctuation(s):
 
 
 def add_spaces_around_operators(s):
-    three_char_operators = ["<<=", ">>="]
-    two_char_operators = ["<<", "<<", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|=", "==", ">=", "<=",
-                          "&&", "||", "++", "--", "!="]
-    one_char_operators = ["<", ">", "+", "-", "*", "/", "%", "=", "!", "&", "|", "^", "~"]
     s_with_spaces = ""
     i = 0
     while i < len(s):
