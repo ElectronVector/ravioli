@@ -245,7 +245,6 @@ def test_sample_code():
 # - Test with more operators: ++, ==, etc.
 # - Test for stdbool true/false (should not be globals)
 # - Handle comments.
-# - Handle usages as arguments to function calls.
-# - structs, enums, arrays
+# - enums, arrays
 # - stucts that are initialized
 # - dot and arrow notation for structs

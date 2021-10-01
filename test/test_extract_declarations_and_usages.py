@@ -1,9 +1,10 @@
 from ravioli.extract_declarations_and_usages import is_valid_identifier, extract_declarations, \
     extract_usages, add_spaces_around_operators
 
+# TODO: Group these tests into classes and clean up.
+
 
 # Test extract_declarations()
-
 
 def test_find_declaration_with_custom_type():
     statement = "type_t abcd5 = 0"
@@ -156,6 +157,16 @@ def test_find_a_usages_in_boolean_conditional():
 def test_find_usages_in_more_complicated_boolean_logic():
     code = "!a||b&&c"
     assert extract_usages(code) == ["a", "b", "c"]
+
+
+def test_find_a_usage_with_an_increment_operator():
+    statement = "a++"
+    assert extract_usages(statement) == ["a"]
+
+
+def test_find_a_usage_with_a_decrement_operator():
+    statement = "a = b--"
+    assert extract_usages(statement) == ["a", "b"]
 
 
 def test_find_usages_within_function_call():
