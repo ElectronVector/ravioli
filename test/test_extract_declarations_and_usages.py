@@ -168,6 +168,11 @@ def test_find_usages_within_function_call_with_some_math():
     assert extract_usages(code) == ["a", "x", "b", "y", "c", "z"]
 
 
+def test_more_conditionals():
+    code = "global_variable"
+    assert extract_usages(code) == ["global_variable"]
+
+
 # Test identifier detection
 def test_all_alphas_is_valid():
     assert is_valid_identifier("name")

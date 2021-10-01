@@ -135,6 +135,6 @@ def extract_usages(text):
         # If there are no declarations in this text, then we can look at everything for tokens.
         for token, next_token in zip_longest(tokens, tokens[1:]):
             if is_valid_identifier(token) and not next_token == "(":
-                usages += token
+                usages.append(token)
 
     return usages
