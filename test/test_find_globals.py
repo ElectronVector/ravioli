@@ -1,7 +1,12 @@
 from ravioli.find_globals import find_globals_by_function
 
 
-# Test extracting undefined usages.
+# TODO
+# - Handle comments.
+# - enums, arrays
+# - stucts that are initialized
+# - dot and arrow notation for structs
+
 
 def test_find_function_defintions():
     code = """  int a_function (int x, int y) {
@@ -240,9 +245,3 @@ def test_sample_code():
     pp.pprint(results)
     assert len(results) == 20
 
-
-# TODO
-# - Handle comments.
-# - enums, arrays
-# - stucts that are initialized
-# - dot and arrow notation for structs
