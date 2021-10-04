@@ -28,6 +28,19 @@ def test_dashed_comment_line():
     assert(stripped == expected)
 
 
+def test_single_line_comment_is_removed():
+    code = """
+            // This is a comment.
+            int a;
+            """
+    expected = """
+
+            int a;
+            """
+    stripped = strip_comments(code)
+    assert (stripped == expected)
+
+
 def test_some_tricky_code():
     code = """
                 /*-----------------------------------------------------------*/

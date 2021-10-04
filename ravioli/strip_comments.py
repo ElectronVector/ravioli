@@ -1,7 +1,7 @@
 def strip_comments(code):
     # Remove single line comments.
     code_lines = code.splitlines(True)
-    non_comment_lines = [line for line in code_lines if not line.lstrip().startswith("//")]
+    non_comment_lines = [line if not line.lstrip().startswith("//") else "\n" for line in code_lines]
     code = "".join(non_comment_lines)
     # Remove block comments
     stripped = ""
