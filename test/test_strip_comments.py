@@ -34,7 +34,7 @@ def test_single_line_comment_is_removed():
             int a;
             """
     expected = """
-
+            
             int a;
             """
     stripped = strip_comments(code)
