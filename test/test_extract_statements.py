@@ -7,6 +7,7 @@ from ravioli.extract_statements import extract_statements, Block, Statement
 #   - Rename.
 # Try actually counting globals in some sample code.
 # Parse for and do-while loops.
+from ravioli.strip_comments import strip_comments
 
 
 def test_single_statement():
@@ -127,6 +128,21 @@ def test_function_with_struct_in_name_extracted_as_block():
                 }
                 """
     assert extract_statements(code) == [Block("function_def_with_struct_in_name", 1)]
+
+
+def test_blank_lines_are_counted_for_line_number():
+    code = """  
+                int a;
+                """
+    assert extract_statements(code) == [Statement("int a", 2)]
+
+
+def test_single_line_block_comments_can_be_skipped():
+    code = """  /* This is a comment. */
+                int a;
+                """
+    code = strip_comments(code)
+    assert extract_statements(code) == [Statement("int a", 2)]
 
 # TODO
 # - Test line numbers of function parameters split over multiple lines.

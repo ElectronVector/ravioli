@@ -79,8 +79,9 @@ def extract_statements(code):
         elif c == ";":
             # Save the current statement.
             text = temp.strip()
-            newlines_in_text = temp.count("\n")
+            newlines_in_text = temp.strip().count("\n")
             nest_levels[-1].append(Statement(text, line_number - newlines_in_text))
+            #nest_levels[-1].append(Statement(text, line_number))
             temp = ""
         elif c == "{":
             title, params = extract_name_and_parameters(temp)
