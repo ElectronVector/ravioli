@@ -152,5 +152,20 @@ def test_single_line_comments_can_be_skipped():
     code = strip_comments(code)
     assert extract_statements(code) == [Statement("int a", 2)]
 
+
+def test_single_line_comments_can_be_skipped_on_the_same_line_as_some_code():
+    code = """  int a;  // This is a comment.
+                """
+    code = strip_comments(code)
+    assert extract_statements(code) == [Statement("int a", 1)]
+
+
+def test_single_line_comments_can_be_skipped_on_the_same_line_as_some_code():
+    code = """  int a;  // This is a comment.
+                int b;  // This is another comment.
+                """
+    code = strip_comments(code)
+    assert extract_statements(code) == [Statement("int a", 1), Statement("int b", 2)]
+
 # TODO
 # - Test line numbers of function parameters split over multiple lines.

@@ -41,6 +41,17 @@ def test_single_line_comment_is_removed():
     assert (stripped == expected)
 
 
+def test_end_of_line_comments_are_removed():
+    code____ = """  int a;  // This is a comment.
+                    int b;  // This is another comment.
+                    """
+    expected = """  int a;  
+                    int b;  
+                    """
+    stripped = strip_comments(code____)
+    assert (stripped == expected)
+
+
 def test_some_tricky_code():
     code = """
                 /*-----------------------------------------------------------*/
