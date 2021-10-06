@@ -77,3 +77,8 @@ def test_extract_multiple_struct_declarations_with_definition():
     assert extract_declarations(statement) == ["c", "d"]
 
 
+def test_extract_array_definition():
+    code = "int my_array[5];"
+    assert extract_declarations(code) == ["my_array"]
+
+
