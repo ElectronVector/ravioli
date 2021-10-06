@@ -97,7 +97,11 @@ def add_spaces_around_operators(s):
             s_with_spaces += " " + s[i:i+3] + " "
             i += 3
         elif s[i:i+2] in two_char_operators:
-            s_with_spaces += " " + s[i:i + 2] + " "
+            s_with_spaces += " " + s[i:i+2] + " "
+            i += 2
+        elif s[i:i+2] == "->":
+            # Don't add spaces around this operator.
+            s_with_spaces += s[i:i+2]
             i += 2
         elif s[i] in one_char_operators:
             s_with_spaces += " " + s[i] + " "
