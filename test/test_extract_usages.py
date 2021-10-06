@@ -124,3 +124,13 @@ def test_struct_member_access():
 def test_struct_member_access_with_multiple_nesting_levels():
     code = "global_struct.nested.value = 5"
     assert extract_usages(code) == ["global_struct"]
+
+
+def test_dont_extract_floating_point_numbers():
+    code = "global_struct.nested.value = 5.5f"
+    assert extract_usages(code) == ["global_struct"]
+
+
+def test_struct_member_access_with_dereference():
+    code = "global_struct->value = 5"
+    assert extract_usages(code) == ["global_struct"]

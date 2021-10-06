@@ -130,7 +130,10 @@ def extract_usages(text):
 
     # If there are . chars used to access struct elements, only take the first name, as we only care about the top level
     # name.
+    print(tokens)
     tokens = [t.split(".")[0] for t in tokens]
+    tokens = [t.split("->")[0] for t in tokens]
+    print(tokens)
 
     if "=" in tokens:
         # Usage must be directly to the left of the = or after the equal
