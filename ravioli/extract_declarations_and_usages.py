@@ -120,6 +120,13 @@ def simplify_assignment_operators(s):
     return s
 
 
+def remove_member_acceses(tokens):
+    tokens = [t.split(".")[0] for t in tokens]
+    tokens = [t.split("->")[0] for t in tokens]
+    return tokens
+
+
+
 def extract_usages(text):
     # Ensure that there is whitespace around operators and punctuation so that they are correctly parsed.
     text = add_spaces_around_operators(text)
@@ -132,12 +139,9 @@ def extract_usages(text):
     # Look at all the whitespace-delimited tokens in the text.
     tokens = text.split()
 
-    # If there are . chars used to access struct elements, only take the first name, as we only care about the top level
-    # name.
-    print(tokens)
-    tokens = [t.split(".")[0] for t in tokens]
-    tokens = [t.split("->")[0] for t in tokens]
-    print(tokens)
+    # If there are . or -> operators used to access struct elements, only take the first name, as we only care about
+    # the top level name.
+    tokens = remove_member_acceses(tokens)
 
     if "=" in tokens:
         # Usage must be directly to the left of the = or after the equal
