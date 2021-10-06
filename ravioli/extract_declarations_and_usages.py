@@ -120,13 +120,12 @@ def simplify_assignment_operators(s):
     return s
 
 
-def strip_member_acceses(tokens):
+def strip_member_accesses(tokens):
     """ Remove anything after the first . or -> operator
     """
     tokens = [t.split(".")[0] for t in tokens]
     tokens = [t.split("->")[0] for t in tokens]
     return tokens
-
 
 
 def extract_usages(text):
@@ -143,7 +142,7 @@ def extract_usages(text):
 
     # If there are . or -> operators used to access struct elements, only take the first name, as we only care about
     # the top level name.
-    tokens = strip_member_acceses(tokens)
+    tokens = strip_member_accesses(tokens)
 
     if "=" in tokens:
         # Usage must be directly to the left of the = or after the equal
