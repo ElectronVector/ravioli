@@ -123,9 +123,15 @@ def extract_usages(text):
     # Convert multicharacter assignment operators to = so that can detect them all the same way. We really don't\
     # car about what the actual assignment operator is.
     text = simplify_assignment_operators(text)
+
     usages = []
     # Look at all the whitespace-delimited tokens in the text.
     tokens = text.split()
+
+    # If there are . chars used to access struct elements, only take the first name, as we only care about the top level
+    # name.
+    tokens = [t.split(".")[0] for t in tokens]
+
     if "=" in tokens:
         # Usage must be directly to the left of the = or after the equal
         eq_index = tokens.index('=')

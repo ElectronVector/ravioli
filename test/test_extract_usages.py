@@ -114,3 +114,13 @@ def test_find_usages_within_function_call_with_some_math():
 def test_more_conditionals():
     code = "global_variable"
     assert extract_usages(code) == ["global_variable"]
+
+
+def test_struct_member_access():
+    code = "global_struct.value = 5"
+    assert extract_usages(code) == ["global_struct"]
+
+
+def test_struct_member_access_with_multiple_nesting_levels():
+    code = "global_struct.nested.value = 5"
+    assert extract_usages(code) == ["global_struct"]
