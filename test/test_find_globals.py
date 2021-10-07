@@ -257,6 +257,17 @@ def test_count_global_struct_member_accesses_from_global_pointer_as_global_usage
                                                "undefined_usages": [("a_global_struct", 2), ("a_global_struct", 3)]}]
 
 
+def test_count_global_array_accesses():
+    code = """  int a_function () {
+                    a_global_array[0] = 5;
+                    a_global_array[1] = 6;
+                }
+                """
+    assert find_globals_by_function(code) == [{"name": "a_function",
+                                               "line_number": 1,
+                                               "undefined_usages": [("a_global_array", 2), ("a_global_array", 3)]}]
+
+
 # TODO: This finds the struct definition at the top of the file, but we don't want that.
 def test_sample_code():
     import pprint
