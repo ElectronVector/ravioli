@@ -268,6 +268,18 @@ def test_count_global_array_accesses():
                                                "undefined_usages": [("a_global_array", 2), ("a_global_array", 3)]}]
 
 
+def test_do_not_count_static_array_accesses():
+    code = """  static static_global_array[10];
+                int a_function () {
+                    static_global_array[0] = 5;
+                    static_global_array[1] = 6;
+                }
+                """
+    assert find_globals_by_function(code) == [{"name": "a_function",
+                                               "line_number": 2,
+                                               "undefined_usages": []}]
+
+
 # TODO: This finds the struct definition at the top of the file, but we don't want that.
 def test_sample_code():
     import pprint
