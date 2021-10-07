@@ -6,6 +6,7 @@ two_char_operators = ["<<", "<<", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&
                           "&&", "||", "++", "--", "!="]
 one_char_operators = ["<", ">", "+", "-", "*", "/", "%", "=", "!", "&", "|", "^", "~"]
 
+
 def extract_declarations(text):
     """
     Find all declarations of new variables in the current text.
