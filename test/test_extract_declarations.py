@@ -82,3 +82,8 @@ def test_extract_array_definition():
     assert extract_declarations(code) == ["my_array"]
 
 
+def test_extract_array_definition_with_no_size():
+    code = "int my_array[]"
+    assert extract_declarations(code) == ["my_array"]
+
+
