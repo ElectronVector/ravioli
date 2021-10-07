@@ -14,9 +14,8 @@ def extract_declarations(text):
     :param text: A bit of C code that ends with a semi-colon.
     :return: An array of variable names declared in the text.
     """
+    text = remove_array_indices(text)
     # Ensure that there is whitespace around all commas.
-    if "[" in text and "]" in text:
-        text = text[:text.index("[")] + text[text.index("]")+1:]
     text = add_spaces_around_punctuation(text)
     text = add_spaces_around_operators(text)
     # Split the text into tokens by spaces.
@@ -116,6 +115,10 @@ def add_spaces_around_operators(s):
 
     return s_with_spaces
 
+def remove_array_indices(text):
+    if "[" in text and "]" in text:
+        text = text[:text.index("[")] + text[text.index("]")+1:]
+    return text
 
 def simplify_assignment_operators(s):
     extra_assignment_operators = ["+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|="]
