@@ -134,3 +134,13 @@ def test_dont_extract_floating_point_numbers():
 def test_struct_member_access_with_dereference():
     code = "global_struct->value = 5"
     assert extract_usages(code) == ["global_struct"]
+
+
+def test_extract_array_usage():
+    code = "an_array[5] = 0"
+    assert extract_usages(code) == ["an_array"]
+
+
+def test_extract_multiple_array_usages():
+    code = "an_array[5] = another_array[0]"
+    assert extract_usages(code) == ["an_array", "another_array"]

@@ -115,10 +115,10 @@ def add_spaces_around_operators(s):
 
     return s_with_spaces
 
+
 def remove_array_indices(text):
-    if "[" in text and "]" in text:
-        text = text[:text.index("[")] + text[text.index("]")+1:]
-    return text
+    return re.sub(r'\[[^\]]*\]', "", text)
+
 
 def simplify_assignment_operators(s):
     extra_assignment_operators = ["+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "^=", "|="]
@@ -136,6 +136,7 @@ def strip_member_accesses(tokens):
 
 
 def extract_usages(text):
+    text = remove_array_indices(text)
     # Ensure that there is whitespace around operators and punctuation so that they are correctly parsed.
     text = add_spaces_around_operators(text)
     text = add_spaces_around_punctuation(text)
