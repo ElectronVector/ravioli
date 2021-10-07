@@ -1,3 +1,4 @@
+import re
 from itertools import zip_longest
 
 
@@ -14,6 +15,8 @@ def extract_declarations(text):
     :return: An array of variable names declared in the text.
     """
     # Ensure that there is whitespace around all commas.
+    if "[" in text and "]" in text:
+        text = text[:text.index("[")] + text[text.index("]")+1:]
     text = add_spaces_around_punctuation(text)
     text = add_spaces_around_operators(text)
     # Split the text into tokens by spaces.
