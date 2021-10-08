@@ -135,9 +135,15 @@ def strip_member_accesses(tokens):
     return tokens
 
 
+def extract_text_from_brackets(text):
+    """
+    Extract all text contained in brackets as a whitespace delimited list of text.
+    """
+    return " ".join(re.findall(r'\[([^\]]*)\]', text))
+
 def extract_usages(text):
     # Capture any text inside brackets so we can process it later.
-    text_in_brackets = " ".join(re.findall(r'\[([^\]]*)\]', text))
+    text_in_brackets = extract_text_from_brackets(text)
     # Remove any text in brackets because we don't need it to find usages, and it will simplify the search.
     text = remove_array_indices(text)
     # Ensure that there is whitespace around operators and punctuation so that they are correctly parsed.
