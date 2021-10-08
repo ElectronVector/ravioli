@@ -149,3 +149,8 @@ def test_extract_multiple_array_usages():
 def test_extract_usage_from_array_index():
     code = "x = my_array[i]"
     assert extract_usages(code) == ["x", "my_array", "i"]
+
+
+def test_extract_multiple_usages_from_array_index():
+    code = "x = my_array[i+z]"
+    assert extract_usages(code) == ["x", "my_array", "i", "z"]

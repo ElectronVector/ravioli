@@ -141,6 +141,7 @@ def extract_text_from_brackets(text):
     """
     return " ".join(re.findall(r'\[([^\]]*)\]', text))
 
+
 def extract_usages(text):
     # Capture any text inside brackets so we can process it later.
     text_in_brackets = extract_text_from_brackets(text)
