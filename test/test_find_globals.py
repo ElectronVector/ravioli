@@ -2,7 +2,7 @@ from ravioli.find_globals import find_globals_by_function
 
 
 # TODO
-# - Handle comments.
+# - pointers
 # - enums, arrays
 # - stucts that are initialized
 # - dot and arrow notation for structs
@@ -267,6 +267,16 @@ def test_count_global_array_accesses():
                                                "line_number": 1,
                                                "undefined_usages": [("a_global_array", 2), ("a_global_array", 3)]}]
 
+def test_count_global_array_accesses_if_defined_in_same_file():
+    code = """  int a_global_array[10];
+                int a_function () {
+                    a_global_array[0] = 5;
+                    a_global_array[1] = 6;
+                }
+                """
+    assert find_globals_by_function(code) == [{"name": "a_function",
+                                               "line_number": 2,
+                                               "undefined_usages": [("a_global_array", 3), ("a_global_array", 4)]}]
 
 def test_do_not_count_static_array_accesses():
     code = """  static static_global_array[10];
