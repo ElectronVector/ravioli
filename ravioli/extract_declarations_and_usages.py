@@ -136,6 +136,9 @@ def strip_member_accesses(tokens):
 
 
 def extract_usages(text):
+    # Capture any text inside brackets so we can process it later.
+    text_in_brackets = " ".join(re.findall(r'\[([^\]]*)\]', text))
+    # Remove any text in brackets because we don't need it to find usages, and it will simplify the search.
     text = remove_array_indices(text)
     # Ensure that there is whitespace around operators and punctuation so that they are correctly parsed.
     text = add_spaces_around_operators(text)
@@ -165,5 +168,9 @@ def extract_usages(text):
         for token, next_token in zip_longest(tokens, tokens[1:]):
             if is_valid_identifier(token) and not next_token == "(":
                 usages.append(token)
+
+    # If we extracted any text inside of the brackets, now extract usages from it.
+    if text_in_brackets:
+        usages += extract_usages(text_in_brackets)
 
     return usages
