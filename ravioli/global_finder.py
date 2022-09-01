@@ -14,7 +14,7 @@ def find_globals(code):
     if "some_const_array" in code:
         print(code)
     # Remove anything between brackets.
-    code = __strip_function_bodies(code)
+    code = __strip_bracketed_code(code)
     # Find all the globals.
     global_matcher = re.compile(r'([\w\t\f\v {}]+)\s+\**(\w+)(?:;|\s*=|\[)')
     for m in global_matcher.finditer(code):
@@ -28,7 +28,7 @@ def find_globals(code):
             results.append(GlobalVariable(name, line_number))
     return results
 
-def __strip_function_bodies(code):
+def __strip_bracketed_code(code):
     stripped_chars = list()
     i = 0
     brace_nesting = 0
