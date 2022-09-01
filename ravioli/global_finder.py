@@ -51,10 +51,12 @@ def __get_line_number(match, name, code):
     # won't be able to find this match in the original code. Instead, match on first appearance
     # of the name.
     for line_number, line in enumerate(code.splitlines(True), 1):
-        if name in line and re.search(r'\b'+name+'[\b;\\]]', line) is not None:
+        if name in line and __name_is_not_substring(name, line):
             return line_number
     return 0
 
+def __name_is_not_substring(name, line):
+    return re.search(r'\b'+name+'[\b;\\[]', line) is not None
 
 def __strip_preprocessor_directives(code):
     code_lines = code.splitlines(True)
