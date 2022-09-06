@@ -11,12 +11,12 @@ def find_globals(code):
     code = strip_comments(code)
     # Remove #ifs, #elifs, #ifdefs
     code = __strip_preprocessor_directives(code)
-    if "some_const_array" in code:
-        print(code)
     # Remove anything between brackets.
     code = __strip_bracketed_code(code)
+    # Remove anything between parentheses.
+    code = __strip_code_in_parentheses(code)
     # Find all the globals.
-    global_matcher = re.compile(r'([\w\t\f\v {}]+)\s+\**(\w+)(?:;|\s*=|\[)')
+    global_matcher = re.compile(r'^([\w\s]*?\w+)\s+\**(\w+)(?:;|\s*=|\[)', flags=re.MULTILINE)
     for m in global_matcher.finditer(code):
         qualifiers = m.group(1)
         name = m.group(2)
@@ -39,6 +39,22 @@ def __strip_bracketed_code(code):
             brace_nesting -= 1
         elif brace_nesting == 0:
             stripped_chars.append(code[i])
+        i += 1
+    return "".join(stripped_chars)
+
+def __strip_code_in_parentheses(code):
+    stripped_chars = list()
+    i = 0
+    parentheses_nesting = 0
+    while i < len(code):
+        if parentheses_nesting == 0:
+            stripped_chars.append(code[i])
+        if code[i] == '(':
+            parentheses_nesting += 1
+        elif code[i] == ')':
+            parentheses_nesting -= 1
+            if parentheses_nesting == 0:
+                stripped_chars.append(code[i])
         i += 1
     return "".join(stripped_chars)
 

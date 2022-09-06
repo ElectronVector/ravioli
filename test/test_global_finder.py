@@ -288,7 +288,6 @@ def test_line_number_with_two_declarations_as_part_of_a_definition():
                 int x;
                 int y;
             } a_global;
-            some_const_array
             """
     results = find_globals(code)
     assert (8 == results[1].line_number)
@@ -334,3 +333,26 @@ def test_handle_array_of_structs_initialization():
     assert ('array1' in extract_names(results))
     assert ('array2' in extract_names(results))
     assert ('array_of_structs' in extract_names(results))
+
+def test_a_two_line_definition_with_macro_is_not_global():
+    code = """
+        uint8_t a_variable = 
+            DEFINED_MACRO;
+        """
+    results = find_globals(code)
+    assert ('DEFINED_MACRO' not in extract_names(results))
+
+def test_a_long_qualifier():
+    code = """
+        static volatile bool a_variable = false; 
+        """
+    results = find_globals(code)
+    assert ('a_variable' not in extract_names(results))
+
+def test_function_definition_with_2d_array():
+    code = """
+        static void a_function(int variable,
+                            char array[][]);
+        """
+    results = find_globals(code)
+    assert ('array' not in extract_names(results))
