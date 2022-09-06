@@ -79,3 +79,14 @@ def test_some_tricky_code():
 
     stripped = strip_comments(code)
     assert(stripped == expected)
+
+def test_midline_comment():
+    code = """
+            uint8_t variable = 53; // comment
+            """
+    expected = """
+            uint8_t variable = 53; 
+            """
+
+    stripped = strip_comments(code)
+    assert(stripped == expected)

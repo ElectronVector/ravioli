@@ -39,6 +39,12 @@ def test_with_assignment_and_whitespace():
     results = find_globals(code)
     assert ('a_global' in extract_names(results))
 
+def test_global_pointer():
+    code = """
+            int *p_global;
+            """
+    results = find_globals(code)
+    assert ('p_global' in extract_names(results))
 
 def test_a_function_variable_is_not_found():
     code = """
@@ -64,6 +70,17 @@ def test_a_deeper_function_variable_is_not_found():
     results = find_globals(code)
     assert ('not_a_global' not in extract_names(results))
 
+def test_a_different_deeper_function_variable_is_not_found():
+    code = """
+            void a_function(int x) {
+                if (x > 0) {
+                    // do something
+                }
+                int not_a_global;
+            }
+            """
+    results = find_globals(code)
+    assert ('not_a_global' not in extract_names(results))
 
 def test_a_static_is_not_global():
     code = """
@@ -191,6 +208,12 @@ def test_a_global_sized_array():
     results = find_globals(code)
     assert ('global_array' in extract_names(results))
 
+def test_another_global_sized_array():
+    code = """
+            char global_array[ARRAY_SIZE];
+            """
+    results = find_globals(code)
+    assert ('global_array' in extract_names(results))
 
 def test_a_global_sized_array_with_assignment():
     code = """
@@ -256,6 +279,19 @@ def test_line_number_with_a_declaration_as_part_of_a_definition():
     results = find_globals(code)
     assert (4 == results[0].line_number)
 
+def test_line_number_with_two_declarations_as_part_of_a_definition():
+    code = """struct point_t {
+                int x;
+                int y;
+            } a_global_name;
+            struct point_t {
+                int x;
+                int y;
+            } a_global;
+            """
+    results = find_globals(code)
+    assert (8 == results[1].line_number)
+
 
 def test_find_globals_after_initialized_array():
     code = """
@@ -297,3 +333,26 @@ def test_handle_array_of_structs_initialization():
     assert ('array1' in extract_names(results))
     assert ('array2' in extract_names(results))
     assert ('array_of_structs' in extract_names(results))
+
+def test_a_two_line_definition_with_macro_is_not_global():
+    code = """
+        uint8_t a_variable = 
+            DEFINED_MACRO;
+        """
+    results = find_globals(code)
+    assert ('DEFINED_MACRO' not in extract_names(results))
+
+def test_a_long_qualifier():
+    code = """
+        static volatile bool a_variable = false; 
+        """
+    results = find_globals(code)
+    assert ('a_variable' not in extract_names(results))
+
+def test_function_definition_with_2d_array():
+    code = """
+        static void a_function(int variable,
+                            char array[][]);
+        """
+    results = find_globals(code)
+    assert ('array' not in extract_names(results))
